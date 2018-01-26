@@ -1,0 +1,82 @@
+class Restaurant {
+  singleton;
+
+  0..1 -- * Table tables;
+  lazy Integer numTables;
+  1 -- 0..1 Menu;
+}
+  class Table
+{
+  1 <@>- * Seat seats;
+  autounique tableNum;
+  unique String location;
+  immutable Integer totalNbSeats;
+  defaulted Integer availableSeats = totalNbSeats;
+}
+
+class Seat
+{
+  defaulted Boolean isAvailable = true;
+  lazy String customerName;
+  unique Integer seatNumber;
+    }
+
+class Menu
+{
+  1 -- * MenuItem menuItems;
+}
+
+class MenuItem
+{
+  abstract;
+  Integer price;
+  unique String description;
+}
+
+class Food
+{
+  isA MenuItem;
+}
+
+class Beverage
+{
+    isA MenuItem;
+
+}
+
+class Reservation
+{
+  Time time;
+  Date date;
+  Integer phoneNumber;
+  String name;
+  String email;
+  Integer nbOfPeople;
+* -- * Table tables; 
+}
+
+class OrderedItem
+{
+ Boolean isShared;
+ * -- 1 MenuItem menuItems;
+}
+
+class BillOrder
+{
+  * -- * OrderedItem orderedItems;
+  1 -- * Seat seats;
+  lazy Integer subtotal;
+}
+
+class Availability{
+  abstract;
+  1 -- * Table tables;
+}
+
+class Booked{
+  isA Availability;
+}
+
+class Available{
+  isA Availability;
+}
