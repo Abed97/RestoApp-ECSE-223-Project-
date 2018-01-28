@@ -1,23 +1,21 @@
-package ca.mcgill.ecse223.resto.model;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 64 "RestoApp.ump"
-public class BillOrder
+// line 56 "main.ump"
+public class Bill
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //BillOrder Attributes
+  //Bill Attributes
   private int subtotal;
 
-  //BillOrder Associations
+  //Bill Associations
   private List<OrderedItem> orderedItems;
   private List<Seat> seats;
 
@@ -25,7 +23,7 @@ public class BillOrder
   // CONSTRUCTOR
   //------------------------
 
-  public BillOrder()
+  public Bill()
   {
     subtotal = 0;
     orderedItems = new ArrayList<OrderedItem>();
@@ -119,13 +117,13 @@ public class BillOrder
     boolean wasAdded = false;
     if (orderedItems.contains(aOrderedItem)) { return false; }
     orderedItems.add(aOrderedItem);
-    if (aOrderedItem.indexOfBillOrder(this) != -1)
+    if (aOrderedItem.indexOfBill(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aOrderedItem.addBillOrder(this);
+      wasAdded = aOrderedItem.addBill(this);
       if (!wasAdded)
       {
         orderedItems.remove(aOrderedItem);
@@ -144,13 +142,13 @@ public class BillOrder
 
     int oldIndex = orderedItems.indexOf(aOrderedItem);
     orderedItems.remove(oldIndex);
-    if (aOrderedItem.indexOfBillOrder(this) == -1)
+    if (aOrderedItem.indexOfBill(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aOrderedItem.removeBillOrder(this);
+      wasRemoved = aOrderedItem.removeBill(this);
       if (!wasRemoved)
       {
         orderedItems.add(oldIndex,aOrderedItem);
@@ -205,11 +203,11 @@ public class BillOrder
   {
     boolean wasAdded = false;
     if (seats.contains(aSeat)) { return false; }
-    BillOrder existingBillOrder = aSeat.getBillOrder();
-    boolean isNewBillOrder = existingBillOrder != null && !this.equals(existingBillOrder);
-    if (isNewBillOrder)
+    Bill existingBill = aSeat.getBill();
+    boolean isNewBill = existingBill != null && !this.equals(existingBill);
+    if (isNewBill)
     {
-      aSeat.setBillOrder(this);
+      aSeat.setBill(this);
     }
     else
     {
@@ -222,8 +220,8 @@ public class BillOrder
   public boolean removeSeat(Seat aSeat)
   {
     boolean wasRemoved = false;
-    //Unable to remove aSeat, as it must always have a billOrder
-    if (!this.equals(aSeat.getBillOrder()))
+    //Unable to remove aSeat, as it must always have a bill
+    if (!this.equals(aSeat.getBill()))
     {
       seats.remove(aSeat);
       wasRemoved = true;
@@ -269,7 +267,7 @@ public class BillOrder
     orderedItems.clear();
     for(OrderedItem aOrderedItem : copyOfOrderedItems)
     {
-      aOrderedItem.removeBillOrder(this);
+      aOrderedItem.removeBill(this);
     }
     for(int i=seats.size(); i > 0; i--)
     {

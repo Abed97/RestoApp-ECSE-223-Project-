@@ -1,11 +1,10 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 58 "RestoApp.ump"
+// line 50 "main.ump"
 public class OrderedItem
 {
 
@@ -17,22 +16,22 @@ public class OrderedItem
   private boolean isShared;
 
   //OrderedItem Associations
-  private MenuItem menuItems;
-  private List<BillOrder> billOrders;
+  private MenuItem menuItem;
+  private List<Bill> bills;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public OrderedItem(boolean aIsShared, MenuItem aMenuItems)
+  public OrderedItem(boolean aIsShared, MenuItem aMenuItem)
   {
     isShared = aIsShared;
-    boolean didAddMenuItems = setMenuItems(aMenuItems);
-    if (!didAddMenuItems)
+    boolean didAddMenuItem = setMenuItem(aMenuItem);
+    if (!didAddMenuItem)
     {
-      throw new RuntimeException("Unable to create orderedItem due to menuItems");
+      throw new RuntimeException("Unable to create orderedItem due to menuItem");
     }
-    billOrders = new ArrayList<BillOrder>();
+    bills = new ArrayList<Bill>();
   }
 
   //------------------------
@@ -57,155 +56,155 @@ public class OrderedItem
     return isShared;
   }
 
-  public MenuItem getMenuItems()
+  public MenuItem getMenuItem()
   {
-    return menuItems;
+    return menuItem;
   }
 
-  public BillOrder getBillOrder(int index)
+  public Bill getBill(int index)
   {
-    BillOrder aBillOrder = billOrders.get(index);
-    return aBillOrder;
+    Bill aBill = bills.get(index);
+    return aBill;
   }
 
-  public List<BillOrder> getBillOrders()
+  public List<Bill> getBills()
   {
-    List<BillOrder> newBillOrders = Collections.unmodifiableList(billOrders);
-    return newBillOrders;
+    List<Bill> newBills = Collections.unmodifiableList(bills);
+    return newBills;
   }
 
-  public int numberOfBillOrders()
+  public int numberOfBills()
   {
-    int number = billOrders.size();
+    int number = bills.size();
     return number;
   }
 
-  public boolean hasBillOrders()
+  public boolean hasBills()
   {
-    boolean has = billOrders.size() > 0;
+    boolean has = bills.size() > 0;
     return has;
   }
 
-  public int indexOfBillOrder(BillOrder aBillOrder)
+  public int indexOfBill(Bill aBill)
   {
-    int index = billOrders.indexOf(aBillOrder);
+    int index = bills.indexOf(aBill);
     return index;
   }
 
-  public boolean setMenuItems(MenuItem aMenuItems)
+  public boolean setMenuItem(MenuItem aMenuItem)
   {
     boolean wasSet = false;
-    if (aMenuItems == null)
+    if (aMenuItem == null)
     {
       return wasSet;
     }
 
-    MenuItem existingMenuItems = menuItems;
-    menuItems = aMenuItems;
-    if (existingMenuItems != null && !existingMenuItems.equals(aMenuItems))
+    MenuItem existingMenuItem = menuItem;
+    menuItem = aMenuItem;
+    if (existingMenuItem != null && !existingMenuItem.equals(aMenuItem))
     {
-      existingMenuItems.removeOrderedItem(this);
+      existingMenuItem.removeOrderedItem(this);
     }
-    menuItems.addOrderedItem(this);
+    menuItem.addOrderedItem(this);
     wasSet = true;
     return wasSet;
   }
 
-  public static int minimumNumberOfBillOrders()
+  public static int minimumNumberOfBills()
   {
     return 0;
   }
 
-  public boolean addBillOrder(BillOrder aBillOrder)
+  public boolean addBill(Bill aBill)
   {
     boolean wasAdded = false;
-    if (billOrders.contains(aBillOrder)) { return false; }
-    billOrders.add(aBillOrder);
-    if (aBillOrder.indexOfOrderedItem(this) != -1)
+    if (bills.contains(aBill)) { return false; }
+    bills.add(aBill);
+    if (aBill.indexOfOrderedItem(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aBillOrder.addOrderedItem(this);
+      wasAdded = aBill.addOrderedItem(this);
       if (!wasAdded)
       {
-        billOrders.remove(aBillOrder);
+        bills.remove(aBill);
       }
     }
     return wasAdded;
   }
 
-  public boolean removeBillOrder(BillOrder aBillOrder)
+  public boolean removeBill(Bill aBill)
   {
     boolean wasRemoved = false;
-    if (!billOrders.contains(aBillOrder))
+    if (!bills.contains(aBill))
     {
       return wasRemoved;
     }
 
-    int oldIndex = billOrders.indexOf(aBillOrder);
-    billOrders.remove(oldIndex);
-    if (aBillOrder.indexOfOrderedItem(this) == -1)
+    int oldIndex = bills.indexOf(aBill);
+    bills.remove(oldIndex);
+    if (aBill.indexOfOrderedItem(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aBillOrder.removeOrderedItem(this);
+      wasRemoved = aBill.removeOrderedItem(this);
       if (!wasRemoved)
       {
-        billOrders.add(oldIndex,aBillOrder);
+        bills.add(oldIndex,aBill);
       }
     }
     return wasRemoved;
   }
 
-  public boolean addBillOrderAt(BillOrder aBillOrder, int index)
+  public boolean addBillAt(Bill aBill, int index)
   {  
     boolean wasAdded = false;
-    if(addBillOrder(aBillOrder))
+    if(addBill(aBill))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfBillOrders()) { index = numberOfBillOrders() - 1; }
-      billOrders.remove(aBillOrder);
-      billOrders.add(index, aBillOrder);
+      if(index > numberOfBills()) { index = numberOfBills() - 1; }
+      bills.remove(aBill);
+      bills.add(index, aBill);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveBillOrderAt(BillOrder aBillOrder, int index)
+  public boolean addOrMoveBillAt(Bill aBill, int index)
   {
     boolean wasAdded = false;
-    if(billOrders.contains(aBillOrder))
+    if(bills.contains(aBill))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfBillOrders()) { index = numberOfBillOrders() - 1; }
-      billOrders.remove(aBillOrder);
-      billOrders.add(index, aBillOrder);
+      if(index > numberOfBills()) { index = numberOfBills() - 1; }
+      bills.remove(aBill);
+      bills.add(index, aBill);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addBillOrderAt(aBillOrder, index);
+      wasAdded = addBillAt(aBill, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    MenuItem placeholderMenuItems = menuItems;
-    this.menuItems = null;
-    if(placeholderMenuItems != null)
+    MenuItem placeholderMenuItem = menuItem;
+    this.menuItem = null;
+    if(placeholderMenuItem != null)
     {
-      placeholderMenuItems.removeOrderedItem(this);
+      placeholderMenuItem.removeOrderedItem(this);
     }
-    ArrayList<BillOrder> copyOfBillOrders = new ArrayList<BillOrder>(billOrders);
-    billOrders.clear();
-    for(BillOrder aBillOrder : copyOfBillOrders)
+    ArrayList<Bill> copyOfBills = new ArrayList<Bill>(bills);
+    bills.clear();
+    for(Bill aBill : copyOfBills)
     {
-      aBillOrder.removeOrderedItem(this);
+      aBill.removeOrderedItem(this);
     }
   }
 
@@ -214,6 +213,6 @@ public class OrderedItem
   {
     return super.toString() + "["+
             "isShared" + ":" + getIsShared()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "menuItems = "+(getMenuItems()!=null?Integer.toHexString(System.identityHashCode(getMenuItems())):"null");
+            "  " + "menuItem = "+(getMenuItem()!=null?Integer.toHexString(System.identityHashCode(getMenuItem())):"null");
   }
 }

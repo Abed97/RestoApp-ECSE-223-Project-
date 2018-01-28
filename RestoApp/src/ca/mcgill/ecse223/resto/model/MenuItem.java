@@ -1,18 +1,24 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 29 "RestoApp.ump"
-public abstract class MenuItem
+// line 27 "main.ump"
+public class MenuItem
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum MenuEntry { Steak, Fries, Scallops, Wine, Beer }
 
   //------------------------
   // STATIC VARIABLES
   //------------------------
 
+  private static Map<MenuEntry, MenuItem> menuitemsByMenuEntry = new HashMap<MenuEntry, MenuItem>();
   private static Map<String, MenuItem> menuitemsByDescription = new HashMap<String, MenuItem>();
 
   //------------------------
@@ -20,6 +26,7 @@ public abstract class MenuItem
   //------------------------
 
   //MenuItem Attributes
+  private MenuEntry menuEntry;
   private int price;
   private String description;
 
@@ -31,9 +38,13 @@ public abstract class MenuItem
   // CONSTRUCTOR
   //------------------------
 
-  public MenuItem(int aPrice, String aDescription, Menu aMenu)
+  public MenuItem(MenuEntry aMenuEntry, int aPrice, String aDescription, Menu aMenu)
   {
     price = aPrice;
+    if (!setMenuEntry(aMenuEntry))
+    {
+      throw new RuntimeException("Cannot create due to duplicate menuEntry");
+    }
     if (!setDescription(aDescription))
     {
       throw new RuntimeException("Cannot create due to duplicate description");
@@ -49,6 +60,22 @@ public abstract class MenuItem
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setMenuEntry(MenuEntry aMenuEntry)
+  {
+    boolean wasSet = false;
+    MenuEntry anOldMenuEntry = getMenuEntry();
+    if (hasWithMenuEntry(aMenuEntry)) {
+      return wasSet;
+    }
+    menuEntry = aMenuEntry;
+    wasSet = true;
+    if (anOldMenuEntry != null) {
+      menuitemsByMenuEntry.remove(anOldMenuEntry);
+    }
+    menuitemsByMenuEntry.put(aMenuEntry, this);
+    return wasSet;
+  }
 
   public boolean setPrice(int aPrice)
   {
@@ -72,6 +99,21 @@ public abstract class MenuItem
     }
     menuitemsByDescription.put(aDescription, this);
     return wasSet;
+  }
+
+  public MenuEntry getMenuEntry()
+  {
+    return menuEntry;
+  }
+
+  public static MenuItem getWithMenuEntry(MenuEntry aMenuEntry)
+  {
+    return menuitemsByMenuEntry.get(aMenuEntry);
+  }
+
+  public static boolean hasWithMenuEntry(MenuEntry aMenuEntry)
+  {
+    return getWithMenuEntry(aMenuEntry) != null;
   }
 
   public int getPrice()
@@ -162,11 +204,11 @@ public abstract class MenuItem
   {
     boolean wasAdded = false;
     if (orderedItems.contains(aOrderedItem)) { return false; }
-    MenuItem existingMenuItems = aOrderedItem.getMenuItems();
-    boolean isNewMenuItems = existingMenuItems != null && !this.equals(existingMenuItems);
-    if (isNewMenuItems)
+    MenuItem existingMenuItem = aOrderedItem.getMenuItem();
+    boolean isNewMenuItem = existingMenuItem != null && !this.equals(existingMenuItem);
+    if (isNewMenuItem)
     {
-      aOrderedItem.setMenuItems(this);
+      aOrderedItem.setMenuItem(this);
     }
     else
     {
@@ -179,8 +221,8 @@ public abstract class MenuItem
   public boolean removeOrderedItem(OrderedItem aOrderedItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aOrderedItem, as it must always have a menuItems
-    if (!this.equals(aOrderedItem.getMenuItems()))
+    //Unable to remove aOrderedItem, as it must always have a menuItem
+    if (!this.equals(aOrderedItem.getMenuItem()))
     {
       orderedItems.remove(aOrderedItem);
       wasRemoved = true;
@@ -222,6 +264,7 @@ public abstract class MenuItem
 
   public void delete()
   {
+    menuitemsByMenuEntry.remove(getMenuEntry());
     menuitemsByDescription.remove(getDescription());
     Menu placeholderMenu = menu;
     this.menu = null;
@@ -242,6 +285,7 @@ public abstract class MenuItem
     return super.toString() + "["+
             "price" + ":" + getPrice()+ "," +
             "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "menuEntry" + "=" + (getMenuEntry() != null ? !getMenuEntry().equals(this)  ? getMenuEntry().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "menu = "+(getMenu()!=null?Integer.toHexString(System.identityHashCode(getMenu())):"null");
   }
 }

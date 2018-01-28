@@ -1,4 +1,3 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
@@ -7,7 +6,7 @@ import java.sql.Time;
 import java.sql.Date;
 import java.util.*;
 
-// line 47 "RestoApp.ump"
+// line 39 "main.ump"
 public class Reservation
 {
 

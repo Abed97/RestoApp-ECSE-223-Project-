@@ -1,11 +1,10 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 17 "RestoApp.ump"
+// line 18 "main.ump"
 public class Seat
 {
 
@@ -26,13 +25,13 @@ public class Seat
 
   //Seat Associations
   private Table table;
-  private BillOrder billOrder;
+  private Bill bill;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Seat(int aSeatNumber, Table aTable, BillOrder aBillOrder)
+  public Seat(int aSeatNumber, Table aTable, Bill aBill)
   {
     resetIsAvailable();
     customerName = null;
@@ -45,10 +44,10 @@ public class Seat
     {
       throw new RuntimeException("Unable to create seat due to table");
     }
-    boolean didAddBillOrder = setBillOrder(aBillOrder);
-    if (!didAddBillOrder)
+    boolean didAddBill = setBill(aBill);
+    if (!didAddBill)
     {
-      throw new RuntimeException("Unable to create seat due to billOrder");
+      throw new RuntimeException("Unable to create seat due to bill");
     }
   }
 
@@ -136,9 +135,9 @@ public class Seat
     return table;
   }
 
-  public BillOrder getBillOrder()
+  public Bill getBill()
   {
-    return billOrder;
+    return bill;
   }
 
   public boolean setTable(Table aTable)
@@ -160,21 +159,21 @@ public class Seat
     return wasSet;
   }
 
-  public boolean setBillOrder(BillOrder aBillOrder)
+  public boolean setBill(Bill aBill)
   {
     boolean wasSet = false;
-    if (aBillOrder == null)
+    if (aBill == null)
     {
       return wasSet;
     }
 
-    BillOrder existingBillOrder = billOrder;
-    billOrder = aBillOrder;
-    if (existingBillOrder != null && !existingBillOrder.equals(aBillOrder))
+    Bill existingBill = bill;
+    bill = aBill;
+    if (existingBill != null && !existingBill.equals(aBill))
     {
-      existingBillOrder.removeSeat(this);
+      existingBill.removeSeat(this);
     }
-    billOrder.addSeat(this);
+    bill.addSeat(this);
     wasSet = true;
     return wasSet;
   }
@@ -188,11 +187,11 @@ public class Seat
     {
       placeholderTable.removeSeat(this);
     }
-    BillOrder placeholderBillOrder = billOrder;
-    this.billOrder = null;
-    if(placeholderBillOrder != null)
+    Bill placeholderBill = bill;
+    this.bill = null;
+    if(placeholderBill != null)
     {
-      placeholderBillOrder.removeSeat(this);
+      placeholderBill.removeSeat(this);
     }
   }
 
@@ -204,6 +203,6 @@ public class Seat
             "customerName" + ":" + getCustomerName()+ "," +
             "seatNumber" + ":" + getSeatNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "table = "+(getTable()!=null?Integer.toHexString(System.identityHashCode(getTable())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "billOrder = "+(getBillOrder()!=null?Integer.toHexString(System.identityHashCode(getBillOrder())):"null");
+            "  " + "bill = "+(getBill()!=null?Integer.toHexString(System.identityHashCode(getBill())):"null");
   }
 }

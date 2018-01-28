@@ -1,11 +1,10 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 8 "RestoApp.ump"
+// line 8 "main.ump"
 public class Table
 {
 
@@ -24,6 +23,7 @@ public class Table
   private String location;
   private int totalNbSeats;
   private int availableSeats;
+  private boolean isAvailable;
 
   //Autounique Attributes
   private int tableNum;
@@ -32,16 +32,16 @@ public class Table
   private List<Seat> seats;
   private Restaurant restaurant;
   private List<Reservation> reservations;
-  private Availability availability;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Table(String aLocation, int aTotalNbSeats, Availability aAvailability)
+  public Table(String aLocation, int aTotalNbSeats)
   {
     totalNbSeats = aTotalNbSeats;
     resetAvailableSeats();
+    resetIsAvailable();
     tableNum = nextTableNum++;
     if (!setLocation(aLocation))
     {
@@ -49,11 +49,6 @@ public class Table
     }
     seats = new ArrayList<Seat>();
     reservations = new ArrayList<Reservation>();
-    boolean didAddAvailability = setAvailability(aAvailability);
-    if (!didAddAvailability)
-    {
-      throw new RuntimeException("Unable to create table due to availability");
-    }
   }
 
   //------------------------
@@ -92,6 +87,22 @@ public class Table
     return wasReset;
   }
 
+  public boolean setIsAvailable(boolean aIsAvailable)
+  {
+    boolean wasSet = false;
+    isAvailable = aIsAvailable;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetIsAvailable()
+  {
+    boolean wasReset = false;
+    isAvailable = getDefaultIsAvailable();
+    wasReset = true;
+    return wasReset;
+  }
+
   public String getLocation()
   {
     return location;
@@ -120,6 +131,16 @@ public class Table
   public int getDefaultAvailableSeats()
   {
     return totalNbSeats;
+  }
+
+  public boolean getIsAvailable()
+  {
+    return isAvailable;
+  }
+
+  public boolean getDefaultIsAvailable()
+  {
+    return true;
   }
 
   public int getTableNum()
@@ -198,19 +219,14 @@ public class Table
     return index;
   }
 
-  public Availability getAvailability()
-  {
-    return availability;
-  }
-
   public static int minimumNumberOfSeats()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Seat addSeat(int aSeatNumber, BillOrder aBillOrder)
+  public Seat addSeat(int aSeatNumber, Bill aBill)
   {
-    return new Seat(aSeatNumber, this, aBillOrder);
+    return new Seat(aSeatNumber, this, aBill);
   }
 
   public boolean addSeat(Seat aSeat)
@@ -374,25 +390,6 @@ public class Table
     return wasAdded;
   }
 
-  public boolean setAvailability(Availability aAvailability)
-  {
-    boolean wasSet = false;
-    if (aAvailability == null)
-    {
-      return wasSet;
-    }
-
-    Availability existingAvailability = availability;
-    availability = aAvailability;
-    if (existingAvailability != null && !existingAvailability.equals(aAvailability))
-    {
-      existingAvailability.removeTable(this);
-    }
-    availability.addTable(this);
-    wasSet = true;
-    return wasSet;
-  }
-
   public void delete()
   {
     tablesByLocation.remove(getLocation());
@@ -415,12 +412,6 @@ public class Table
     {
       aReservation.removeTable(this);
     }
-    Availability placeholderAvailability = availability;
-    this.availability = null;
-    if(placeholderAvailability != null)
-    {
-      placeholderAvailability.removeTable(this);
-    }
   }
 
 
@@ -430,8 +421,8 @@ public class Table
             "tableNum" + ":" + getTableNum()+ "," +
             "location" + ":" + getLocation()+ "," +
             "totalNbSeats" + ":" + getTotalNbSeats()+ "," +
-            "availableSeats" + ":" + getAvailableSeats()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "restaurant = "+(getRestaurant()!=null?Integer.toHexString(System.identityHashCode(getRestaurant())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "availability = "+(getAvailability()!=null?Integer.toHexString(System.identityHashCode(getAvailability())):"null");
+            "availableSeats" + ":" + getAvailableSeats()+ "," +
+            "isAvailable" + ":" + getIsAvailable()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "restaurant = "+(getRestaurant()!=null?Integer.toHexString(System.identityHashCode(getRestaurant())):"null");
   }
 }

@@ -1,11 +1,10 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 24 "RestoApp.ump"
+// line 34 "main.ump"
 public class Menu
 {
 
@@ -75,7 +74,10 @@ public class Menu
     return 0;
   }
   /* Code from template association_AddManyToOne */
-
+  public MenuItem addMenuItem(MenuEntry aMenuEntry, int aPrice, String aDescription)
+  {
+    return new MenuItem(aMenuEntry, aPrice, aDescription, this);
+  }
 
   public boolean addMenuItem(MenuItem aMenuItem)
   {
