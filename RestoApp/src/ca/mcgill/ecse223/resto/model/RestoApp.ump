@@ -12,6 +12,7 @@ class Restaurant {
   unique String location;
   immutable Integer totalNbSeats;
   defaulted Integer availableSeats = totalNbSeats;
+  defaulted boolean isAvailable = true;
 }
 
 class Seat
@@ -21,27 +22,18 @@ class Seat
   unique Integer seatNumber;
     }
 
-class Menu
-{
-  1 -- * MenuItem menuItems;
-}
+enum MenuEntry{Steak, Fries, Scallops, Wine, Beer}
 
 class MenuItem
 {
-  abstract;
-  Integer price;
-  unique String description;
+    unique MenuEntry menuEntry;
+    Integer price;
+    unique String description;
 }
 
-class Food
+class Menu
 {
-  isA MenuItem;
-}
-
-class Beverage
-{
-    isA MenuItem;
-
+  1 -- * MenuItem menuItems;
 }
 
 class Reservation
@@ -58,25 +50,12 @@ class Reservation
 class OrderedItem
 {
  Boolean isShared;
- * -- 1 MenuItem menuItems;
+ * -- 1 MenuItem;
 }
 
-class BillOrder
+class Bill
 {
   * -- * OrderedItem orderedItems;
   1 -- * Seat seats;
   lazy Integer subtotal;
-}
-
-class Availability{
-  abstract;
-  1 -- * Table tables;
-}
-
-class Booked{
-  isA Availability;
-}
-
-class Available{
-  isA Availability;
 }
