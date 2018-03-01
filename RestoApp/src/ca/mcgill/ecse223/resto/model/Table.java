@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 24 "../../../../../RestoApp v2.ump"
-public class Table
+// line 15 "../../../../../RestoPersistence.ump"
+// line 26 "../../../../../RestoApp v2.ump"
+public class Table implements Serializable
 {
 
   //------------------------
@@ -30,14 +32,7 @@ public class Table
   private List<Seat> currentSeats;
   private RestoApp restoApp;
   private List<Reservation> reservations;
-  private List<Order> orders;
 
-  
-  //Added overlap method
-  public boolean doesOverlap(int x, int y, int width, int length) {
-	  return ((this.x > x && this.x < x + width) || (x > this.x && x < this.x + this.width) || (this.y > y && this.y < y + length) || (y > this.y && y < this.y + length));
-  }
-  
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -60,7 +55,6 @@ public class Table
       throw new RuntimeException("Unable to create table due to restoApp");
     }
     reservations = new ArrayList<Reservation>();
-    orders = new ArrayList<Order>();
   }
 
   //------------------------
@@ -245,36 +239,6 @@ public class Table
   public int indexOfReservation(Reservation aReservation)
   {
     int index = reservations.indexOf(aReservation);
-    return index;
-  }
-
-  public Order getOrder(int index)
-  {
-    Order aOrder = orders.get(index);
-    return aOrder;
-  }
-
-  public List<Order> getOrders()
-  {
-    List<Order> newOrders = Collections.unmodifiableList(orders);
-    return newOrders;
-  }
-
-  public int numberOfOrders()
-  {
-    int number = orders.size();
-    return number;
-  }
-
-  public boolean hasOrders()
-  {
-    boolean has = orders.size() > 0;
-    return has;
-  }
-
-  public int indexOfOrder(Order aOrder)
-  {
-    int index = orders.indexOf(aOrder);
     return index;
   }
 
@@ -528,88 +492,6 @@ public class Table
     return wasAdded;
   }
 
-  public static int minimumNumberOfOrders()
-  {
-    return 0;
-  }
-
-  public boolean addOrder(Order aOrder)
-  {
-    boolean wasAdded = false;
-    if (orders.contains(aOrder)) { return false; }
-    orders.add(aOrder);
-    if (aOrder.indexOfTable(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aOrder.addTable(this);
-      if (!wasAdded)
-      {
-        orders.remove(aOrder);
-      }
-    }
-    return wasAdded;
-  }
-
-  public boolean removeOrder(Order aOrder)
-  {
-    boolean wasRemoved = false;
-    if (!orders.contains(aOrder))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = orders.indexOf(aOrder);
-    orders.remove(oldIndex);
-    if (aOrder.indexOfTable(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aOrder.removeTable(this);
-      if (!wasRemoved)
-      {
-        orders.add(oldIndex,aOrder);
-      }
-    }
-    return wasRemoved;
-  }
-
-  public boolean addOrderAt(Order aOrder, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOrder(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      orders.remove(aOrder);
-      orders.add(index, aOrder);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOrderAt(Order aOrder, int index)
-  {
-    boolean wasAdded = false;
-    if(orders.contains(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
-      orders.remove(aOrder);
-      orders.add(index, aOrder);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOrderAt(aOrder, index);
-    }
-    return wasAdded;
-  }
-
   public void delete()
   {
     tablesByNumber.remove(getNumber());
@@ -640,19 +522,23 @@ public class Table
         aReservation.removeTable(this);
       }
     }
-    ArrayList<Order> copyOfOrders = new ArrayList<Order>(orders);
-    orders.clear();
-    for(Order aOrder : copyOfOrders)
-    {
-      if (aOrder.numberOfTables() <= Order.minimumNumberOfTables())
-      {
-        aOrder.delete();
-      }
-      else
-      {
-        aOrder.removeTable(this);
-      }
-    }
+  }
+
+  // line 21 "../../../../../RestoPersistence.ump"
+   public static  void reinitializeUniqueNumber(List<Table> tables){
+    tablesByNumber = new HashMap<Integer, Table>();
+	    for (Table table : tables) {
+	      tablesByNumber.put(table.getNumber(), table);
+	    }
+  }
+
+
+  /**
+   * Added overlap method
+   */
+  // line 37 "../../../../../RestoApp v2.ump"
+   public boolean doesOverlap(int x, int y, int width, int length){
+    return ((this.x > x && this.x < x + width) || (x > this.x && x < this.x + this.width) || (this.y > y && this.y < y + length) || (y > this.y && y < this.y + length));
   }
 
 
@@ -665,5 +551,13 @@ public class Table
             "width" + ":" + getWidth()+ "," +
             "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 18 "../../../../../RestoPersistence.ump"
+  private static final long serialVersionUID = 8896099581655989380L ;
+
+  
 }

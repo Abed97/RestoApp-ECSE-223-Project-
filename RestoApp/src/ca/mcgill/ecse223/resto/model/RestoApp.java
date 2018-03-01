@@ -2,11 +2,13 @@
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
+import java.io.Serializable;
 import java.util.*;
 import java.sql.Date;
 
-// line 3 "../../../../../RestoApp v2.ump"
-public class RestoApp
+// line 3 "../../../../../RestoPersistence.ump"
+// line 5 "../../../../../RestoApp v2.ump"
+public class RestoApp implements Serializable
 {
 
   //------------------------
@@ -489,9 +491,9 @@ public class RestoApp
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Order addOrder(Date aDateTime, Table... allTables)
+  public Order addOrder()
   {
-    return new Order(aDateTime, this, allTables);
+    return new Order(this);
   }
 
   public boolean addOrder(Order aOrder)
@@ -618,9 +620,9 @@ public class RestoApp
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public PricedMenuItem addPricedMenuItem(double aPrice, MenuItem aMenuItem)
+  public PricedMenuItem addPricedMenuItem()
   {
-    return new PricedMenuItem(aPrice, this, aMenuItem);
+    return new PricedMenuItem(this);
   }
 
   public boolean addPricedMenuItem(PricedMenuItem aPricedMenuItem)
@@ -690,9 +692,9 @@ public class RestoApp
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Bill addBill(Order aOrder, Seat... allIssuedForSeats)
+  public Bill addBill()
   {
-    return new Bill(aOrder, this, allIssuedForSeats);
+    return new Bill(this);
   }
 
   public boolean addBill(Bill aBill)
@@ -804,4 +806,19 @@ public class RestoApp
     
   }
 
+  // line 9 "../../../../../RestoPersistence.ump"
+   public void reinitialize(){
+    Table.reinitializeUniqueNumber(this.getTables());
+//	    BusVehicle.reinitializeUniqueLicencePlate(this.getVehicles());
+//	    Route.reinitializeUniqueNumber(this.getRoutes());
+  }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 6 "../../../../../RestoPersistence.ump"
+  private static final long serialVersionUID = -2683593616927798071L ;
+
+  
 }
