@@ -5,9 +5,12 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Table;
+
 public class PersistenceObjectStream {
 
-	private static String filename = "output.txt";
+	private static String filename;
 
 	public static void serialize(Object object) {
 		FileOutputStream fileOut;
@@ -24,14 +27,17 @@ public class PersistenceObjectStream {
 	}
 
 	public static Object deserialize() {
-		Object o = null;
+		RestoApp o = null;
 		ObjectInputStream in;
 		try {
 			FileInputStream fileIn = new FileInputStream(filename);
 			in = new ObjectInputStream(fileIn);
-			o = in.readObject();
+			o = (RestoApp) in.readObject();
 			in.close();
 			fileIn.close();
+			for(Table table : o.getTables()) {
+				 System.out.println("Table Nb: " + table.getNumber() + " (x, y) = " + "(" + table.getX() + ", " + table.getY() + ")" + " Width: " + table.getWidth() + " Length: " + table.getLength() + " Number of Seats: " + table.getSeats().size());
+			  }
 		} catch (Exception e) {
 			o = null;
 		}

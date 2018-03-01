@@ -809,8 +809,6 @@ public class RestoApp implements Serializable
   // line 9 "../../../../../RestoPersistence.ump"
    public void reinitialize(){
     Table.reinitializeUniqueNumber(this.getTables());
-//	    BusVehicle.reinitializeUniqueLicencePlate(this.getVehicles());
-//	    Route.reinitializeUniqueNumber(this.getRoutes());
   }
   
   //------------------------

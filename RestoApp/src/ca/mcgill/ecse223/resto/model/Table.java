@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 15 "../../../../../RestoPersistence.ump"
+// line 16 "../../../../../RestoPersistence.ump"
 // line 26 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
@@ -524,7 +524,7 @@ public class Table implements Serializable
     }
   }
 
-  // line 21 "../../../../../RestoPersistence.ump"
+  // line 22 "../../../../../RestoPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
 	    for (Table table : tables) {
@@ -538,7 +538,10 @@ public class Table implements Serializable
    */
   // line 37 "../../../../../RestoApp v2.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
-    return ((this.x > x && this.x < x + width) || (x > this.x && x < this.x + this.width) || (this.y > y && this.y < y + length) || (y > this.y && y < this.y + length));
+    return !(this.x > x + width // R1 is right to R2
+	 || this.x + width < x // R1 is left to R2
+	  || this.y + length < y // R1 is above R2 
+	  || this.y > y + length);// R1 is below R1
   }
 
 
@@ -556,7 +559,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 18 "../../../../../RestoPersistence.ump"
+  // line 19 "../../../../../RestoPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
   

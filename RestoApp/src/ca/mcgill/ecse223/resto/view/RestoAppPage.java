@@ -58,7 +58,6 @@ public class RestoAppPage extends JFrame {
 	public RestoAppPage() {
 		initComponents();
 		refreshData();
-
 	}
 
 
@@ -67,7 +66,7 @@ public class RestoAppPage extends JFrame {
 		
 		
 		// elements for error message
-		errorMessage = new JLabel();
+		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
 
 		setTitle("Move Table");
@@ -136,18 +135,11 @@ public class RestoAppPage extends JFrame {
 		errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
 			// populate page with data
-
 			textField.setText("");
 			textField_1.setText("");
 			textField_2.setText("");
-
-
-
 		}
-
-
 		// this is needed because the size of the window changes depending on whether an error message is shown or not
-		pack();
 	}
 	private void btnMoveTableActionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -166,6 +158,8 @@ public class RestoAppPage extends JFrame {
 		}
 		catch (InvalidInputException e) {
 			error = e.getMessage();
+			contentPanel.add(errorMessage);
+			System.out.print(error);
 		}
 
 		// update visuals
