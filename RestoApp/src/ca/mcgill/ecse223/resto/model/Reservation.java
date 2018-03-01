@@ -1,125 +1,135 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
-
-import java.sql.Time;
+package ca.mcgill.ecse223.resto.model;
 import java.sql.Date;
 import java.util.*;
 
-// line 39 "main.ump"
+// line 14 "../../../../../RestoApp v2.ump"
 public class Reservation
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextReservationNumber = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Reservation Attributes
-  private Time time;
-  private Date date;
-  private int phoneNumber;
-  private String name;
-  private String email;
-  private int nbOfPeople;
+  private Date dateTime;
+  private int numberInParty;
+  private String contactName;
+  private String contactEmailAddress;
+  private String contactPhoneNumber;
+
+  //Autounique Attributes
+  private int reservationNumber;
 
   //Reservation Associations
   private List<Table> tables;
+  private RestoApp restoApp;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Reservation(Time aTime, Date aDate, int aPhoneNumber, String aName, String aEmail, int aNbOfPeople)
+  public Reservation(Date aDateTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
   {
-    time = aTime;
-    date = aDate;
-    phoneNumber = aPhoneNumber;
-    name = aName;
-    email = aEmail;
-    nbOfPeople = aNbOfPeople;
+    dateTime = aDateTime;
+    numberInParty = aNumberInParty;
+    contactName = aContactName;
+    contactEmailAddress = aContactEmailAddress;
+    contactPhoneNumber = aContactPhoneNumber;
+    reservationNumber = nextReservationNumber++;
     tables = new ArrayList<Table>();
+    boolean didAddTables = setTables(allTables);
+    if (!didAddTables)
+    {
+      throw new RuntimeException("Unable to create Reservation, must have at least 1 tables");
+    }
+    boolean didAddRestoApp = setRestoApp(aRestoApp);
+    if (!didAddRestoApp)
+    {
+      throw new RuntimeException("Unable to create reservation due to restoApp");
+    }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setTime(Time aTime)
+  public boolean setDateTime(Date aDateTime)
   {
     boolean wasSet = false;
-    time = aTime;
+    dateTime = aDateTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDate(Date aDate)
+  public boolean setNumberInParty(int aNumberInParty)
   {
     boolean wasSet = false;
-    date = aDate;
+    numberInParty = aNumberInParty;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setPhoneNumber(int aPhoneNumber)
+  public boolean setContactName(String aContactName)
   {
     boolean wasSet = false;
-    phoneNumber = aPhoneNumber;
+    contactName = aContactName;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setName(String aName)
+  public boolean setContactEmailAddress(String aContactEmailAddress)
   {
     boolean wasSet = false;
-    name = aName;
+    contactEmailAddress = aContactEmailAddress;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEmail(String aEmail)
+  public boolean setContactPhoneNumber(String aContactPhoneNumber)
   {
     boolean wasSet = false;
-    email = aEmail;
+    contactPhoneNumber = aContactPhoneNumber;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setNbOfPeople(int aNbOfPeople)
+  public Date getDateTime()
   {
-    boolean wasSet = false;
-    nbOfPeople = aNbOfPeople;
-    wasSet = true;
-    return wasSet;
+    return dateTime;
   }
 
-  public Time getTime()
+  public int getNumberInParty()
   {
-    return time;
+    return numberInParty;
   }
 
-  public Date getDate()
+  public String getContactName()
   {
-    return date;
+    return contactName;
   }
 
-  public int getPhoneNumber()
+  public String getContactEmailAddress()
   {
-    return phoneNumber;
+    return contactEmailAddress;
   }
 
-  public String getName()
+  public String getContactPhoneNumber()
   {
-    return name;
+    return contactPhoneNumber;
   }
 
-  public String getEmail()
+  public int getReservationNumber()
   {
-    return email;
-  }
-
-  public int getNbOfPeople()
-  {
-    return nbOfPeople;
+    return reservationNumber;
   }
 
   public Table getTable(int index)
@@ -128,6 +138,9 @@ public class Reservation
     return aTable;
   }
 
+  /**
+   * only from currentTables
+   */
   public List<Table> getTables()
   {
     List<Table> newTables = Collections.unmodifiableList(tables);
@@ -152,9 +165,20 @@ public class Reservation
     return index;
   }
 
+  public RestoApp getRestoApp()
+  {
+    return restoApp;
+  }
+
+  public boolean isNumberOfTablesValid()
+  {
+    boolean isValid = numberOfTables() >= minimumNumberOfTables();
+    return isValid;
+  }
+
   public static int minimumNumberOfTables()
   {
-    return 0;
+    return 1;
   }
 
   public boolean addTable(Table aTable)
@@ -185,6 +209,11 @@ public class Reservation
       return wasRemoved;
     }
 
+    if (numberOfTables() <= minimumNumberOfTables())
+    {
+      return wasRemoved;
+    }
+
     int oldIndex = tables.indexOf(aTable);
     tables.remove(oldIndex);
     if (aTable.indexOfReservation(this) == -1)
@@ -200,6 +229,47 @@ public class Reservation
       }
     }
     return wasRemoved;
+  }
+
+  public boolean setTables(Table... newTables)
+  {
+    boolean wasSet = false;
+    ArrayList<Table> verifiedTables = new ArrayList<Table>();
+    for (Table aTable : newTables)
+    {
+      if (verifiedTables.contains(aTable))
+      {
+        continue;
+      }
+      verifiedTables.add(aTable);
+    }
+
+    if (verifiedTables.size() != newTables.length || verifiedTables.size() < minimumNumberOfTables())
+    {
+      return wasSet;
+    }
+
+    ArrayList<Table> oldTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for (Table aNewTable : verifiedTables)
+    {
+      tables.add(aNewTable);
+      if (oldTables.contains(aNewTable))
+      {
+        oldTables.remove(aNewTable);
+      }
+      else
+      {
+        aNewTable.addReservation(this);
+      }
+    }
+
+    for (Table anOldTable : oldTables)
+    {
+      anOldTable.removeReservation(this);
+    }
+    wasSet = true;
+    return wasSet;
   }
 
   public boolean addTableAt(Table aTable, int index)
@@ -234,6 +304,25 @@ public class Reservation
     return wasAdded;
   }
 
+  public boolean setRestoApp(RestoApp aRestoApp)
+  {
+    boolean wasSet = false;
+    if (aRestoApp == null)
+    {
+      return wasSet;
+    }
+
+    RestoApp existingRestoApp = restoApp;
+    restoApp = aRestoApp;
+    if (existingRestoApp != null && !existingRestoApp.equals(aRestoApp))
+    {
+      existingRestoApp.removeReservation(this);
+    }
+    restoApp.addReservation(this);
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
   {
     ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
@@ -242,17 +331,24 @@ public class Reservation
     {
       aTable.removeReservation(this);
     }
+    RestoApp placeholderRestoApp = restoApp;
+    this.restoApp = null;
+    if(placeholderRestoApp != null)
+    {
+      placeholderRestoApp.removeReservation(this);
+    }
   }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "phoneNumber" + ":" + getPhoneNumber()+ "," +
-            "name" + ":" + getName()+ "," +
-            "email" + ":" + getEmail()+ "," +
-            "nbOfPeople" + ":" + getNbOfPeople()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
+            "reservationNumber" + ":" + getReservationNumber()+ "," +
+            "numberInParty" + ":" + getNumberInParty()+ "," +
+            "contactName" + ":" + getContactName()+ "," +
+            "contactEmailAddress" + ":" + getContactEmailAddress()+ "," +
+            "contactPhoneNumber" + ":" + getContactPhoneNumber()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "dateTime" + "=" + (getDateTime() != null ? !getDateTime().equals(this)  ? getDateTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }
 }

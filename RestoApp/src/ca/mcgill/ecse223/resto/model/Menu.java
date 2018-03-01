@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
-
+package ca.mcgill.ecse223.resto.model;
 import java.util.*;
 
-// line 34 "main.ump"
+// line 50 "../../../../../RestoApp v2.ump"
 public class Menu
 {
 
@@ -14,20 +14,26 @@ public class Menu
 
   //Menu Associations
   private List<MenuItem> menuItems;
-  private Restaurant restaurant;
+  private RestoApp restoApp;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Menu(Restaurant aRestaurant)
+  public Menu(RestoApp aRestoApp)
   {
     menuItems = new ArrayList<MenuItem>();
-    boolean didAddRestaurant = setRestaurant(aRestaurant);
-    if (!didAddRestaurant)
+    if (aRestoApp == null || aRestoApp.getMenu() != null)
     {
-      throw new RuntimeException("Unable to create menu due to restaurant");
+      throw new RuntimeException("Unable to create Menu due to aRestoApp");
     }
+    restoApp = aRestoApp;
+  }
+
+  public Menu()
+  {
+    menuItems = new ArrayList<MenuItem>();
+    restoApp = new RestoApp(this);
   }
 
   //------------------------
@@ -64,9 +70,9 @@ public class Menu
     return index;
   }
 
-  public Restaurant getRestaurant()
+  public RestoApp getRestoApp()
   {
-    return restaurant;
+    return restoApp;
   }
 
   public static int minimumNumberOfMenuItems()
@@ -74,9 +80,9 @@ public class Menu
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public MenuItem addMenuItem(MenuEntry aMenuEntry, int aPrice, String aDescription)
+  public MenuItem addMenuItem(String aName)
   {
-    return new MenuItem(aMenuEntry, aPrice, aDescription, this);
+    return new MenuItem(aName, this);
   }
 
   public boolean addMenuItem(MenuItem aMenuItem)
@@ -141,46 +147,20 @@ public class Menu
     return wasAdded;
   }
 
-  public boolean setRestaurant(Restaurant aNewRestaurant)
-  {
-    boolean wasSet = false;
-    if (aNewRestaurant == null)
-    {
-      //Unable to setRestaurant to null, as menu must always be associated to a restaurant
-      return wasSet;
-    }
-    
-    Menu existingMenu = aNewRestaurant.getMenu();
-    if (existingMenu != null && !equals(existingMenu))
-    {
-      //Unable to setRestaurant, the current restaurant already has a menu, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
-    
-    Restaurant anOldRestaurant = restaurant;
-    restaurant = aNewRestaurant;
-    restaurant.setMenu(this);
-
-    if (anOldRestaurant != null)
-    {
-      anOldRestaurant.setMenu(null);
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
   public void delete()
   {
-    for(int i=menuItems.size(); i > 0; i--)
+    while (menuItems.size() > 0)
     {
-      MenuItem aMenuItem = menuItems.get(i - 1);
+      MenuItem aMenuItem = menuItems.get(menuItems.size() - 1);
       aMenuItem.delete();
+      menuItems.remove(aMenuItem);
     }
-    Restaurant existingRestaurant = restaurant;
-    restaurant = null;
-    if (existingRestaurant != null)
+    
+    RestoApp existingRestoApp = restoApp;
+    restoApp = null;
+    if (existingRestoApp != null)
     {
-      existingRestaurant.setMenu(null);
+      existingRestoApp.delete();
     }
   }
 
