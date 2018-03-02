@@ -71,4 +71,39 @@ public class RestoAppController {
 		RestoAppApplication.save();
 
 	}
+	public static void updateTableOrSeats(int oldNumber, int newNumber, int newNumSeats, boolean hasSameSeats) throws InvalidInputException {
+		if (newNumber <= 0 || newNumSeats <= 0) {
+			throw new InvalidInputException("Invalid negative input");
+		}
+
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+
+		for (Table currentTable : currentTables) {
+			if(currentTable.getNumber() == newNumber) {
+				throw new InvalidInputException("A table already has this number");
+			}
+		}
+		Table table = restoApp.getCurrentTable(oldNumber);
+		table.setNumber(newNumber);
+		if (hasSameSeats == false) {
+			int seats = table.numberOfCurrentSeats();
+			int difSeats = Math.abs(seats - newNumSeats);
+
+			if(seats < newNumSeats) {
+				for (int i = 0; i < difSeats; i++ ) {
+					table.addCurrentSeat(table.addSeat());
+				}
+			}
+			if(seats > newNumSeats) {
+				List<Seat> seatsList = table.getCurrentSeats();
+				for (int i = 0; i < difSeats; i++ ) {
+					table.removeCurrentSeat(seatsList.get(i));
+				}
+			}
+		}
+		RestoAppApplication.save();
+
+
+	}
 }
