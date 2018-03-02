@@ -491,9 +491,9 @@ public class RestoApp implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Order addOrder()
+  public Order addOrder(Date aDateTime, Table... allTables)
   {
-    return new Order(this);
+    return new Order(aDateTime, this, allTables);
   }
 
   public boolean addOrder(Order aOrder)
@@ -620,9 +620,9 @@ public class RestoApp implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public PricedMenuItem addPricedMenuItem()
+  public PricedMenuItem addPricedMenuItem(double aPrice, MenuItem aMenuItem)
   {
-    return new PricedMenuItem(this);
+    return new PricedMenuItem(aPrice, this, aMenuItem);
   }
 
   public boolean addPricedMenuItem(PricedMenuItem aPricedMenuItem)
@@ -692,9 +692,9 @@ public class RestoApp implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Bill addBill()
+  public Bill addBill(Order aOrder, Seat... allIssuedForSeats)
   {
-    return new Bill(this);
+    return new Bill(aOrder, this, allIssuedForSeats);
   }
 
   public boolean addBill(Bill aBill)

@@ -7,9 +7,6 @@ class RestoApp {
   
      public void reinitialize(){
 	    Table.reinitializeUniqueNumber(this.getTables());
-	    	Seat.reinitializeAutouniqueNumber(this.getTables());
-//	    BusVehicle.reinitializeUniqueLicencePlate(this.getVehicles());
-//	    Route.reinitializeUniqueNumber(this.getRoutes());
 	  }
 }
 

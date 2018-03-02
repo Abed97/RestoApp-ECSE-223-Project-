@@ -25,9 +25,7 @@ public class RestoAppApplication {
 		if (restoApp == null) {
 			// load model
 			restoApp = load();
-			//restoApp.addTable(10, 3, 4, 6, 5);
 					}
-	
  		return restoApp;
 	}
 	

@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 16 "../../../../../RestoPersistence.ump"
+// line 13 "../../../../../RestoPersistence.ump"
 // line 26 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
@@ -32,6 +32,7 @@ public class Table implements Serializable
   private List<Seat> currentSeats;
   private RestoApp restoApp;
   private List<Reservation> reservations;
+  private List<Order> orders;
 
   //------------------------
   // CONSTRUCTOR
@@ -55,6 +56,7 @@ public class Table implements Serializable
       throw new RuntimeException("Unable to create table due to restoApp");
     }
     reservations = new ArrayList<Reservation>();
+    orders = new ArrayList<Order>();
   }
 
   //------------------------
@@ -239,6 +241,36 @@ public class Table implements Serializable
   public int indexOfReservation(Reservation aReservation)
   {
     int index = reservations.indexOf(aReservation);
+    return index;
+  }
+
+  public Order getOrder(int index)
+  {
+    Order aOrder = orders.get(index);
+    return aOrder;
+  }
+
+  public List<Order> getOrders()
+  {
+    List<Order> newOrders = Collections.unmodifiableList(orders);
+    return newOrders;
+  }
+
+  public int numberOfOrders()
+  {
+    int number = orders.size();
+    return number;
+  }
+
+  public boolean hasOrders()
+  {
+    boolean has = orders.size() > 0;
+    return has;
+  }
+
+  public int indexOfOrder(Order aOrder)
+  {
+    int index = orders.indexOf(aOrder);
     return index;
   }
 
@@ -492,6 +524,88 @@ public class Table implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfOrders()
+  {
+    return 0;
+  }
+
+  public boolean addOrder(Order aOrder)
+  {
+    boolean wasAdded = false;
+    if (orders.contains(aOrder)) { return false; }
+    orders.add(aOrder);
+    if (aOrder.indexOfTable(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aOrder.addTable(this);
+      if (!wasAdded)
+      {
+        orders.remove(aOrder);
+      }
+    }
+    return wasAdded;
+  }
+
+  public boolean removeOrder(Order aOrder)
+  {
+    boolean wasRemoved = false;
+    if (!orders.contains(aOrder))
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = orders.indexOf(aOrder);
+    orders.remove(oldIndex);
+    if (aOrder.indexOfTable(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aOrder.removeTable(this);
+      if (!wasRemoved)
+      {
+        orders.add(oldIndex,aOrder);
+      }
+    }
+    return wasRemoved;
+  }
+
+  public boolean addOrderAt(Order aOrder, int index)
+  {  
+    boolean wasAdded = false;
+    if(addOrder(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
+      orders.remove(aOrder);
+      orders.add(index, aOrder);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveOrderAt(Order aOrder, int index)
+  {
+    boolean wasAdded = false;
+    if(orders.contains(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
+      orders.remove(aOrder);
+      orders.add(index, aOrder);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addOrderAt(aOrder, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     tablesByNumber.remove(getNumber());
@@ -522,9 +636,22 @@ public class Table implements Serializable
         aReservation.removeTable(this);
       }
     }
+    ArrayList<Order> copyOfOrders = new ArrayList<Order>(orders);
+    orders.clear();
+    for(Order aOrder : copyOfOrders)
+    {
+      if (aOrder.numberOfTables() <= Order.minimumNumberOfTables())
+      {
+        aOrder.delete();
+      }
+      else
+      {
+        aOrder.removeTable(this);
+      }
+    }
   }
 
-  // line 22 "../../../../../RestoPersistence.ump"
+  // line 19 "../../../../../RestoPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
 	    for (Table table : tables) {
@@ -559,7 +686,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 19 "../../../../../RestoPersistence.ump"
+  // line 16 "../../../../../RestoPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
   
