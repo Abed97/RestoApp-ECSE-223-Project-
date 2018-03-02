@@ -14,7 +14,7 @@ public class RestoAppController {
 		if(x < 0 || y < 0 || number <= 0 || width <= 0 || length <= 0 || numberOfSeats <= 0) {
 			throw new InvalidInputException("Invalid negative input");
 		}
-		
+
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();
@@ -37,29 +37,31 @@ public class RestoAppController {
 			throw new InvalidInputException(e.getMessage());
 		}	
 	}
-	
+
 	public static void moveTable(int number, int x, int y) throws InvalidInputException {
 		String error = "";
 
-		if ( x< 0 ) {
-			error =  error +"The x coordinate of the table must be greater than zero. ";
+		if(x < 0 || y < 0) {
+			throw new InvalidInputException("Invalid negative input");
 		}
-		if ( y< 0 ) {
-			error =error+ "The y coordinate of the table must be greater than zero. ";
-		}
+		
 
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
 		Table table = Table.getWithNumber(number);
+		//check if null
+		if (table == null) {
+			error = error + "A table must be specified ";
+		}
 		int width = table.getWidth();
 		int length = table.getLength();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 
 		for (Table currentTable : restoApp.getCurrentTables()) {
 			if (currentTable.doesOverlap(x, y,width, length)) {
-
 				throw new InvalidInputException("A table already exists at this location");
+
 			}
 
 		}

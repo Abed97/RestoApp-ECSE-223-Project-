@@ -16,6 +16,7 @@ public class RestoAppApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CreateTablePage().setVisible(true);
+                new RestoAppPage().setVisible(true);
             }
         });
         
@@ -25,7 +26,7 @@ public class RestoAppApplication {
 		if (restoApp == null) {
 			// load model
 			restoApp = load();
-			//restoApp.addTable(10, 3, 4, 6, 5);
+			
 					}
 	
  		return restoApp;
