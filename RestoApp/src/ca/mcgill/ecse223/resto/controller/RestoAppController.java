@@ -14,7 +14,7 @@ public class RestoAppController {
 		if(x < 0 || y < 0 || number <= 0 || width <= 0 || length <= 0 || numberOfSeats <= 0) {
 			throw new InvalidInputException("Invalid negative input");
 		}
-		
+
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();
@@ -37,7 +37,7 @@ public class RestoAppController {
 			throw new InvalidInputException(e.getMessage());
 		}	
 	}
-	
+
 	public static void moveTable(int number, int x, int y) throws InvalidInputException {
 		String error = "";
 
@@ -67,6 +67,41 @@ public class RestoAppController {
 		table.setX(x);
 		table.setY(y);
 		RestoAppApplication.save();
+
+	}
+	public static void updateTableOrSeats(int oldNumber, int newNumber, int newNumSeats, boolean hasSameSeats) throws InvalidInputException {
+		if (newNumber <= 0 || newNumSeats <= 0) {
+			throw new InvalidInputException("Invalid negative input");
+		}
+
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+
+		for (Table currentTable : currentTables) {
+			if(currentTable.getNumber() == newNumber) {
+				throw new InvalidInputException("A table already has this number");
+			}
+		}
+		Table table = restoApp.getCurrentTable(oldNumber);
+		table.setNumber(newNumber);
+		if (hasSameSeats == false) {
+			int seats = table.numberOfCurrentSeats();
+			int difSeats = Math.abs(seats - newNumSeats);
+
+			if(seats < newNumSeats) {
+				for (int i = 0; i < difSeats; i++ ) {
+					table.addCurrentSeat(table.addSeat());
+				}
+			}
+			if(seats > newNumSeats) {
+				List<Seat> seatsList = table.getCurrentSeats();
+				for (int i = 0; i < difSeats; i++ ) {
+					table.removeCurrentSeat(seatsList.get(i));
+				}
+			}
+		}
+		RestoAppApplication.save();
+
 
 	}
 }

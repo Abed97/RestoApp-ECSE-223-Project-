@@ -11,7 +11,7 @@ public class RestoAppApplication {
 	
 	public static void main(String[] args) {
 		
-		getRestoApp();
+		//getRestoApp();
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -25,7 +25,6 @@ public class RestoAppApplication {
 		if (restoApp == null) {
 			// load model
 			restoApp = load();
-			//restoApp.addTable(10, 3, 4, 6, 5);
 					}
 	
  		return restoApp;
