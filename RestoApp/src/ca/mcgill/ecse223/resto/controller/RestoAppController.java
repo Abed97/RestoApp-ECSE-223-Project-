@@ -1,10 +1,16 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.model.Menu;
+import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
-import ca.mcgill.ecse223.resto.model.Table;
-import java.util.*;
+import ca.mcgill.ecse223.resto.model.*;
 
 public class RestoAppController {
 
@@ -71,6 +77,32 @@ public class RestoAppController {
 		RestoAppApplication.save();
 
 	}
+	
+	public static List<ItemCategory> getItemCategories(){
+		//List<ItemCategory> ics = new ArrayList<ItemCategory>();
+		//for (int i=0 ; i<5; i++) {
+			//ics.add(ItemCategory.)
+		List<ItemCategory> CategoryList = Arrays.asList(ItemCategory.values());
+		return  CategoryList;
+		}
+	
+	
+	public static List<MenuItem> getMenuItems(ItemCategory itemCategory){
+		List<MenuItem> mis = new ArrayList<MenuItem>();	
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		Menu menu= restoApp.getMenu();
+		List<MenuItem> menuItems= menu.getMenuItems();
+		for( MenuItem m : menuItems) {
+			Boolean current= m.hasCurrentPricedMenuItem();
+			ItemCategory c= m.getItemCategory();
+			if(current&&c.equals(itemCategory)) {
+				mis.add(m);
+			}
+		}
+		
+		return mis;
+}
+	
 	public static void updateTableOrSeats(int oldNumber, int newNumber, int newNumSeats, boolean hasSameSeats) throws InvalidInputException {
 		if (newNumber <= 0 || newNumSeats <= 0) {
 			throw new InvalidInputException("Invalid negative input");
