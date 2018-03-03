@@ -38,15 +38,8 @@ class Table {
 	 || this.x + width < x // R1 is left to R2
 	  || this.y + length < y // R1 is above R2 
 	  || this.y > y + length);// R1 is below R1
-<<<<<<< HEAD
 		}
   }
-=======
-}
-  }
-}
-}
->>>>>>> d185a7448252044f3f9989cfcba94cc663b710b4
 
 class Seat {
 }
