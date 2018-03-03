@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.application;
 
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.CreateTablePage;
+import ca.mcgill.ecse223.resto.view.DeleteTable;
 import ca.mcgill.ecse223.resto.view.RestoAppPage;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 
@@ -15,7 +16,8 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateTablePage().setVisible(true);
+            	//new CreateTablePage().setVisible(true);
+                new DeleteTable().setVisible(true);
             }
         });
         
