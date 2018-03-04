@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -38,6 +39,9 @@ public class PersistenceObjectStream {
 			for(Table table : o.getTables()) {
 				 System.out.println("Table Nb: " + table.getNumber() + " (x, y) = " + "(" + table.getX() + ", " + table.getY() + ")" + " Width: " + table.getWidth() + " Length: " + table.getLength() + " Number of Seats: " + table.getSeats().size());
 			  }
+			for(MenuItem mi : o.getMenu().getMenuItems()) {
+				   System.out.println(mi.getName());
+				  }
 		} catch (Exception e) {
 			o = null;
 		}
