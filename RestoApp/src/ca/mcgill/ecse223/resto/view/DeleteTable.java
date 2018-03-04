@@ -29,23 +29,15 @@ public class DeleteTable extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DeleteTable frame = new DeleteTable();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public DeleteTable() {
+		initComponents();
 	}
+	
 
 	/**
 	 * Create the frame
 	 */
-	public DeleteTable() {
+	public void initComponents() {
 
 		// Set Panel
 		setTitle("Delete Table");
@@ -74,7 +66,7 @@ public class DeleteTable extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) dispTable.getModel();
 		scrollPane.setViewportView(dispTable);
 
-		updateTable(model);
+		refreshData(model);
 
 		// Set delete button
 		JButton btnDeleteTable = new JButton("Delete Table");
@@ -94,7 +86,7 @@ public class DeleteTable extends JFrame {
 						// Do nothing
 						e1.printStackTrace();
 					}
-					updateTable(model);
+					refreshData(model);
 				}
 			}
 		});
@@ -111,7 +103,7 @@ public class DeleteTable extends JFrame {
 	/**
 	 * Update the display table
 	 */
-	private void updateTable(DefaultTableModel model) {
+	private void refreshData(DefaultTableModel model) {
 		// Clear table data
 		for (int i = model.getRowCount() - 1; i >= 0; i--) {
 			model.removeRow(i);
