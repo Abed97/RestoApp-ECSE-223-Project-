@@ -115,14 +115,14 @@ public class RestoAppController {
 		}
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List<Table> currentTables = restoApp.getCurrentTables();
+		List<Table> currentTables = restoApp.getTables();
 
 		for (Table currentTable : currentTables) {
 			if (currentTable.getNumber() == newNumber) {
 				throw new InvalidInputException("A table already has this number");
 			}
 		}
-		Table table = restoApp.getCurrentTable(oldNumber);
+		Table table = Table.getWithNumber(oldNumber);
 		table.setNumber(newNumber);
 		if (hasSameSeats == false) {
 			int seats = table.numberOfCurrentSeats();
