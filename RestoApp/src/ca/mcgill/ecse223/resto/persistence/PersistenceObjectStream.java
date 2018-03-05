@@ -36,6 +36,12 @@ public class PersistenceObjectStream {
 			o = (RestoApp) in.readObject();
 			in.close();
 			fileIn.close();
+<<<<<<< HEAD
+=======
+			for(Table table : o.getTables()) {
+				 System.out.println("Table Nb: " + table.getNumber() + " (x, y) = " + "(" + table.getX() + ", " + table.getY() + ")" + " Width: " + table.getWidth() + " Length: " + table.getLength() + " Number of Seats: " + table.getCurrentSeats().size());
+			  }
+>>>>>>> 35951cc405f5f2dc76bb571021b9c54666c1ac29
 		} catch (Exception e) {
 			o = null;
 		}
