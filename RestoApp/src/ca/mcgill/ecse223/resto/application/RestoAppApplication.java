@@ -39,7 +39,6 @@ public class RestoAppApplication {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
 		// model cannot be loaded - create empty RestoApp
-		restoApp = null;
 		if (restoApp == null) {
 			restoApp = new RestoApp();
 		}

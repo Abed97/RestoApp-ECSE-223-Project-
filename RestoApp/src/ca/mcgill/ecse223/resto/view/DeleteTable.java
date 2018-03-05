@@ -74,7 +74,7 @@ public class DeleteTable extends JFrame {
 				// Make sure a row was selected
 				if (selectedRow != -1) {
 					// Get selected table object
-					Table deleteTable = restoApp.getTables().get(selectedRow);
+					Table deleteTable = restoApp.getCurrentTables().get(selectedRow);
 					// Delete table
 					try {
 						RestoAppController.removeTable(deleteTable);
