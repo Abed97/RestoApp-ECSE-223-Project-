@@ -115,18 +115,21 @@ public class RestoAppController {
 		}
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List<Table> currentTables = restoApp.getCurrentTables();
-
-		for (Table currentTable : currentTables) {
-			if (currentTable.getNumber() == newNumber) {
-				throw new InvalidInputException("A table already has this number");
+		List<Table> currentTables = restoApp.getTables();
+		if (oldNumber != newNumber) {
+			for (Table currentTable : currentTables) {
+				if (currentTable.getNumber() == newNumber) {
+					throw new InvalidInputException("A table already has this number");
+				}
 			}
 		}
-		Table table = restoApp.getCurrentTable(oldNumber);
+		Table table = Table.getWithNumber(oldNumber);
 		table.setNumber(newNumber);
 		if (hasSameSeats == false) {
 			int seats = table.numberOfCurrentSeats();
 			int difSeats = Math.abs(seats - newNumSeats);
+			System.out.println(seats);
+			System.out.println(difSeats);
 
 			if (seats < newNumSeats) {
 				for (int i = 0; i < difSeats; i++) {
@@ -135,7 +138,7 @@ public class RestoAppController {
 			}
 			if (seats > newNumSeats) {
 				List<Seat> seatsList = table.getCurrentSeats();
-				for (int i = 0; i < difSeats; i++) {
+				for (int i = difSeats; i > 0; i--) {
 					table.removeCurrentSeat(seatsList.get(i));
 				}
 			}
