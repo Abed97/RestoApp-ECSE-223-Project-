@@ -49,9 +49,6 @@ public class RestoAppPage extends JFrame {
 
 
 	public void initComponents() {
-
-
-
 		// elements for error message
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);

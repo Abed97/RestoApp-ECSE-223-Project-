@@ -48,8 +48,6 @@ public class RestoAppController {
 	public static void deleteTable(Table currTable) throws InvalidInputException {
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		currTable.delete();
-
-		System.out.println(currTable.getNumber());
 		RestoAppApplication.save();
 	}
 
