@@ -54,8 +54,9 @@ public class RestoAppPage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(10, 200, 350, 29);
 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Move Table");
-		setBounds(100, 100, 496, 320);
+		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane, BorderLayout.CENTER);

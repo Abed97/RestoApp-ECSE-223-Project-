@@ -45,26 +45,9 @@ public class RestoAppController {
 		}
 	}
 
-	public static void removeTable(Table currTable) throws InvalidInputException {
-		// Make sure table is not null
-		if (currTable == null)
-			throw new InvalidInputException("Table is null");
-		// Get restoApp object
+	public static void deleteTable(Table currTable) throws InvalidInputException {
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		// Check if table is reserved, if so return an error
-		Boolean reserved = currTable.hasReservations();
-		if (reserved)
-			throw new InvalidInputException("Table is reserved");
-		// Get list of orders
-		List<Order> currentOrders = currTable.getOrders();
-		for (Order tempOrder : currentOrders) {
-			// Get list of tables 
-			List<Table> tables = tempOrder.getTables();
-			if (tables.contains(currTable)) {
-				throw new InvalidInputException("Table has orders");
-			}
-		}
-		restoApp.removeCurrentTable(currTable);
+		currTable.delete();
 		RestoAppApplication.save();
 	}
 
@@ -132,14 +115,14 @@ public class RestoAppController {
 		}
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List<Table> currentTables = restoApp.getTables();
+		List<Table> currentTables = restoApp.getCurrentTables();
 
 		for (Table currentTable : currentTables) {
 			if (currentTable.getNumber() == newNumber) {
 				throw new InvalidInputException("A table already has this number");
 			}
 		}
-		Table table = Table.getWithNumber(oldNumber);
+		Table table = restoApp.getCurrentTable(oldNumber);
 		table.setNumber(newNumber);
 		if (hasSameSeats == false) {
 			int seats = table.numberOfCurrentSeats();
