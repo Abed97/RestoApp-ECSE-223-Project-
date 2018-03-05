@@ -14,27 +14,11 @@ import javax.swing.SwingConstants;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 
-public class DisplayMenu {
+public class DisplayMenu extends JFrame{
 
 	private JFrame frmMenu;
 	private JLabel lblFoods;
 	private JComboBox comboBox;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DisplayMenu window = new DisplayMenu();
-					window.frmMenu.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -76,7 +60,6 @@ public class DisplayMenu {
 		frmMenu.setBackground(SystemColor.desktop);
 		frmMenu.setTitle("Menu");
 		frmMenu.setBounds(100, 100, 450, 300);
-		frmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/*private void displayCategory(java.awt.event.ActionEvent evt) {
