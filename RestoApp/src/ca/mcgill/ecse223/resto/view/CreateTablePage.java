@@ -54,7 +54,7 @@ public class CreateTablePage extends JFrame {
 		errorMessage.setBounds(10, 200, 350, 29);
 		
 		setTitle("Add Table");
-		setBounds(100, 100, 481, 329);
+		setBounds(100, 100, 492, 329);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

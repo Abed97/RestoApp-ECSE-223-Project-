@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -81,6 +82,7 @@ public class UpdateTablePage extends JFrame {
 		ArrayList<Integer> numTable = new ArrayList<Integer>();
 		for (Table currentTable : currentTables) {
 			numTable.add(currentTable.getNumber());
+			Collections.sort(numTable);
 		}
 		comboBox.setModel(new DefaultComboBoxModel(numTable.toArray()));
 		contentPane.add(comboBox);
@@ -134,6 +136,14 @@ public class UpdateTablePage extends JFrame {
 			// populate page with data
 			textField.setText("");
 			textField_1.setText("");
+			RestoApp restoApp = RestoAppApplication.getRestoApp();
+			List<Table> currentTables = restoApp.getCurrentTables();
+			ArrayList<Integer> numTable = new ArrayList<Integer>();
+			for (Table currentTable : currentTables) {
+				numTable.add(currentTable.getNumber());
+			}
+			Collections.sort(numTable);
+			comboBox.setModel(new DefaultComboBoxModel(numTable.toArray()));
 		}
 
 	}
@@ -143,11 +153,15 @@ public class UpdateTablePage extends JFrame {
 				// call the controller
 
 				try {
-
 					int tableNumber = (Integer)(comboBox.getSelectedItem());
 					int newTableNumber = Integer.parseInt(textField.getText());
 					boolean hasSameSeats = rdbtnSameNumberOf.isSelected();
-					int newSeatsNum = Integer.parseInt(textField_1.getText());
+					int newSeatsNum;
+					if (hasSameSeats) {
+						newSeatsNum = 1;
+					}else {
+						newSeatsNum = Integer.parseInt(textField_1.getText());
+					}
 					
 					RestoAppController.updateTableOrSeats(tableNumber, newTableNumber, newSeatsNum, hasSameSeats);
 

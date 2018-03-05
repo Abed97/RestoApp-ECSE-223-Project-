@@ -55,7 +55,7 @@ public class RestoAppPage extends JFrame {
 		errorMessage.setBounds(10, 200, 350, 29);
 
 		setTitle("Move Table");
-		setBounds(100, 100, 496, 320);
+		setBounds(100, 100, 483, 324);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane, BorderLayout.CENTER);

@@ -1,100 +1,84 @@
 package ca.mcgill.ecse223.resto.view;
 
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 
-public class DisplayMenu extends JFrame{
+public class DisplayMenu extends JFrame {
 
-	private JFrame frmMenu;
-	private JLabel lblFoods;
-	private JComboBox comboBox;
+	private JPanel contentPane;
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public DisplayMenu() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmMenu = new JFrame();
-		frmMenu.getContentPane().setForeground(SystemColor.activeCaption);
-		frmMenu.setForeground(Color.ORANGE);
-		frmMenu.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
-		frmMenu.getContentPane().setLayout(null);
+		String error = "Please select a category";
+		JLabel errorMessage = new JLabel(error );
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(22, 200, 350, 29);
+		setBounds(100, 100, 505, 355);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+			
+		JLabel lblMenu = new JLabel("Menu");
+		lblMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblMenu.setBounds(187, 13, 56, 16);
+		contentPane.add(lblMenu);
 		
-		lblFoods = new JLabel("Category");
-		lblFoods.setBounds(15, 16, 173, 39);
-		lblFoods.setVerticalAlignment(SwingConstants.TOP);
-		lblFoods.setForeground(new Color(0, 0, 0));
-		lblFoods.setFont(new Font("Dubai", Font.BOLD, 23));
-		lblFoods.setBackground(SystemColor.activeCaption);
-		frmMenu.getContentPane().add(lblFoods);
+		JLabel lblCategory = new JLabel("Category");
+		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCategory.setBounds(22, 60, 80, 22);
+		contentPane.add(lblCategory);
 		
-		comboBox = new JComboBox();
+		 DefaultListModel listModel = new DefaultListModel();
+            JList list = new JList(listModel);
+			list.setBounds(202, 89, 206, 200);
+			contentPane.add(list);
+		
+		JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Select Category...");
-		comboBox.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//btnMoveTableActionPerformed(evt);
-			}
+		for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
+			comboBox.addItem(RestoAppController.getItemCategories().get(i));
+		}
+		ActionListener action = new ActionListener() {
 
-		});
-		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"Appetizers"}));
-		//comboBox.setToolTipText("choose category...");
-		comboBox.setBounds(15, 71, 188, 26);
-		frmMenu.getContentPane().add(comboBox);
-		frmMenu.setBackground(SystemColor.desktop);
-		frmMenu.setTitle("Menu");
-		frmMenu.setBounds(100, 100, 450, 300);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listModel.removeAllElements();
+				if (comboBox.getSelectedIndex() == 0) {
+					contentPane.add(errorMessage);
+				} else {
+				for (int i =0; i < RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).size(); i++) {
+				    
+					listModel.addElement(RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).get(i).getName());
+				}
+				contentPane.remove(errorMessage);
+				}
+			}
+			
+			
+		};
+		
+		
+		comboBox.addActionListener(action);
+		comboBox.setBounds(22, 89, 151, 22);
+		contentPane.add(comboBox);
+		comboBox.setVisible(true);
+		
 	}
 
-	/*private void displayCategory(java.awt.event.ActionEvent evt) {
-
-		//clear error message
-		error = null;
-		// call the controller
-
-		try {
-
-			int number = Integer.parseInt(textField.getText());
-			int x = Integer.parseInt(textField_1.getText());
-			int y = Integer.parseInt(textField_2.getText());
-
-			RestoAppController.moveTable(number, x,y);
-
-		}
-		catch (InvalidInputException e) {
-			error = e.getMessage();
-			contentPane.add(errorMessage);
-		}
-
-		catch (NumberFormatException e) {
-			error = "Invalid Input";
-			contentPane.add(errorMessage);
-		}
-		catch (NullPointerException e) {
-			error = "Invalid Input";
-			contentPane.add(errorMessage);
-		}
-
-		// update visuals
-		refreshData();
-	}*/
 }
-
-	
-
