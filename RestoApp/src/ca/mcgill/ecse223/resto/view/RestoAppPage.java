@@ -54,9 +54,8 @@ public class RestoAppPage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(10, 200, 350, 29);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Move Table");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 483, 324);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -149,11 +148,11 @@ public class RestoAppPage extends JFrame {
 		}
 
 		catch (NumberFormatException e) {
-			error = "Invalid Input";
+			error = "One or more input is either empty or is not a number";
 			contentPane.add(errorMessage);
 		}
 		catch (NullPointerException e) {
-			error = "Invalid Input";
+			error = "Please select an existing table";
 			contentPane.add(errorMessage);
 		}
 
