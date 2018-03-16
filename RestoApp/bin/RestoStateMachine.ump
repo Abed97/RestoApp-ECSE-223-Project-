@@ -26,7 +26,7 @@ issueBill(Order aOrder, RestoApp aRestoApp, Seat... allIssuedForSeats) [allSeats
           }
       
         Bills {
-makeOrder( int quantity, PricedMenuItem aPricedMenuItem, Order aOrder, Seat... allSeats) / { new Order(quantity,      aPricedMenuItem, aOrder, allSeats);} -> Bills;
+makeOrder( int quantity, PricedMenuItem aPricedMenuItem, Order aOrder, Seat... allSeats) / { new OrderItem(quantity,      aPricedMenuItem, aOrder, allSeats);} -> Bills;
         
                 toggle() / {
       } -> Available;

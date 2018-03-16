@@ -238,7 +238,7 @@ public class Table implements Serializable
       case Bills:
         exitTableStateInUse();
         // line 29 "../../../../../RestoStateMachine.ump"
-        new Order(quantity,      aPricedMenuItem, aOrder, allSeats);
+        new OrderItem(quantity,      aPricedMenuItem, aOrder, allSeats);
         setTableStateInUse(TableStateInUse.Bills);
         wasEventProcessed = true;
         break;
@@ -266,7 +266,7 @@ public class Table implements Serializable
           wasEventProcessed = true;
           break;
         }
-        if (allSeatsPaid)
+        if (allSeatsPaid())
         {
           exitTableStateInUse();
         // line 25 "../../../../../RestoStateMachine.ump"
