@@ -36,7 +36,6 @@ public class PersistenceObjectStream {
 			o = (RestoApp) in.readObject();
 			in.close();
 			fileIn.close();
-
 		} catch (Exception e) {
 			o = null;
 		}

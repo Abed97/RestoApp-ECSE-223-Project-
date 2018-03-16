@@ -61,19 +61,11 @@ public class MainMenu extends JFrame {
 		
 		JLabel lblRestoapp = new JLabel("RestoApp");
 		lblRestoapp.setFont(new Font("Serif", Font.BOLD, 36));
-
 		lblRestoapp.setBounds(120, 118, 156, 47);
 		contentPane.add(lblRestoapp);
 		
-		//JLabel lblGroup = new JLabel("Group 19");
-		//lblGroup.setBounds(120, 171, 70, 16);
-
-		lblRestoapp.setBounds(12, 118, 156, 47);
-		contentPane.add(lblRestoapp);
-		
 		JLabel lblGroup = new JLabel("Group 19");
-		lblGroup.setBounds(59, 171, 56, 16);
-
+		lblGroup.setBounds(120, 171, 70, 16);
 		contentPane.add(lblGroup);
 		
 		JButton btnAddTable = new JButton("Add Table");

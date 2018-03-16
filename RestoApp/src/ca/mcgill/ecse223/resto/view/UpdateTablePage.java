@@ -174,7 +174,6 @@ public class UpdateTablePage extends JFrame {
 					error = "One or more input is either empty or is not a number";
 					contentPane.add(errorMessage);
 				}
-
 				catch (NullPointerException e) {
 					error = "Please select a table";
 					contentPane.add(errorMessage);

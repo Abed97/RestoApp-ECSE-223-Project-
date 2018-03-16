@@ -1,0 +1,49 @@
+class Table {
+  tableState {
+    
+    Available {
+      toggle() / {
+      } -> InUse;
+    }
+    InUse {
+  NoOrders {
+        makeOrder( int quantity, PricedMenuItem aPricedMenuItem, Order aOrder, Seat... allSeats) / { 
+        //  Order aOrder =new Order(aDateTime, aRestoApp, allTables);
+          new OrderItem(quantity, aPricedMenuItem, aOrder, allSeats);} -> Orders;
+                                                                                                                                                                                               
+            toggle() / {
+      } -> Available;
+    }                                                                                          
+                                                                                                 
+          Orders {
+            makeOrder( int quantity, PricedMenuItem aPricedMenuItem, Order aOrder, Seat... allSeats) / { new OrderItem(quantity, aPricedMenuItem, aOrder, allSeats);} -> Orders;
+                                                          
+issueBill(Order aOrder, RestoApp aRestoApp, Seat... allIssuedForSeats)  [!allSeatsPaid()]/ {
+              new Bill(aOrder, aRestoApp, allIssuedForSeats);
+                                                                                                        }-> Orders;
+
+issueBill(Order aOrder, RestoApp aRestoApp, Seat... allIssuedForSeats) [allSeatsPaid()] /{                                                                                                  new Bill(aOrder, aRestoApp, allIssuedForSeats);                                                                                                     }-> Bills;
+          }
+      
+        Bills {
+makeOrder( int quantity, PricedMenuItem aPricedMenuItem, Order aOrder, Seat... allSeats) / { new Order(quantity,      aPricedMenuItem, aOrder, allSeats);} -> Bills;
+        
+                toggle() / {
+      } -> Available;
+    }                        
+      }}
+
+                    
+  boolean allSeatsPaid(Table this) {
+    boolean hasPaid = true;
+    List<Seat> seats = this.getSeats();
+    for (Seat seat : seats) {
+      if (!seat.hasBills()) {
+        hasPaid = false;
+      }
+    }
+    return hasPaid;
+      
+  
+}
+}
