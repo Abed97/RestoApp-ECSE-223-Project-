@@ -1,7 +1,6 @@
 namespace ca.mcgill.ecse223.resto.model;
-
+use RestoState.ump;
 use RestoPersistence.ump;
-use RestoStateMachine.ump;
 
 class RestoApp {
    1 <@>- * Reservation reservations; // sorted by date and time
@@ -15,8 +14,8 @@ class RestoApp {
 }
 
 class Reservation {
-   Date date;
-   Time time;
+   Date dateTime;
+
    Integer numberInParty;
    contactName;
    contactEmailAddress;
@@ -47,8 +46,7 @@ class Seat {
 }
 
 class Order {
-   Date date;
-   Time time;
+   Date dateTime;
    autounique number;
    * orders -- 1..* Table tables; // only from currentTables for currentOrders
    1 <@>- * OrderItem orderItems;

@@ -186,3 +186,189 @@ Binding(COMMAND+W,
 !ENTRY com.salesforce.ide.core 2 0 2018-03-16 09:45:41.960
 !MESSAGE  WARN [2018-03-16 09:45:41,960] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
 
+!SESSION 2018-03-16 18:21:46.449 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-16 18:21:52.363
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.088
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 238.8 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.262
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.265
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.274
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.281
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.290
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:01.308
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:02.110
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:02.224
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:22:02.238
+!MESSAGE Analyzed Lightning System JavaScript Support in 13.18 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-16 18:22:03.861
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:23:35.778
+!MESSAGE  WARN [2018-03-16 18:23:35,768] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:23:35.779
+!MESSAGE  WARN [2018-03-16 18:23:35,778] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:23:35.780
+!MESSAGE  WARN [2018-03-16 18:23:35,779] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-16 18:23:38.019 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-16 18:23:46.797
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.286
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 209.0 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.438
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.440
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.450
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.456
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.459
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:51.486
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:52.288
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:52.395
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:23:52.409
+!MESSAGE Analyzed Lightning System JavaScript Support in 12.59 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-16 18:23:54.302
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:18.105
+!MESSAGE  WARN [2018-03-16 18:25:18,100] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:18.106
+!MESSAGE  WARN [2018-03-16 18:25:18,106] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:18.107
+!MESSAGE  WARN [2018-03-16 18:25:18,107] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-16 18:25:19.730 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-16 18:25:30.926
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.495
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 278.9 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.668
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.670
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.683
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.692
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.695
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:35.712
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:36.476
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:36.602
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-16 18:25:36.614
+!MESSAGE Analyzed Lightning System JavaScript Support in 11.17 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-16 18:25:38.327
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:45.887
+!MESSAGE  WARN [2018-03-16 18:25:45,882] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:45.888
+!MESSAGE  WARN [2018-03-16 18:25:45,888] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-16 18:25:45.889
+!MESSAGE  WARN [2018-03-16 18:25:45,889] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+

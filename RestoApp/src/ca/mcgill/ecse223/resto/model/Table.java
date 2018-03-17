@@ -5,9 +5,9 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
+// line 2 "../../../../../RestoState.ump"
 // line 13 "../../../../../RestoPersistence.ump"
-// line 1 "../../../../../RestoStateMachine.ump"
-// line 28 "../../../../../RestoApp v2.ump"
+// line 27 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
 
@@ -172,7 +172,7 @@ public class Table implements Serializable
     return tableStateInUse;
   }
 
-  public boolean toggle()
+  public boolean toggle(ArrayList<Integer> tableNumbers)
   {
     boolean wasEventProcessed = false;
     
@@ -181,8 +181,8 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case Available:
-        // line 5 "../../../../../RestoStateMachine.ump"
-        
+        // line 5 "../../../../../RestoState.ump"
+        restoApp= this.getRestoApp();
         setTableState(TableState.InUse);
         wasEventProcessed = true;
         break;
@@ -194,14 +194,14 @@ public class Table implements Serializable
     {
       case NoOrders:
         exitTableState();
-        // line 14 "../../../../../RestoStateMachine.ump"
+        // line 24 "../../../../../RestoState.ump"
         
         setTableState(TableState.Available);
         wasEventProcessed = true;
         break;
       case Bills:
         exitTableState();
-        // line 31 "../../../../../RestoStateMachine.ump"
+        // line 62 "../../../../../RestoState.ump"
         
         setTableState(TableState.Available);
         wasEventProcessed = true;
@@ -213,7 +213,7 @@ public class Table implements Serializable
     return wasEventProcessed;
   }
 
-  public boolean makeOrder(int quantity,PricedMenuItem aPricedMenuItem,Order aOrder,Seat... allSeats)
+  public boolean makeOrder(ArrayList<Integer> tableNumbers)
   {
     boolean wasEventProcessed = false;
     
@@ -222,24 +222,32 @@ public class Table implements Serializable
     {
       case NoOrders:
         exitTableStateInUse();
-        // line 10 "../../../../../RestoStateMachine.ump"
-        //  Order aOrder =new Order(aDateTime, aRestoApp, allTables);
-          new OrderItem(quantity, aPricedMenuItem, aOrder, allSeats);
-        setTableStateInUse(TableStateInUse.Orders);
-        wasEventProcessed = true;
-        break;
-      case Orders:
-        exitTableStateInUse();
-        // line 19 "../../../../../RestoStateMachine.ump"
-        new OrderItem(quantity, aPricedMenuItem, aOrder, allSeats);
+        // line 12 "../../../../../RestoState.ump"
+        Date date= new Date();
+       Table[] orderTables = new Table[tableNumbers.size()];
+       int i = 0;
+       for(Integer number: tableNumbers){
+       		orderTables[i] = Table.getWithNumber(number);
+       		i++;
+       }
+       Order order= new Order(  (java.sql.Date)date, restoApp, orderTables);
+       this.addOrder(order);
         setTableStateInUse(TableStateInUse.Orders);
         wasEventProcessed = true;
         break;
       case Bills:
         exitTableStateInUse();
-        // line 29 "../../../../../RestoStateMachine.ump"
-        new OrderItem(quantity,      aPricedMenuItem, aOrder, allSeats);
-        setTableStateInUse(TableStateInUse.Bills);
+        // line 49 "../../../../../RestoState.ump"
+        date = new Date();
+       orderTables = new Table[tableNumbers.size()];
+       i = 0;
+       for(Integer number: tableNumbers){
+       		orderTables[i] = Table.getWithNumber(number);
+       		i++;
+       }
+       order= new Order(  (java.sql.Date)date, restoApp, orderTables);
+       this.addOrder(order);
+        setTableStateInUse(TableStateInUse.Orders);
         wasEventProcessed = true;
         break;
       default:
@@ -249,7 +257,30 @@ public class Table implements Serializable
     return wasEventProcessed;
   }
 
-  public boolean issueBill(Order aOrder,RestoApp aRestoApp,Seat... allIssuedForSeats)
+  public boolean makeOrderItem(int quantity,PricedMenuItem aPricedMenuItem,Seat... allSeats)
+  {
+    boolean wasEventProcessed = false;
+    
+    TableStateInUse aTableStateInUse = tableStateInUse;
+    switch (aTableStateInUse)
+    {
+      case Orders:
+        exitTableStateInUse();
+        // line 29 "../../../../../RestoState.ump"
+        Order order= this.getOrder(this.numberOfOrders()-1);
+              
+              new OrderItem(quantity, aPricedMenuItem, order, allSeats);
+        setTableStateInUse(TableStateInUse.Orders);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean issueBill(RestoApp aRestoApp,Seat... allIssuedForSeats)
   {
     boolean wasEventProcessed = false;
     
@@ -260,8 +291,11 @@ public class Table implements Serializable
         if (!(allSeatsPaid()))
         {
           exitTableStateInUse();
-        // line 21 "../../../../../RestoStateMachine.ump"
-          new Bill(aOrder, aRestoApp, allIssuedForSeats);
+        // line 34 "../../../../../RestoState.ump"
+          Order order= this.getOrder(this.numberOfOrders()-1);
+
+  
+              new Bill(order, restoApp, allIssuedForSeats);
           setTableStateInUse(TableStateInUse.Orders);
           wasEventProcessed = true;
           break;
@@ -269,8 +303,10 @@ public class Table implements Serializable
         if (allSeatsPaid())
         {
           exitTableStateInUse();
-        // line 25 "../../../../../RestoStateMachine.ump"
-          new Bill(aOrder, aRestoApp, allIssuedForSeats);
+        // line 42 "../../../../../RestoState.ump"
+          Order order= this.getOrder(this.numberOfOrders()-1);
+ 
+  new Bill(order, restoApp, allIssuedForSeats);
           setTableStateInUse(TableStateInUse.Bills);
           wasEventProcessed = true;
           break;
@@ -833,6 +869,29 @@ public class Table implements Serializable
     }
   }
 
+  // line 69 "../../../../../RestoState.ump"
+  public boolean allSeatsPaid(){
+    boolean hasPaid = true;
+   Order order= this.getOrder(this.numberOfOrders()-1);
+    List<Bill> Bills= order.getBills();
+    int found=0;
+    int foundThis=0;
+    List<Seat> tableSeats= this.getCurrentSeats();
+    for(Seat seat : tableSeats){
+      foundThis=0;
+    for (Bill bill : Bills){
+      if (bill.getIssuedForSeats().contains(seat)){ foundThis=1;}
+    }
+      if ( foundThis==0){
+        hasPaid=false;
+        break;} 
+    return hasPaid;}
+        
+      
+      
+    return hasPaid;
+  }
+
   // line 19 "../../../../../RestoPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
@@ -841,23 +900,11 @@ public class Table implements Serializable
 	    }
   }
 
-  // line 38 "../../../../../RestoStateMachine.ump"
-  public boolean allSeatsPaid(Table this){
-    boolean hasPaid = true;
-    List<Seat> seats = this.getSeats();
-    for (Seat seat : seats) {
-      if (!seat.hasBills()) {
-        hasPaid = false;
-      }
-    }
-    return hasPaid;
-  }
-
 
   /**
    * Added overlap method
    */
-  // line 39 "../../../../../RestoApp v2.ump"
+  // line 38 "../../../../../RestoApp v2.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
     return !(this.x > x + width // R1 is right to R2
 	 || this.x + width < x // R1 is left to R2

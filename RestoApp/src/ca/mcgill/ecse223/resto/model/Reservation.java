@@ -4,11 +4,10 @@
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.*;
 
 // line 33 "../../../../../RestoPersistence.ump"
-// line 17 "../../../../../RestoApp v2.ump"
+// line 16 "../../../../../RestoApp v2.ump"
 public class Reservation implements Serializable
 {
 
@@ -23,8 +22,7 @@ public class Reservation implements Serializable
   //------------------------
 
   //Reservation Attributes
-  private Date date;
-  private Time time;
+  private Date dateTime;
   private int numberInParty;
   private String contactName;
   private String contactEmailAddress;
@@ -41,10 +39,9 @@ public class Reservation implements Serializable
   // CONSTRUCTOR
   //------------------------
 
-  public Reservation(Date aDate, Time aTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
+  public Reservation(Date aDateTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
   {
-    date = aDate;
-    time = aTime;
+    dateTime = aDateTime;
     numberInParty = aNumberInParty;
     contactName = aContactName;
     contactEmailAddress = aContactEmailAddress;
@@ -67,18 +64,10 @@ public class Reservation implements Serializable
   // INTERFACE
   //------------------------
 
-  public boolean setDate(Date aDate)
+  public boolean setDateTime(Date aDateTime)
   {
     boolean wasSet = false;
-    date = aDate;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setTime(Time aTime)
-  {
-    boolean wasSet = false;
-    time = aTime;
+    dateTime = aDateTime;
     wasSet = true;
     return wasSet;
   }
@@ -115,14 +104,9 @@ public class Reservation implements Serializable
     return wasSet;
   }
 
-  public Date getDate()
+  public Date getDateTime()
   {
-    return date;
-  }
-
-  public Time getTime()
-  {
-    return time;
+    return dateTime;
   }
 
   public int getNumberInParty()
@@ -366,8 +350,7 @@ public class Reservation implements Serializable
             "contactName" + ":" + getContactName()+ "," +
             "contactEmailAddress" + ":" + getContactEmailAddress()+ "," +
             "contactPhoneNumber" + ":" + getContactPhoneNumber()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "dateTime" + "=" + (getDateTime() != null ? !getDateTime().equals(this)  ? getDateTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   //------------------------

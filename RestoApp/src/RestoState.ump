@@ -1,0 +1,94 @@
+namespace ca.mcgill.ecse223.resto.model;
+class Table {
+  tableState {
+    Available {
+      toggle(ArrayList<Integer> tableNumbers) / {
+      restoApp= this.getRestoApp();
+      } -> InUse;
+    }
+    InUse {
+  NoOrders {
+    
+    makeOrder(ArrayList<Integer> tableNumbers) /{
+    Date date= new Date();
+       Table[] orderTables = new Table[tableNumbers.size()];
+       int i = 0;
+       for(Integer number: tableNumbers){
+       		orderTables[i] = Table.getWithNumber(number);
+       		i++;
+       }
+       Order order= new Order(  (java.sql.Date)date, restoApp, orderTables);
+       this.addOrder(order);
+} -> Orders;
+                                                                                                                                                                                               
+            toggle() / {
+      } -> Available;
+    }                                                                                          
+                                                                                                 
+          Orders {
+  makeOrderItem( int quantity, PricedMenuItem aPricedMenuItem,  Seat... allSeats) / { 
+              Order order= this.getOrder(this.numberOfOrders()-1);
+              
+              new OrderItem(quantity, aPricedMenuItem, order, allSeats);} -> Orders;
+                                                          
+issueBill( RestoApp aRestoApp, Seat... allIssuedForSeats)  [!allSeatsPaid()]/ {
+  
+  Order order= this.getOrder(this.numberOfOrders()-1);
+
+  
+              new Bill(order, restoApp, allIssuedForSeats);
+                                                                                                        }-> Orders;
+
+issueBill( RestoApp aRestoApp, Seat... allIssuedForSeats) [allSeatsPaid()] /{    
+   Order order= this.getOrder(this.numberOfOrders()-1);
+ 
+  new Bill(order, restoApp, allIssuedForSeats);                                                                                                     }-> Bills;
+          }
+      
+        Bills {
+   makeOrder() / {
+      date = new Date();
+       orderTables = new Table[tableNumbers.size()];
+       i = 0;
+       for(Integer number: tableNumbers){
+       		orderTables[i] = Table.getWithNumber(number);
+       		i++;
+       }
+       order= new Order(  (java.sql.Date)date, restoApp, orderTables);
+       this.addOrder(order);} ->Orders;
+          
+
+          
+          toggle() / {
+      } -> Available;
+        }} }                       
+      
+
+                    
+  boolean allSeatsPaid() {
+    boolean hasPaid = true;
+   Order order= this.getOrder(this.numberOfOrders()-1);
+    List<Bill> Bills= order.getBills();
+    int found=0;
+    int foundThis=0;
+    List<Seat> tableSeats= this.getCurrentSeats();
+    for(Seat seat : tableSeats){
+      foundThis=0;
+    for (Bill bill : Bills){
+      if (bill.getIssuedForSeats().contains(seat)){ foundThis=1;}
+    }
+      if ( foundThis==0){
+        hasPaid=false;
+        break;} 
+    return hasPaid;}
+        
+      
+      
+    return hasPaid;
+      
+  
+}
+}
+
+
+
