@@ -5,9 +5,9 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 2 "../../../../../RestoState.ump"
 // line 13 "../../../../../RestoPersistence.ump"
-// line 27 "../../../../../RestoApp v2.ump"
+// line 1 "../../../../../RestoState.ump"
+// line 28 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
 
@@ -29,10 +29,8 @@ public class Table implements Serializable
   private int length;
 
   //Table State Machines
-  public enum TableState { Available, InUse }
-  public enum TableStateInUse { Null, NoOrders, Orders, Bills }
-  private TableState tableState;
-  private TableStateInUse tableStateInUse;
+  public enum Status { Available, NothingOrdered, Ordered }
+  private Status status;
 
   //Table Associations
   private List<Seat> seats;
@@ -64,8 +62,7 @@ public class Table implements Serializable
     }
     reservations = new ArrayList<Reservation>();
     orders = new ArrayList<Order>();
-    setTableStateInUse(TableStateInUse.Null);
-    setTableState(TableState.Available);
+    setStatus(Status.Available);
   }
 
   //------------------------
@@ -155,55 +152,28 @@ public class Table implements Serializable
     return length;
   }
 
-  public String getTableStateFullName()
+  public String getStatusFullName()
   {
-    String answer = tableState.toString();
-    if (tableStateInUse != TableStateInUse.Null) { answer += "." + tableStateInUse.toString(); }
+    String answer = status.toString();
     return answer;
   }
 
-  public TableState getTableState()
+  public Status getStatus()
   {
-    return tableState;
+    return status;
   }
 
-  public TableStateInUse getTableStateInUse()
-  {
-    return tableStateInUse;
-  }
-
-  public boolean toggle(ArrayList<Integer> tableNumbers)
+  public boolean startOrder()
   {
     boolean wasEventProcessed = false;
     
-    TableState aTableState = tableState;
-    TableStateInUse aTableStateInUse = tableStateInUse;
-    switch (aTableState)
+    Status aStatus = status;
+    switch (aStatus)
     {
       case Available:
-        // line 5 "../../../../../RestoState.ump"
-        restoApp= this.getRestoApp();
-        setTableState(TableState.InUse);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    switch (aTableStateInUse)
-    {
-      case NoOrders:
-        exitTableState();
-        // line 24 "../../../../../RestoState.ump"
-        
-        setTableState(TableState.Available);
-        wasEventProcessed = true;
-        break;
-      case Bills:
-        exitTableState();
-        // line 62 "../../../../../RestoState.ump"
-        
-        setTableState(TableState.Available);
+        // line 4 "../../../../../RestoState.ump"
+        new Order(new java.sql.Date(Calendar.getInstance().getTime().getTime()), new java.sql.Time(Calendar.getInstance().getTime().getTime()), this.getRestoApp(), this);
+        setStatus(Status.NothingOrdered);
         wasEventProcessed = true;
         break;
       default:
@@ -213,104 +183,186 @@ public class Table implements Serializable
     return wasEventProcessed;
   }
 
-  public boolean makeOrder(ArrayList<Integer> tableNumbers)
+  public boolean addToOrder(Order o)
   {
     boolean wasEventProcessed = false;
     
-    TableStateInUse aTableStateInUse = tableStateInUse;
-    switch (aTableStateInUse)
+    Status aStatus = status;
+    switch (aStatus)
     {
-      case NoOrders:
-        exitTableStateInUse();
+      case Available:
+        // line 7 "../../../../../RestoState.ump"
+        o.addTable(this);
+        setStatus(Status.NothingOrdered);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean orderItem(int quantity,Order o,Seat s,PricedMenuItem i)
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case NothingOrdered:
+        if (quantityNotNegative(quantity))
+        {
         // line 12 "../../../../../RestoState.ump"
-        Date date= new Date();
-       Table[] orderTables = new Table[tableNumbers.size()];
-       int i = 0;
-       for(Integer number: tableNumbers){
-       		orderTables[i] = Table.getWithNumber(number);
-       		i++;
-       }
-       Order order= new Order(  (java.sql.Date)date, restoApp, orderTables);
-       this.addOrder(order);
-        setTableStateInUse(TableStateInUse.Orders);
-        wasEventProcessed = true;
-        break;
-      case Bills:
-        exitTableStateInUse();
-        // line 49 "../../../../../RestoState.ump"
-        date = new Date();
-       orderTables = new Table[tableNumbers.size()];
-       i = 0;
-       for(Integer number: tableNumbers){
-       		orderTables[i] = Table.getWithNumber(number);
-       		i++;
-       }
-       order= new Order(  (java.sql.Date)date, restoApp, orderTables);
-       this.addOrder(order);
-        setTableStateInUse(TableStateInUse.Orders);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean makeOrderItem(int quantity,PricedMenuItem aPricedMenuItem,Seat... allSeats)
-  {
-    boolean wasEventProcessed = false;
-    
-    TableStateInUse aTableStateInUse = tableStateInUse;
-    switch (aTableStateInUse)
-    {
-      case Orders:
-        exitTableStateInUse();
-        // line 29 "../../../../../RestoState.ump"
-        Order order= this.getOrder(this.numberOfOrders()-1);
-              
-              new OrderItem(quantity, aPricedMenuItem, order, allSeats);
-        setTableStateInUse(TableStateInUse.Orders);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean issueBill(RestoApp aRestoApp,Seat... allIssuedForSeats)
-  {
-    boolean wasEventProcessed = false;
-    
-    TableStateInUse aTableStateInUse = tableStateInUse;
-    switch (aTableStateInUse)
-    {
-      case Orders:
-        if (!(allSeatsPaid()))
-        {
-          exitTableStateInUse();
-        // line 34 "../../../../../RestoState.ump"
-          Order order= this.getOrder(this.numberOfOrders()-1);
-
-  
-              new Bill(order, restoApp, allIssuedForSeats);
-          setTableStateInUse(TableStateInUse.Orders);
+          // create a new order item with the provided quantity, order, seat, and priced menu item
+          setStatus(Status.Ordered);
           wasEventProcessed = true;
           break;
         }
-        if (allSeatsPaid())
+        break;
+      case Ordered:
+        if (quantityNotNegative(quantity))
         {
-          exitTableStateInUse();
+        // line 27 "../../../../../RestoState.ump"
+          // create a new order item with the provided quantity, order, seat, and priced menu item
+          setStatus(Status.Ordered);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean addToOrderItem(OrderItem i,Seat s)
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case NothingOrdered:
+        // line 15 "../../../../../RestoState.ump"
+        // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+        setStatus(Status.Ordered);
+        wasEventProcessed = true;
+        break;
+      case Ordered:
+        // line 30 "../../../../../RestoState.ump"
+        // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+        setStatus(Status.Ordered);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean endOrder(Order o)
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case NothingOrdered:
+        // line 18 "../../../../../RestoState.ump"
+        if (!o.removeTable(this)) {
+               if (o.numberOfTables() == 1) {
+                  o.delete();
+               }
+            }
+        setStatus(Status.Available);
+        wasEventProcessed = true;
+        break;
+      case Ordered:
+        if (allSeatsBilled())
+        {
+        // line 52 "../../../../../RestoState.ump"
+          
+          setStatus(Status.Available);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean cancelOrderItem(OrderItem i)
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Ordered:
+        if (iIsLastItem(i))
+        {
+        // line 33 "../../../../../RestoState.ump"
+          // delete order item
+          setStatus(Status.NothingOrdered);
+          wasEventProcessed = true;
+          break;
+        }
+        if (!(iIsLastItem(i)))
+        {
+        // line 36 "../../../../../RestoState.ump"
+          // delete order item
+          setStatus(Status.Ordered);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean cancelOrder()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Ordered:
+        // line 39 "../../../../../RestoState.ump"
+        // delete all order items of the table
+        setStatus(Status.NothingOrdered);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean billForSeat(Order o,Seat s)
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Ordered:
         // line 42 "../../../../../RestoState.ump"
-          Order order= this.getOrder(this.numberOfOrders()-1);
- 
-  new Bill(order, restoApp, allIssuedForSeats);
-          setTableStateInUse(TableStateInUse.Bills);
-          wasEventProcessed = true;
-          break;
-        }
+        // create a new bill with the provided order and seat; if the provided seat is already assigned to
+            // another bill for the current order, then the seat is first removed from the other bill and if no seats
+            // are left for the bill, the bill is deleted
+        setStatus(Status.Ordered);
+        wasEventProcessed = true;
         break;
       default:
         // Other states do respond to this event
@@ -319,49 +371,31 @@ public class Table implements Serializable
     return wasEventProcessed;
   }
 
-  private void exitTableState()
+  public boolean addToBill(Bill b,Seat s)
   {
-    switch(tableState)
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
     {
-      case InUse:
-        exitTableStateInUse();
+      case Ordered:
+        // line 47 "../../../../../RestoState.ump"
+        // add provided seat to provided bill unless seat has already been added, in which case nothing needs
+            // to be done; if the provided seat is already assigned to another bill for the current order, then the
+            // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
+        setStatus(Status.Ordered);
+        wasEventProcessed = true;
         break;
+      default:
+        // Other states do respond to this event
     }
+
+    return wasEventProcessed;
   }
 
-  private void setTableState(TableState aTableState)
+  private void setStatus(Status aStatus)
   {
-    tableState = aTableState;
-
-    // entry actions and do activities
-    switch(tableState)
-    {
-      case InUse:
-        if (tableStateInUse == TableStateInUse.Null) { setTableStateInUse(TableStateInUse.NoOrders); }
-        break;
-    }
-  }
-
-  private void exitTableStateInUse()
-  {
-    switch(tableStateInUse)
-    {
-      case NoOrders:
-        setTableStateInUse(TableStateInUse.Null);
-        break;
-      case Orders:
-        setTableStateInUse(TableStateInUse.Null);
-        break;
-      case Bills:
-        setTableStateInUse(TableStateInUse.Null);
-        break;
-    }
-  }
-
-  private void setTableStateInUse(TableStateInUse aTableStateInUse)
-  {
-    tableStateInUse = aTableStateInUse;
-    if (tableState != TableState.InUse && aTableStateInUse != TableStateInUse.Null) { setTableState(TableState.InUse); }
+    status = aStatus;
   }
 
   public Seat getSeat(int index)
@@ -869,29 +903,6 @@ public class Table implements Serializable
     }
   }
 
-  // line 69 "../../../../../RestoState.ump"
-  public boolean allSeatsPaid(){
-    boolean hasPaid = true;
-   Order order= this.getOrder(this.numberOfOrders()-1);
-    List<Bill> Bills= order.getBills();
-    int found=0;
-    int foundThis=0;
-    List<Seat> tableSeats= this.getCurrentSeats();
-    for(Seat seat : tableSeats){
-      foundThis=0;
-    for (Bill bill : Bills){
-      if (bill.getIssuedForSeats().contains(seat)){ foundThis=1;}
-    }
-      if ( foundThis==0){
-        hasPaid=false;
-        break;} 
-    return hasPaid;}
-        
-      
-      
-    return hasPaid;
-  }
-
   // line 19 "../../../../../RestoPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
@@ -902,14 +913,32 @@ public class Table implements Serializable
 
 
   /**
-   * Added overlap method
+   * check that the provided quantity is an integer greater than 0
    */
-  // line 38 "../../../../../RestoApp v2.ump"
-   public boolean doesOverlap(int x, int y, int width, int length){
-    return !(this.x > x + width // R1 is right to R2
-	 || this.x + width < x // R1 is left to R2
-	  || this.y + length < y // R1 is above R2 
-	  || this.y > y + length);// R1 is below R1
+  // line 59 "../../../../../RestoState.ump"
+   private boolean quantityNotNegative(int quantity){
+    // TODO
+      return false;
+  }
+
+
+  /**
+   * check that the provided order item is the last item of the current order of the table
+   */
+  // line 65 "../../../../../RestoState.ump"
+   private boolean iIsLastItem(OrderItem i){
+    // TODO
+      return false;
+  }
+
+
+  /**
+   * check that all seats of the table have a bill that belongs to the current order of the table
+   */
+  // line 71 "../../../../../RestoState.ump"
+   private boolean allSeatsBilled(){
+    // TODO
+      return false;
   }
 
 

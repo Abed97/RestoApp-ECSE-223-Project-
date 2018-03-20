@@ -1,6 +1,7 @@
 namespace ca.mcgill.ecse223.resto.model;
 
 use RestoPersistence.ump;
+use RestoState.ump;
 
 class RestoApp {
    1 <@>- * Reservation reservations; // sorted by date and time
@@ -14,7 +15,8 @@ class RestoApp {
 }
 
 class Reservation {
-   Date dateTime;
+   Date date;
+   Time time;
    Integer numberInParty;
    contactName;
    contactEmailAddress;
@@ -31,21 +33,14 @@ class Table {
    Integer length;
    1 <@>- 1..* Seat seats;
    0..1 -> * Seat currentSeats; // subsets seats
-   
-     //Added overlap method
-  public boolean doesOverlap(int x, int y, int width, int length) {
-	return !(this.x > x + width // R1 is right to R2
-	 || this.x + width < x // R1 is left to R2
-	  || this.y + length < y // R1 is above R2 
-	  || this.y > y + length);// R1 is below R1
-		}
-  }
+}
 
 class Seat {
 }
 
 class Order {
-   Date dateTime;
+   Date date;
+   Time time;
    autounique number;
    * orders -- 1..* Table tables; // only from currentTables for currentOrders
    1 <@>- * OrderItem orderItems;
