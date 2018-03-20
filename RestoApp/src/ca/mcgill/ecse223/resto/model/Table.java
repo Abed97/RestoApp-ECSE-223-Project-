@@ -942,6 +942,18 @@ public class Table implements Serializable
   }
 
 
+  /**
+   * Added overlap method
+   */
+  // line 38 "../../../../../RestoApp v2.ump"
+   public boolean doesOverlap(int x, int y, int width, int length){
+    return !(this.x > x + width // R1 is right to R2
+	 || this.x + width < x // R1 is left to R2
+	  || this.y + length < y // R1 is above R2 
+	  || this.y > y + length);// R1 is below R1
+  }
+
+
   public String toString()
   {
     return super.toString() + "["+
