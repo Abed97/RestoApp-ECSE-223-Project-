@@ -915,7 +915,7 @@ public class Table implements Serializable
   /**
    * check that the provided quantity is an integer greater than 0
    */
-  // line 59 "../../../../../RestoState.ump"
+  // line 61 "../../../../../RestoState.ump"
    private boolean quantityNotNegative(int quantity){
     // TODO
       return false;
@@ -925,7 +925,7 @@ public class Table implements Serializable
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-  // line 65 "../../../../../RestoState.ump"
+  // line 67 "../../../../../RestoState.ump"
    private boolean iIsLastItem(OrderItem i){
     // TODO
       return false;
@@ -935,10 +935,21 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 71 "../../../../../RestoState.ump"
+  // line 73 "../../../../../RestoState.ump"
    private boolean allSeatsBilled(){
-    // TODO
-      return false;
+    boolean seatBilled= true;
+   Order o=this.getOrder(this.numberOfOrders()-1);
+   List <Seat> seats = this.getCurrentSeats();
+   List< Bill> bills = o.getBills(); //bills that belong to current order
+   for( Seat s :seats){
+     List <Bill> seatbills= s.getBills();
+     for ( Bill sb : seatbills){
+       if (!bills.contains(sb)){
+         seatBilled= false;
+         
+       }
+       }}
+        return seatBilled;
   }
 
 

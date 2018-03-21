@@ -64,7 +64,7 @@ public class DisplayMenu extends JFrame {
 				} else {
 				for (int i =0; i < RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).size(); i++) {
 				    
-					listModel.addElement(RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).get(i).getName());
+					listModel.addElement(RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).get(i).getName().toString().concat(" :  "+String.valueOf(RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex()-1)).get(i).getCurrentPricedMenuItem().getPrice())));
 				}
 				contentPane.remove(errorMessage);
 				}

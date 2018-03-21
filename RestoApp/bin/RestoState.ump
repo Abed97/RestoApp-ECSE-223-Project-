@@ -50,6 +50,8 @@ class Table {
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
          } -> Ordered;
          endOrder(Order o) [allSeatsBilled()] / {
+         
+        
          } -> Available;
       }
    }
@@ -68,8 +70,22 @@ class Table {
 
    // check that all seats of the table have a bill that belongs to the current order of the table 
    private boolean allSeatsBilled() {
+   boolean seatBilled= true;
+   Order o=this.getOrder(this.numberOfOrders()-1);
+   List <Seat> seats = this.getCurrentSeats();
+   List< Bill> bills = o.getBills(); //bills that belong to current order
+   for( Seat s :seats){
+     List <Bill> seatbills= s.getBills();
+     for ( Bill sb : seatbills){
+       if (!bills.contains(sb)){
+         seatBilled= false;
+         
+       }
+       }}
+        return seatBilled;
+   }
       // TODO
-      return false;
+      
    }
 
 }
