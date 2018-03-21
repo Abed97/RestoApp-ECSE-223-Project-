@@ -937,19 +937,25 @@ public class Table implements Serializable
    */
   // line 73 "../../../../../RestoState.ump"
    private boolean allSeatsBilled(){
-    boolean seatBilled= true;
+    boolean billed= true;
    Order o=this.getOrder(this.numberOfOrders()-1);
    List <Seat> seats = this.getCurrentSeats();
    List< Bill> bills = o.getBills(); //bills that belong to current order
-   for( Seat s :seats){
+   for( Seat s :seats){ //for each seat
+      boolean seatBilled=false;
      List <Bill> seatbills= s.getBills();
-     for ( Bill sb : seatbills){
-       if (!bills.contains(sb)){
-         seatBilled= false;
+     for ( Bill sb : seatbills){ //for each bill in seat bills
+          if (bills.contains(sb)){  //if orderbills contains this bill
+         seatBilled= true;         // then the seat is billed
+         break; }               // break out of this seatbills
+          
+    }
          
-       }
-       }}
-        return seatBilled;
+         if (seatBilled ==false){ billed=false;
+         break;}
+         
+   }
+        return billed;
   }
 
 
