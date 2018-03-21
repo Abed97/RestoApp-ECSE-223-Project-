@@ -1,7 +1,10 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
@@ -9,6 +12,7 @@ import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
@@ -162,4 +166,55 @@ public class RestoAppController {
 		RestoAppApplication.save();
 
 	}
+
+
+
+	public static void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException {
+		Date currentdate= new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		Time currenttime= new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+		if ( date == null || time == null || contactName == null || numberInParty < 0 
+				|| contactEmailAddress == null  || contactPhoneNumber == null  || tables == null||contactName.trim().length() ==0 || 
+				contactEmailAddress.trim().length() == 0   || contactPhoneNumber.trim().length() == 0)  {
+			throw new InvalidInputException("Please Enter all fields");
+
+
+		}
+		if (currentdate.after(date) || currenttime.after(time)) {
+			throw new InvalidInputException("Please enter a valid date/time");
+		}
+
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		// seat capacity = 0 ?
+		int seatCapacity = 0 ;
+		for ( Table table : tables) {
+			if (!currentTables.contains(table)) {
+				throw new InvalidInputException("Table does not currently exist");
+			}
+			seatCapacity += table.numberOfCurrentSeats();
+			List<Reservation> reservations = table.getReservations();
+			for ( Reservation r : reservations) {
+//				if ( r.doesOverlap(date, time)) {
+//					throw new InvalidInputException("Table is already reserved at that time");
+//				}
+
+			}
+		}
+
+			if (seatCapacity < numberInParty) {
+				throw new InvalidInputException("Not Enough Seats");
+			}
+			//check if its correct (gunther)
+			Table [] tablearray = tables.toArray(new Table[tables.size()]);
+			Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, restoApp ,tablearray);
+			RestoAppApplication.save();
+
+
+
+
+	}
+
+
+
 }
