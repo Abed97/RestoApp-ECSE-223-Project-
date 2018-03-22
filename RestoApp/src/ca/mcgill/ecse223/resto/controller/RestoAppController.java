@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.model.Bill;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
@@ -167,7 +168,29 @@ public class RestoAppController {
 
 	}
 
-
+//returns how many seats are avaliable(already been billed)
+public static int numberOfBilledSeatsOfTable(Table t) {
+	 boolean billed= true;
+	 int count=0;
+	   Order o=t.getOrder(t.numberOfOrders()-1);
+	   List <Seat> seats = t.getCurrentSeats();
+	   List< Bill> bills = o.getBills(); //bills that belong to current order
+	   for( Seat s :seats){ //for each seat
+	      boolean seatBilled=false;
+	     List <Bill> seatbills= s.getBills();
+	     for ( Bill sb : seatbills){ //for each bill in seat bills
+	          if (bills.contains(sb)){  //if orderbills contains this bill
+	         seatBilled= true;         // then the seat is billed
+	         count++;
+	         break; }               // break out of this seatbills
+	          
+	    }
+	         
+	      
+	         
+	   }
+	        return count;
+	  }
 
 	public static void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException {
 		Date currentdate= new java.sql.Date(Calendar.getInstance().getTime().getTime());
