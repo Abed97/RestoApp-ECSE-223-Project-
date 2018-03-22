@@ -89,16 +89,6 @@ public class DeleteTable extends JFrame {
 		btnDeleteTable.setBounds(258, 398, 119, 35);
 		contentPane.add(btnDeleteTable);
 
-		// Set back button
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
-		btnBack.setBounds(10, 404, 67, 23);
-		contentPane.add(btnBack);
-
 	}
 
 	/**

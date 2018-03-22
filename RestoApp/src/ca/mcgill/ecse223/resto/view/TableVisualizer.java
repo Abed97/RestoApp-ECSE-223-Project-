@@ -46,6 +46,7 @@ public class TableVisualizer extends JPanel {
 				for (Rectangle2D rectangle : tableRectangles) {
 					if (rectangle.contains(x, y)) {
 						selectedTable = tables.get(rectangle);
+						RestoAppController.toggleUse(selectedTable);
 						break;
 					}
 				}
