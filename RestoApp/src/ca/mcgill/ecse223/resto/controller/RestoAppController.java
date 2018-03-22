@@ -170,17 +170,17 @@ public class RestoAppController {
 
 //returns how many seats are avaliable(already been billed)
 public static int numberOfBilledSeatsOfTable(Table t) {
-	 boolean billed= true;
+	// boolean billed= true;
 	 int count=0;
 	   Order o=t.getOrder(t.numberOfOrders()-1);
 	   List <Seat> seats = t.getCurrentSeats();
 	   List< Bill> bills = o.getBills(); //bills that belong to current order
 	   for( Seat s :seats){ //for each seat
-	      boolean seatBilled=false;
+	     // boolean seatBilled=false;
 	     List <Bill> seatbills= s.getBills();
 	     for ( Bill sb : seatbills){ //for each bill in seat bills
 	          if (bills.contains(sb)){  //if orderbills contains this bill
-	         seatBilled= true;         // then the seat is billed
+	         //seatBilled= true;         // then the seat is billed
 	         count++;
 	         break; }               // break out of this seatbills
 	          
@@ -218,9 +218,9 @@ public static int numberOfBilledSeatsOfTable(Table t) {
 			seatCapacity += table.numberOfCurrentSeats();
 			List<Reservation> reservations = table.getReservations();
 			for ( Reservation r : reservations) {
-//				if ( r.doesOverlap(date, time)) {
-//					throw new InvalidInputException("Table is already reserved at that time");
-//				}
+			if ( r.doesOverlap(date, time)) {
+				throw new InvalidInputException("Table is already reserved at that time");
+			}
 
 			}
 		}
