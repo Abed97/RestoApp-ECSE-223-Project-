@@ -17,6 +17,7 @@ import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 
 public class RestoAppController {
 
@@ -95,8 +96,10 @@ public class RestoAppController {
 
 		for (Table currentTable : restoApp.getCurrentTables()) {
 			if (currentTable.doesOverlap(x, y, width, length)) {
-				if ( currentTable == table) continue;
-				else throw new InvalidInputException("A table already exists at this location");
+				if (currentTable == table)
+					continue;
+				else
+					throw new InvalidInputException("A table already exists at this location");
 
 			}
 
@@ -192,8 +195,18 @@ public class RestoAppController {
 		return count;
 	}
 
+	
+	/** Toggle wether table is in use or not
+	 * @param aTable
+	 */
 	public static void toggleUse(Table aTable) {
-		System.out.println(aTable.getNumber());
+		// Toggle table state based on previous state
+		if (aTable.getStatus() == Status.Available) {
+			aTable.startOrder();
+		} else {
+			// End on last order
+			aTable.endOrder(aTable.getOrder(aTable.getOrders().size() - 1));
+		}
 	}
 
 	public static void reserveTable(Date date, Time time, int numberInParty, String contactName,
