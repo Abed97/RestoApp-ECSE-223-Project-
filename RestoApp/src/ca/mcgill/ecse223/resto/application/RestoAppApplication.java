@@ -34,6 +34,7 @@ public class RestoAppApplication {
 	
 	public static void save() {
 		PersistenceObjectStream.serialize(restoApp);
+        new MainMenu().setVisible(true);
 	}	
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);

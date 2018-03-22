@@ -195,9 +195,9 @@ public class RestoAppController {
 			seatCapacity += table.numberOfCurrentSeats();
 			List<Reservation> reservations = table.getReservations();
 			for ( Reservation r : reservations) {
-				if ( r.doesOverlap(date, time)) {
-					throw new InvalidInputException("Table is already reserved at that time");
-				}
+//				if ( r.doesOverlap(date, time)) {
+//					throw new InvalidInputException("Table is already reserved at that time");
+//				}
 
 			}
 		}

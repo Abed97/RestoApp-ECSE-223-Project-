@@ -13,7 +13,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import ca.mcgill.ecse.resto.controller.RestoAppControllerTest;
+import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class TableVisualizer extends JPanel {
@@ -95,7 +95,7 @@ public class TableVisualizer extends JPanel {
 				g2d.setColor(Color.BLACK);
 				g2d.draw(rectangle);
 				g2d.drawString(new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX(), (int) rectangle.getCenterY());
-				g2d.drawString(table.getTableStateFullName(), (int) (rectangle.getCenterX() - 0.25 * rectangle.getWidth()), (int) (rectangle.getCenterY() + 0.25 * rectangle.getHeight()));
+				g2d.drawString(table.getStatusFullName(), (int) (rectangle.getCenterX() - 0.25 * rectangle.getWidth()), (int) (rectangle.getCenterY() + 0.25 * rectangle.getHeight()));
 				tableRectangles.add(rectangle);
 				tables.put(rectangle, table);
 			}

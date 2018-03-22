@@ -5,10 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // line 33 "../../../../../RestoPersistence.ump"
 // line 17 "../../../../../RestoApp v2.ump"
@@ -66,30 +63,6 @@ public class Reservation implements Serializable
     }
   }
 
- public boolean doesOverlap(Date date, Time time) {
-	  Date thisdate = this.getDate();
-	  Time thistime = this.getTime();	  
-	  if ( thisdate != date) return false;
-	  else {
-		  Calendar calplus = Calendar.getInstance(); // creates calendar
-		    calplus.setTime(thistime); // sets calendar time/date
-		    calplus.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
-		    calplus.getTime(); // returns new date object, one hour in the future
-		    Calendar calminus = Calendar.getInstance(); // creates calendar
-		    calminus.setTime(thistime); // sets calendar time/date
-		    calminus.add(Calendar.HOUR_OF_DAY, -2); // adds one hour
-		    calminus.getTime(); // returns new date object, one hour in the future
-		    if(thistime.after(calminus.getTime())&&thistime.before(calplus.getTime())) {
-		    	return true;
-		    }
-		    else return false;
-	  }
-  }
-  
-  
-  
-  
-  
   //------------------------
   // INTERFACE
   //------------------------
