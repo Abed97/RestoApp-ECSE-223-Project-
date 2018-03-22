@@ -95,7 +95,10 @@ public class RestoAppController {
 
 		for (Table currentTable : restoApp.getCurrentTables()) {
 			if (currentTable.doesOverlap(x, y, width, length)) {
-				throw new InvalidInputException("A table already exists at this location");
+				if (currentTable==table) {
+					continue;
+				}
+				else{throw new InvalidInputException("A table already exists at this location");}
 
 			}
 
