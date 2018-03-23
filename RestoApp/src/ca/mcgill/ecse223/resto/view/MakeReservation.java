@@ -256,10 +256,10 @@ public class MakeReservation extends JFrame {
 			contentPane.add(errorMessage);
 		}
 
-		/*catch (NullPointerException e) {
+		catch (NullPointerException e) {
 			error = "Please select a table";
 			contentPane.add(errorMessage);
-		}*/
+		}
 
 		// update visuals
 		 refreshData();
