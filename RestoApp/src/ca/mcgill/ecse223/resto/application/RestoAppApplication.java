@@ -14,6 +14,10 @@ public class RestoAppApplication {
 	private static MainMenu menu;
 	
 	
+	public static MainMenu getMenu() {
+		return menu;
+	}
+
 	public static void main(String[] args) {
 		
 		getRestoApp();

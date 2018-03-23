@@ -13,11 +13,10 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
-import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
 
@@ -27,16 +26,19 @@ public class TableVisualizer extends JPanel {
 
 	// UI elements
 	private List<Rectangle2D> tableRectangles = new ArrayList<Rectangle2D>();
-	private List<Table> currentTables = new ArrayList<Table>();
 	private JButton btnConfirm;
+
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
 	// data elements
 	private HashMap<Rectangle2D, Table> tables;
 	Table selectedTable;
-	private List<Table> selectedTables = new ArrayList<Table>();
 	private Boolean confirm = false;
+	private List<Table> currentTables = new ArrayList<Table>();
+	private List<Table> selectedTables = new ArrayList<Table>();
+
+
 
 	public TableVisualizer(List<Table> currentTables, JButton btnConfirm) {
 		super();
@@ -46,7 +48,6 @@ public class TableVisualizer extends JPanel {
 	}
 
 	private void init() {
-		Boolean alreadySelected = false;
 		tables = new HashMap<Rectangle2D, Table>();
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -56,25 +57,31 @@ public class TableVisualizer extends JPanel {
 				int y = e.getY();
 				for (Rectangle2D rectangle : tableRectangles) {
 					if (rectangle.contains(x, y)) {
-						// Get selected table from selected rectangle
 						selectedTable = tables.get(rectangle);
+						if (SwingUtilities.isLeftMouseButton(e)) {
+							for (Table aTable : selectedTables) {
+								// If it was, set alreadySelected to true
+								if (selectedTable == aTable) {
+									alreadySelected = true;
+								}
+							}
 
-						// Check if table was already selected
-						for (Table aTable : selectedTables) {
-							// If it was, set alreadySelected to true
-							if (selectedTable == aTable) {
-								alreadySelected = true;
+							// If alreadySelected is true, remove from selectedTables, else add it
+							if (alreadySelected) {
+								selectedTables.remove(selectedTable);
+							} else {
+								selectedTables.add(selectedTable);
+							}
+							break;
+						}
+						else if (SwingUtilities.isRightMouseButton(e)) {
+							if (selectedTable.getStatus() == Status.Available) {
+								AddToOrderPage addToOrderPage = new AddToOrderPage(selectedTable);
+								addToOrderPage.setVisible(true);
+								repaint();
+								break;
 							}
 						}
-
-						// If alreadySelected is true, remove from selectedTables, else add it
-						if (alreadySelected) {
-							selectedTables.remove(selectedTable);
-						} else {
-							selectedTables.add(selectedTable);
-						}
-						
-						break;
 					}
 				}
 				repaint();
@@ -87,7 +94,7 @@ public class TableVisualizer extends JPanel {
 			throw new InvalidInputException("No tables selected");
 
 		RestoAppController.toggleUse(selectedTables);
-		
+
 		selectedTables = new ArrayList<Table>();
 		repaint();
 	}
@@ -98,30 +105,9 @@ public class TableVisualizer extends JPanel {
 		repaint();
 	}
 
-	// public void moveUp() {
-	// if (firstVisibleBusStop > 0) {
-	// firstVisibleBusStop--;
-	// repaint();
-	// }
-	// }
-	//
-	// public void moveDown() {
-	// if (route != null && firstVisibleBusStop < route.getBusStops().size() -
-	// MAXNUMBEROFBUSSTOPSSHOWN) {
-	// firstVisibleBusStop++;
-	// repaint();
-	// }
-	// }
-
 	private void doDrawing(Graphics g) {
 		int nbTables = currentTables.size();
 		if (nbTables != 0) {
-			// if (number > MAXNUMBEROFBUSSTOPSSHOWN) {
-			// number = MAXNUMBEROFBUSSTOPSSHOWN;
-			// if (firstVisibleBusStop < route.getBusStops().size() -
-			// MAXNUMBEROFBUSSTOPSSHOWN)
-			// number++;
-			// }
 
 			Graphics2D g2d = (Graphics2D) g.create();
 			BasicStroke thickStroke = new BasicStroke(4);
@@ -145,7 +131,6 @@ public class TableVisualizer extends JPanel {
 						confirm = true;
 					}
 				}
-				
 				g2d.draw(rectangle);
 				g2d.drawString(new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX(),
 						(int) rectangle.getCenterY());
@@ -154,38 +139,6 @@ public class TableVisualizer extends JPanel {
 				tableRectangles.add(rectangle);
 				tables.put(rectangle, table);
 			}
-			// BasicStroke thinStroke = new BasicStroke(2);
-			// g2d.setStroke(thinStroke);
-			// rectangles.clear();
-			// busStops.clear();
-			// int index = 0;
-			// int visibleIndex = 0;
-			// for (BusStop busStop : route.getBusStops()) {
-			// if (index >= firstVisibleBusStop && visibleIndex < MAXNUMBEROFBUSSTOPSSHOWN)
-			// {
-			// Rectangle2D rectangle = new Rectangle2D.Float(LINEX - RECTWIDTH / 2, LINETOPY
-			// - RECTHEIGHT / 2 + visibleIndex * (RECTHEIGHT + SPACING), RECTWIDTH,
-			// RECTHEIGHT);
-			// rectangles.add(rectangle);
-			// busStops.put(rectangle, busStop);
-			//
-			// g2d.setColor(Color.WHITE);
-			// g2d.fill(rectangle);
-			// g2d.setColor(Color.BLACK);
-			// g2d.draw(rectangle);
-			// g2d.drawString(new Integer(busStop.getNumber()).toString(), LINEX - RECTWIDTH
-			// / 4, LINETOPY + RECTHEIGHT / 4 + visibleIndex * (RECTHEIGHT + SPACING));
-			//
-			// if (selectedBusStop != null && selectedBusStop.equals(busStop)) {
-			// busStopDetails = BtmsController.getBusStopMinutesFromStart(selectedBusStop) +
-			// "min from first stop";
-			// g2d.drawString(busStopDetails, LINEX + RECTWIDTH * 3 / 4, LINETOPY +
-			// RECTHEIGHT / 4 + visibleIndex * (RECTHEIGHT + SPACING));
-			// }
-			//
-			// visibleIndex++;
-			// }
-			// index++;
 		}
 	}
 

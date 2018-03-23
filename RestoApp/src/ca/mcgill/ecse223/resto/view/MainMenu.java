@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,8 +16,6 @@ import javax.swing.border.EmptyBorder;
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
 
@@ -26,10 +25,10 @@ public class MainMenu extends JFrame {
 	private RestoApp restoApp = RestoAppApplication.getRestoApp();
 	private JLabel errorMessage;
 	private String error = null;
-
 	/**
 	 * Launch the application.
 	 */
+
 
 	/**
 	 * Create the dialog.
@@ -46,7 +45,7 @@ public class MainMenu extends JFrame {
 		setBounds(0, 0, 1920, 1080);
 		getContentPane().setLayout(new BorderLayout());
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		JButton btnConfirm = new JButton("Confirm Selection");
 		btnConfirm.setBounds(361, 270, 208, 25);
 		buttonsPane.add(btnConfirm);
@@ -63,76 +62,78 @@ public class MainMenu extends JFrame {
 			}
 		});
 		btnConfirm.setVisible(false);
-
+		
 		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnConfirm);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
 		getContentPane().add(contentPane, BorderLayout.CENTER);
 		buttonsPane.setLayout(null);
+		
 
+		
 		JLabel lblRestoapp = new JLabel("RestoApp");
 		lblRestoapp.setFont(new Font("Serif", Font.BOLD, 36));
 
 		lblRestoapp.setBounds(120, 118, 156, 47);
 		buttonsPane.add(lblRestoapp);
-
-		// JLabel lblGroup = new JLabel("Group 19");
-		// lblGroup.setBounds(120, 171, 70, 16);
+		
+		//JLabel lblGroup = new JLabel("Group 19");
+		//lblGroup.setBounds(120, 171, 70, 16);
 
 		lblRestoapp.setBounds(12, 118, 156, 47);
 		buttonsPane.add(lblRestoapp);
-
+		
 		JLabel lblGroup = new JLabel("Group 19");
 		lblGroup.setBounds(59, 171, 56, 16);
 
 		buttonsPane.add(lblGroup);
-
+		
 		JButton btnAddTable = new JButton("Add Table");
 		btnAddTable.setBounds(361, 70, 208, 25);
 		buttonsPane.add(btnAddTable);
-		btnAddTable.addActionListener(new java.awt.event.ActionListener() {
+		btnAddTable.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new CreateTablePage().setVisible(true);
 			}
 		});
-
+		
 		JButton btnDeleteTable = new JButton("Delete Table");
 		btnDeleteTable.setBounds(361, 110, 208, 25);
 		buttonsPane.add(btnDeleteTable);
-		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
+		btnDeleteTable.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new DeleteTable().setVisible(true);
 			}
 		});
-
+		
 		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
 		btnUpdateTableOr.setBounds(361, 150, 208, 25);
 		buttonsPane.add(btnUpdateTableOr);
-		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
+		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new UpdateTablePage().setVisible(true);
 			}
 		});
-
+		
 		JButton btnMoveTable = new JButton("Move Table");
 		btnMoveTable.setBounds(361, 190, 208, 25);
 		buttonsPane.add(btnMoveTable);
-		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
+		btnMoveTable.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new RestoAppPage().setVisible(true);
 			}
 		});
-
+		
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setBounds(361, 230, 208, 25);
 		buttonsPane.add(btnMenu);
-		btnMenu.addActionListener(new java.awt.event.ActionListener() {
+		btnMenu.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new DisplayMenu().setVisible(true);
 			}
 		});
-
+		
 		JLabel lblFeatures = new JLabel("Features");
 		lblFeatures.setBounds(440, 27, 56, 16);
 		lblFeatures.setFont(new Font("Serif", Font.BOLD, 14));

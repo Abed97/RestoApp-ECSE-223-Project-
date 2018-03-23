@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
@@ -15,12 +16,16 @@ import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 public class DeleteTable extends JFrame {
 
 	private JPanel contentPane;
 	private JTable dispTable;
+	private String error = null;
+	private JLabel errorMessage;
+
 
 	/**
 	 * Launch the application.
@@ -34,6 +39,9 @@ public class DeleteTable extends JFrame {
 	 * Create the frame
 	 */
 	public void initComponents() {
+		errorMessage = new JLabel(error);
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(10, 370, 350, 29);
 		// Get restoApp object
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		// Set Panel
@@ -41,6 +49,7 @@ public class DeleteTable extends JFrame {
 		setBounds(100, 100, 649, 483);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.add(errorMessage);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -69,6 +78,7 @@ public class DeleteTable extends JFrame {
 		// Set listener for Delete Button
 		btnDeleteTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				error = null;
 				// Get selected row
 				int selectedRow = dispTable.getSelectedRow();
 				// Make sure a row was selected
@@ -79,8 +89,8 @@ public class DeleteTable extends JFrame {
 					try {
 						RestoAppController.removeTable(deleteTable);
 					} catch (InvalidInputException e1) {
-						// Do nothing
-						e1.printStackTrace();
+						error = e1.getMessage();
+						errorMessage.setText(error);
 					}
 					refreshData(model, restoApp);
 				}
@@ -96,6 +106,7 @@ public class DeleteTable extends JFrame {
 	 */
 	private void refreshData(DefaultTableModel model, RestoApp restoApp) {
 		// Clear table data
+		errorMessage.setText(error);
 		for (int i = model.getRowCount() - 1; i >= 0; i--) {
 			model.removeRow(i);
 		}
