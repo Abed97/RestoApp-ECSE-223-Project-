@@ -203,22 +203,25 @@ public class RestoAppController {
 	 */
 	public static void toggleUse(List<Table> tables) throws InvalidInputException {
 		// Check all tables are all available or in use (in same state)
-		for (int i = 0; i < tables.size() - 2; i++) {
+		for (int i = 0; i < tables.size() - 1; i++) {
 			if (tables.get(i).getStatus() != tables.get(i + 1).getStatus()) {
 				throw new InvalidInputException("All selected tables need to be available/in use");
 			}
 		}
-		
+
 		// Switch status of every table
 		if (tables.get(0).getStatus() == Status.Available) {
 			startOrder(tables);
 		} else {
-			//endOrder(tempOrder);
+			for (Table aTable : tables) {
+				endOrder(aTable.getOrder(aTable.getOrders().size() - 1));
+			}
 		}
 	}
 
 	/**
 	 * Start order for table(s)
+	 * 
 	 * @param tables
 	 * @throws InvalidInputException
 	 */
@@ -270,9 +273,9 @@ public class RestoAppController {
 		RestoAppApplication.save();
 	}
 
-	
-	
-	/** End order for table(s)
+	/**
+	 * End order for table(s)
+	 * 
 	 * @param order
 	 * @throws InvalidInputException
 	 */
@@ -293,15 +296,17 @@ public class RestoAppController {
 		List<Table> tables = order.getTables();
 
 		for (Table table : tables) {
-			if (table.numberOfOrders() < 0 && table.getOrder(table.numberOfOrders() - 1).equals(order)) {
+			if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders() - 1).equals(order)) {
 				table.endOrder(order);
 			}
+			if (tables.isEmpty())
+				break;
 		}
 
 		if (allTablesAvailableorDifferentCurrentOrder(tables, order)) {
 			r.removeCurrentOrder(order);
 		}
-		
+
 		RestoAppApplication.save();
 	}
 
@@ -312,7 +317,7 @@ public class RestoAppController {
 				tableAvailable = false;
 			}
 
-			if (!aTable.getOrder(Table.minimumNumberOfOrders() - 1).equals(order)) {
+			if (!aTable.getOrder(aTable.getOrders().size() - 1).equals(order)) {
 				differentCurrentOrder = true;
 			}
 		}
