@@ -11,9 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
 
@@ -24,36 +28,68 @@ public class TableVisualizer extends JPanel {
 	// UI elements
 	private List<Rectangle2D> tableRectangles = new ArrayList<Rectangle2D>();
 	private List<Table> currentTables = new ArrayList<Table>();
+	private JButton btnConfirm;
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
 	// data elements
 	private HashMap<Rectangle2D, Table> tables;
 	Table selectedTable;
+	private List<Table> selectedTables = new ArrayList<Table>();
+	private Boolean confirm = false;
 
-	public TableVisualizer(List<Table> currentTables) {
+	public TableVisualizer(List<Table> currentTables, JButton btnConfirm) {
 		super();
 		init();
 		this.currentTables = currentTables;
+		this.btnConfirm = btnConfirm;
 	}
 
 	private void init() {
+		Boolean alreadySelected = false;
 		tables = new HashMap<Rectangle2D, Table>();
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				Boolean alreadySelected = false;
 				int x = e.getX();
 				int y = e.getY();
 				for (Rectangle2D rectangle : tableRectangles) {
 					if (rectangle.contains(x, y)) {
+						// Get selected table from selected rectangle
 						selectedTable = tables.get(rectangle);
-						RestoAppController.toggleUse(selectedTable);
+
+						// Check if table was already selected
+						for (Table aTable : selectedTables) {
+							// If it was, set alreadySelected to true
+							if (selectedTable == aTable) {
+								alreadySelected = true;
+							}
+						}
+
+						// If alreadySelected is true, remove from selectedTables, else add it
+						if (alreadySelected) {
+							selectedTables.remove(selectedTable);
+						} else {
+							selectedTables.add(selectedTable);
+						}
+						
 						break;
 					}
 				}
 				repaint();
 			}
 		});
+	}
+
+	public void confirmSelection() throws InvalidInputException {
+		if (selectedTables.isEmpty())
+			throw new InvalidInputException("No tables selected");
+
+		RestoAppController.toggleUse(selectedTables);
+		
+		selectedTables = new ArrayList<Table>();
+		repaint();
 	}
 
 	public void setCurrentTables(List<Table> currentTables) {
@@ -97,11 +133,19 @@ public class TableVisualizer extends JPanel {
 						SCALEFACTOR * table.getWidth(), SCALEFACTOR * table.getLength());
 				g2d.setColor(Color.WHITE);
 				g2d.fill(rectangle);
-				if (table.getStatus() == Status.Available) {
-					g2d.setColor(Color.BLACK);
-				} else {
+
+				g2d.setColor(Color.BLACK);
+				
+				if (table.getStatus() != Status.Available) {
 					g2d.setColor(Color.RED);
 				}
+				for (Table aTable : selectedTables) {
+					if (aTable == table) {
+						g2d.setColor(Color.BLUE);
+						confirm = true;
+					}
+				}
+				
 				g2d.draw(rectangle);
 				g2d.drawString(new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX(),
 						(int) rectangle.getCenterY());
@@ -149,6 +193,16 @@ public class TableVisualizer extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		doDrawing(g);
+		confirmButton();
+	}
+
+	public void confirmButton() {
+		if (confirm) {
+			btnConfirm.setVisible(true);
+		} else {
+			btnConfirm.setVisible(false);
+		}
+		confirm = false;
 	}
 
 }
