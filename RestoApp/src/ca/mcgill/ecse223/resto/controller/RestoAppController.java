@@ -219,10 +219,6 @@ public class RestoAppController {
 		}
 		
 		
-		//********************
-		for (Table aTable: RestoAppApplication.getRestoApp().getTables()) {
-			System.out.println(aTable.getStatusFullName());
-		}
 	}
 
 	/**
