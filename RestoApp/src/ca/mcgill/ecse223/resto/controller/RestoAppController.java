@@ -335,7 +335,7 @@ public class RestoAppController {
 			throw new InvalidInputException("Please Enter all fields");
 
 		}
-		if (currentdate.after(date) || currenttime.after(time)) {
+		if (currentdate.after(date) || ((currentdate==date)&&(currenttime.after(time)))) {
 			throw new InvalidInputException("Please enter a valid date/time");
 		}
 
