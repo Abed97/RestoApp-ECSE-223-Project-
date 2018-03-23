@@ -940,8 +940,14 @@ public class Table implements Serializable
     boolean billed= true;
    Order o=this.getOrder(this.numberOfOrders()-1);
    List <Seat> seats = this.getCurrentSeats();
+   List <Seat> seatsWithOrders = new ArrayList<Seat>();
+   List<OrderItem> orderItems= o.getOrderItems();
+   for (Seat s1: seats){
+   		for( OrderItem i :orderItems){
+   		if (s1.getOrderItems().contains(i)){ seatsWithOrders.add(s1);}
+   		}} 
    List< Bill> bills = o.getBills(); //bills that belong to current order
-   for( Seat s :seats){ //for each seat
+   for( Seat s :seatsWithOrders){ //for each seat
       boolean seatBilled=false;
      List <Bill> seatbills= s.getBills();
      for ( Bill sb : seatbills){ //for each bill in seat bills
