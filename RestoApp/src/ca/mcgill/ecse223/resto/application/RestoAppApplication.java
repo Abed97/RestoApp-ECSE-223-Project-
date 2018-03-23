@@ -11,6 +11,8 @@ import ca.mcgill.ecse223.resto.model.RestoApp;
 public class RestoAppApplication {
 	private static RestoApp restoApp;
 	private static String filename = "menu.resto";
+	private static MainMenu menu;
+	
 	
 	public static void main(String[] args) {
 		
@@ -18,7 +20,8 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenu().setVisible(true);
+                menu = new MainMenu();
+                menu.setVisible(true);
             }
         });
         
@@ -34,8 +37,10 @@ public class RestoAppApplication {
 	
 	public static void save() {
 		PersistenceObjectStream.serialize(restoApp);
-        new MainMenu().setVisible(true);
+        menu.validate();
+        menu.repaint();
 	}	
+	
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
