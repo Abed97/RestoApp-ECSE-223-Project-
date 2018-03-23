@@ -432,3 +432,15 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.
 !MESSAGE  WARN [2018-03-23 12:47:27,612] (ProjectAddEvaluator.java:visit:101) - Unable to add skip builder flag to added project 'P/RestoApp': Project 'RestoApp' is not open. Cause:
  (1) Project 'RestoApp' is not open.
 
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 13:17:37.688
+!MESSAGE  WARN [2018-03-23 13:17:37,688] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 13:17:37.689
+!MESSAGE  WARN [2018-03-23 13:17:37,689] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 13:17:37.690
+!MESSAGE  WARN [2018-03-23 13:17:37,689] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
