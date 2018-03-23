@@ -82,7 +82,6 @@ public class MakeReservation extends JFrame {
 		dateFormat = new SimpleDateFormat("hh:mm a");
 		DateFormat dateFormat1 = new SimpleDateFormat("MM/dd");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
