@@ -38,7 +38,8 @@ public class MainMenu extends JFrame {
 		// elements for error message
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
-		errorMessage.setBounds(10, 200, 350, 29);
+		errorMessage.setBounds(361, 500, 350, 29);
+		buttonsPane.add(errorMessage);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
@@ -53,12 +54,11 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					tableVisualizer.confirmSelection();
+					errorMessage.setText(null);
 				} catch (InvalidInputException e) {
-					// Do nothing
-					e.printStackTrace();
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
 				}
-				
-				
 			}
 		});
 		btnConfirm.setVisible(false);

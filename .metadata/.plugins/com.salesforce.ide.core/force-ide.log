@@ -17,3 +17,10 @@
  WARN [2018-03-23 13:17:37,688] (ConnectionFactory.java:clearCache:217) - No cached connections
  WARN [2018-03-23 13:17:37,689] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
  WARN [2018-03-23 13:17:37,689] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+ WARN [2018-03-23 17:09:02,613] (ProjectAddEvaluator.java:visit:86) - Unable to add skip builder flag to added project 'P/RestoApp': Project 'RestoApp' is not open. Cause:
+ (1) Project 'RestoApp' is not open.
+ WARN [2018-03-23 17:09:02,625] (ProjectAddEvaluator.java:visit:101) - Unable to add skip builder flag to added project 'P/RestoApp': Project 'RestoApp' is not open. Cause:
+ (1) Project 'RestoApp' is not open.
+ WARN [2018-03-23 17:18:29,002] (ConnectionFactory.java:clearCache:217) - No cached connections
+ WARN [2018-03-23 17:18:29,004] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+ WARN [2018-03-23 17:18:29,005] (MetadataFactory.java:clearCache:125) - No cached metadata stubs

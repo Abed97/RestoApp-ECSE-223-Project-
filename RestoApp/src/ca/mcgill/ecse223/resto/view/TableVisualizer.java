@@ -93,7 +93,12 @@ public class TableVisualizer extends JPanel {
 		if (selectedTables.isEmpty())
 			throw new InvalidInputException("No tables selected");
 
-		RestoAppController.toggleUse(selectedTables);
+		try {
+			RestoAppController.toggleUse(selectedTables);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 
 		selectedTables = new ArrayList<Table>();
 		repaint();

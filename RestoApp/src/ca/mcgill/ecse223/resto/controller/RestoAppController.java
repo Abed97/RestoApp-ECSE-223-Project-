@@ -203,9 +203,9 @@ public class RestoAppController {
 	 */
 	public static void toggleUse(List<Table> tables) throws InvalidInputException {
 		// Check all tables are all available or in use (in same state)
-		for (int i = 0; i < tables.size() - 2; i++) {
+		for (int i = 0; i <= tables.size() - 2; i++) {
 			if (tables.get(i).getStatus() != tables.get(i + 1).getStatus()) {
-				throw new InvalidInputException("All selected tables need to be available/in use");
+				throw new InvalidInputException("All selected tables need to be in the same state");
 			}
 		}
 		
