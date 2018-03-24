@@ -140,7 +140,7 @@ public class MainMenu extends JFrame {
 		buttonsPane.add(lblFeatures);
 		
 		JButton btnNewButton = new JButton("Make Reservation");
-		btnNewButton.setBounds(361, 308, 208, 25);
+		btnNewButton.setBounds(361, 270, 208, 25);
 		buttonsPane.add(btnNewButton);
 		btnNewButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

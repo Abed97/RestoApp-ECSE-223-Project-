@@ -29,12 +29,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+
 import com.toedter.calendar.JDayChooser;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.*;
@@ -53,12 +57,14 @@ public class MakeReservation extends JFrame {
 	private JTextField textField;
 	private JComboBox<String> comboBox_1;
 	private String error = null;
+	private String error1 = null;
 	private JLabel errorMessage;
+	private JLabel errorMessage1;
 	private SimpleDateFormat dateFormat;
 	private JComboBox comboBox;
 	private RestoApp restoApp = RestoAppApplication.getRestoApp();
 	private List<Table> tables;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -70,7 +76,7 @@ public class MakeReservation extends JFrame {
 		initComponents();
 		refreshData();
 	}
-	
+
 	public void initComponents() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -82,18 +88,22 @@ public class MakeReservation extends JFrame {
 		dateFormat = new SimpleDateFormat("hh:mm a");
 		DateFormat dateFormat1 = new SimpleDateFormat("MM/dd");
 
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 729, 534);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		errorMessage = new JLabel("");
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(33, 305, 243, 16);
+		contentPane.add(errorMessage);
 		
-		 errorMessage = new JLabel("");
-		 errorMessage.setForeground(Color.RED); errorMessage.setBounds(166, 224, 243,
-		 16); 
-		 contentPane.add(errorMessage);
-		 
+		errorMessage1 = new JLabel("");
+		errorMessage1.setForeground(Color.RED);
+		errorMessage1.setBounds(33, 211, 106, 16);
+		contentPane.add(errorMessage1);
+
 		// Number of people
 		JLabel lblPeople = new JLabel("People");
 		lblPeople.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,10 +121,9 @@ public class MakeReservation extends JFrame {
 		lblDate.setBounds(191, 52, 56, 16);
 		contentPane.add(lblDate);
 
-		
-		  dateChooser = new JDateChooser(); dateChooser.setBounds(166, 81, 117, 22);
-		 contentPane.add(dateChooser);
-		 
+		dateChooser = new JDateChooser();
+		dateChooser.setBounds(166, 81, 117, 22);
+		contentPane.add(dateChooser);
 
 		// Time
 		JLabel lblTime = new JLabel("Time");
@@ -142,6 +151,7 @@ public class MakeReservation extends JFrame {
 		// Phone Number
 		txtPhoneNumber = new JTextField();
 		txtPhoneNumber.setText("Phone Number");
+		
 		txtPhoneNumber.setBounds(33, 177, 116, 22);
 		contentPane.add(txtPhoneNumber);
 		txtPhoneNumber.setColumns(10);
@@ -149,7 +159,7 @@ public class MakeReservation extends JFrame {
 		// Email
 		txtEmail = new JTextField();
 		txtEmail.setText("Email");
-		txtEmail.setBounds(33, 212, 116, 22);
+		txtEmail.setBounds(33, 240, 116, 22);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 
@@ -167,7 +177,7 @@ public class MakeReservation extends JFrame {
 
 			}
 		});
-		btnComplete.setBounds(312, 176, 97, 25);
+		btnComplete.setBounds(166, 239, 117, 25);
 		contentPane.add(btnComplete);
 
 		comboBox = new JComboBox();
@@ -188,31 +198,40 @@ public class MakeReservation extends JFrame {
 				try {
 					addTableActionPerformed(evt1);
 				} catch (InvalidInputException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
 		});
 		btnNewButton.setBounds(166, 176, 117, 25);
 		contentPane.add(btnNewButton);
+		DefaultListModel listModel = new DefaultListModel();
+		for ( Reservation reservation : restoApp.getReservations()) {
+		for (int i = 0; i < reservation.getTables().size(); i++) {
+			
+		listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() + ", Tables: " + reservation.getTable(i).getNumber());
+
+		}
+		}
+		JList list = new JList(listModel);
+		list.setBounds(305, 144, 379, 296);
+		contentPane.add(list);
+		
+		JLabel lblReservations = new JLabel("Reservations");
+		lblReservations.setBounds(457, 115, 93, 16);
+		contentPane.add(lblReservations);
 	}
-	
 
-
-		// this is needed because the size of the window changes depending on whether an error message is shown or not
-		//pack();
-	
 	public void addTableActionPerformed(java.awt.event.ActionEvent evt1) throws InvalidInputException {
-		for ( Table table : restoApp.getCurrentTables()) {
-			if (table.getNumber() == (Integer)comboBox.getSelectedItem()) {
+		for (Table table : restoApp.getCurrentTables()) {
+			if (table.getNumber() == (Integer) comboBox.getSelectedItem()) {
 				if (tables.contains(table)) {
 					throw new InvalidInputException("Table already added");
 				}
-				tables.add(Table.getWithNumber((Integer)comboBox.getSelectedItem()));
+				tables.add(Table.getWithNumber((Integer) comboBox.getSelectedItem()));
 			}
 		}
-		
-		
+
 	}
 
 	public void addReservationActionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,35 +242,30 @@ public class MakeReservation extends JFrame {
 
 		try {
 
-			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.YEAR, 1988);
-			cal.set(Calendar.MONTH, Calendar.JANUARY);
-			cal.set(Calendar.DAY_OF_MONTH, 1);
-			//Date date = (Date) cal.getTime();
-			cal.set(Calendar.HOUR_OF_DAY, 12);
-			cal.set(Calendar.MINUTE, 22);
-			Time tim;
-			java.sql.Date date =  new java.sql.Date ((dateChooser.getDate()).getTime());
-			// Date date = new Date(22, 24, 22);
+			java.sql.Date date = new java.sql.Date((dateChooser.getDate()).getTime());
 			Time time = null;
 			try {
-				time = new Time(new java.sql.Date(dateFormat.parse((comboBox_1.getSelectedItem()).toString()).getTime()).getTime());
+				time = new Time(new java.sql.Date(dateFormat.parse((comboBox_1.getSelectedItem()).toString()).getTime())
+						.getTime());
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 			int numberInParty = Integer.parseInt(textField.getText());
 			String contactName = txtFirstName.getText();
 			String contactEmailAddress = txtEmail.getText();
 			String contactPhoneNumber = txtPhoneNumber.getText();
+			if (Pattern.matches("[a-zA-Z]+", txtPhoneNumber.getText()) == true || txtPhoneNumber.getText().length() != 10) {
+				error1 = "Invalid Number";
+				contentPane.add(errorMessage1);
+			}
 			RestoAppController.reserveTable(date, time, numberInParty, contactName, contactEmailAddress,
 					contactPhoneNumber, tables);
 
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 			contentPane.add(errorMessage);
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			error = "One or more input is either empty or is not a number";
 			contentPane.add(errorMessage);
 		}
@@ -262,7 +276,7 @@ public class MakeReservation extends JFrame {
 		}
 
 		// update visuals
-		 refreshData();
+		refreshData();
 	}
 
 	private void refreshData() {// error
