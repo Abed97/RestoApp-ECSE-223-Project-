@@ -207,6 +207,7 @@ public class MakeReservation extends JFrame {
 		contentPane.add(btnNewButton);
 		DefaultListModel listModel = new DefaultListModel();
 		for (Reservation reservation : restoApp.getReservations()) {
+			listModel.addElement(" ");
 			listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate()
 					+ ", Time: " + reservation.getTime());
 			listModel.addElement("Tables: ");
