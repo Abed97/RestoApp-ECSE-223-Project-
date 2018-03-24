@@ -98,7 +98,7 @@ public class MakeReservation extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(33, 305, 243, 16);
 		contentPane.add(errorMessage);
-		
+
 		errorMessage1 = new JLabel("");
 		errorMessage1.setForeground(Color.RED);
 		errorMessage1.setBounds(33, 211, 106, 16);
@@ -151,7 +151,7 @@ public class MakeReservation extends JFrame {
 		// Phone Number
 		txtPhoneNumber = new JTextField();
 		txtPhoneNumber.setText("Phone Number");
-		
+
 		txtPhoneNumber.setBounds(33, 177, 116, 22);
 		contentPane.add(txtPhoneNumber);
 		txtPhoneNumber.setColumns(10);
@@ -198,7 +198,7 @@ public class MakeReservation extends JFrame {
 				try {
 					addTableActionPerformed(evt1);
 				} catch (InvalidInputException e) {
-					
+
 					e.printStackTrace();
 				}
 			}
@@ -206,17 +206,20 @@ public class MakeReservation extends JFrame {
 		btnNewButton.setBounds(166, 176, 117, 25);
 		contentPane.add(btnNewButton);
 		DefaultListModel listModel = new DefaultListModel();
-		for ( Reservation reservation : restoApp.getReservations()) {
-		for (int i = 0; i < reservation.getTables().size(); i++) {
-			
-		listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() + ", Tables: " + reservation.getTable(i).getNumber());
+		for (Reservation reservation : restoApp.getReservations()) {
+			listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate()
+					+ ", Time: " + reservation.getTime());
+			listModel.addElement("Tables: ");
+			for (int i = 0; i < reservation.getTables().size(); i++) {
 
-		}
+				listModel.addElement(reservation.getTable(i).getNumber());
+
+			}
 		}
 		JList list = new JList(listModel);
 		list.setBounds(305, 144, 379, 296);
 		contentPane.add(list);
-		
+
 		JLabel lblReservations = new JLabel("Reservations");
 		lblReservations.setBounds(457, 115, 93, 16);
 		contentPane.add(lblReservations);
@@ -248,14 +251,15 @@ public class MakeReservation extends JFrame {
 				time = new Time(new java.sql.Date(dateFormat.parse((comboBox_1.getSelectedItem()).toString()).getTime())
 						.getTime());
 			} catch (ParseException e) {
-			
+
 				e.printStackTrace();
 			}
 			int numberInParty = Integer.parseInt(textField.getText());
 			String contactName = txtFirstName.getText();
 			String contactEmailAddress = txtEmail.getText();
 			String contactPhoneNumber = txtPhoneNumber.getText();
-			if (Pattern.matches("[a-zA-Z]+", txtPhoneNumber.getText()) == true || txtPhoneNumber.getText().length() != 10) {
+			if (Pattern.matches("[a-zA-Z]+", txtPhoneNumber.getText()) == true
+					|| txtPhoneNumber.getText().length() != 10) {
 				error1 = "Invalid Number";
 				contentPane.add(errorMessage1);
 			}
