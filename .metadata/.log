@@ -738,3 +738,376 @@ RestoApp/menu.resto
 	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:455)
 	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:299)
 	... 10 more
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 18:19:24.077
+!MESSAGE  WARN [2018-03-23 18:19:24,065] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 18:19:24.078
+!MESSAGE  WARN [2018-03-23 18:19:24,077] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 18:19:24.078
+!MESSAGE  WARN [2018-03-23 18:19:24,078] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-23 20:40:46.340 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-23 20:40:55.462
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.702
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 278.8 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.885
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.888
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.898
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.905
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.912
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:05.978
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:07.693
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:07.844
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-23 20:41:07.867
+!MESSAGE Analyzed Lightning System JavaScript Support in 21.20 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-23 20:41:09.825
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 20:57:35.415
+!MESSAGE  WARN [2018-03-23 20:57:35,405] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 20:57:35.415
+!MESSAGE  WARN [2018-03-23 20:57:35,415] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 20:57:35.416
+!MESSAGE  WARN [2018-03-23 20:57:35,416] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-23 21:21:17.676 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-23 21:21:24.941
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:34.948
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 214.7 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.150
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.153
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.161
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.167
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.170
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:35.198
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:36.355
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:36.548
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:21:36.562
+!MESSAGE Analyzed Lightning System JavaScript Support in 13.16 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-23 21:21:38.247
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY org.eclipse.egit.ui 4 0 2018-03-23 21:21:44.974
+!MESSAGE Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+!STACK 0
+org.eclipse.jgit.api.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:430)
+	at org.eclipse.jgit.api.PullCommand.call(PullCommand.java:357)
+	at org.eclipse.egit.core.op.PullOperation$1.run(PullOperation.java:200)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.egit.core.op.PullOperation.execute(PullOperation.java:232)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.execute(PullOperationUI.java:176)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.access$0(PullOperationUI.java:168)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI$1.runInWorkspace(PullOperationUI.java:141)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Caused by: org.eclipse.jgit.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.dircache.DirCacheCheckout.doCheckout(DirCacheCheckout.java:483)
+	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:455)
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:299)
+	... 10 more
+
+!ENTRY org.eclipse.egit.ui 4 0 2018-03-23 21:22:15.420
+!MESSAGE Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+!STACK 0
+org.eclipse.jgit.api.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:430)
+	at org.eclipse.jgit.api.PullCommand.call(PullCommand.java:357)
+	at org.eclipse.egit.core.op.PullOperation$1.run(PullOperation.java:200)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.egit.core.op.PullOperation.execute(PullOperation.java:232)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.execute(PullOperationUI.java:176)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.access$0(PullOperationUI.java:168)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI$1.runInWorkspace(PullOperationUI.java:141)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Caused by: org.eclipse.jgit.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.dircache.DirCacheCheckout.doCheckout(DirCacheCheckout.java:483)
+	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:455)
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:299)
+	... 10 more
+
+!ENTRY org.eclipse.egit.ui 4 0 2018-03-23 21:22:48.792
+!MESSAGE Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+!STACK 0
+org.eclipse.jgit.api.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:430)
+	at org.eclipse.jgit.api.PullCommand.call(PullCommand.java:357)
+	at org.eclipse.egit.core.op.PullOperation$1.run(PullOperation.java:200)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.egit.core.op.PullOperation.execute(PullOperation.java:232)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.execute(PullOperationUI.java:176)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.access$0(PullOperationUI.java:168)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI$1.runInWorkspace(PullOperationUI.java:141)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Caused by: org.eclipse.jgit.errors.CheckoutConflictException: Checkout conflict with files: 
+RestoApp/bin/ca/mcgill/ecse223/resto/view/MainMenu.class
+RestoApp/menu.resto
+RestoApp/src/ca/mcgill/ecse223/resto/view/MainMenu.java
+	at org.eclipse.jgit.dircache.DirCacheCheckout.doCheckout(DirCacheCheckout.java:483)
+	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:455)
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:299)
+	... 10 more
+
+!ENTRY org.eclipse.ui.ide 4 4 2018-03-23 21:23:22.394
+!MESSAGE Problems occurred refreshing the selected resources.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2018-03-23 21:23:22.394
+!MESSAGE The project description file (.project) for 'RestoApp' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+
+!ENTRY org.eclipse.ui.ide 4 4 2018-03-23 21:23:52.267
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2018-03-23 21:23:52.268
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2018-03-23 21:23:52.268
+!MESSAGE The project description file (.project) for 'RestoApp' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:23:53.192
+!MESSAGE  WARN [2018-03-23 21:23:53,183] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:23:53.193
+!MESSAGE  WARN [2018-03-23 21:23:53,192] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:23:53.193
+!MESSAGE  WARN [2018-03-23 21:23:53,193] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-23 21:24:00.798 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-23 21:24:06.720
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.210
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 277.9 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.425
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.428
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.445
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.453
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.456
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:18.471
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:19.382
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:20.070
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:20.086
+!MESSAGE Analyzed Lightning System JavaScript Support in 14.54 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-23 21:24:21.837
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:24:37.660
+!MESSAGE  WARN [2018-03-23 21:24:37,649] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:24:37.660
+!MESSAGE  WARN [2018-03-23 21:24:37,660] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:24:37.661
+!MESSAGE  WARN [2018-03-23 21:24:37,661] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+
+!SESSION 2018-03-23 21:24:46.028 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-23 21:24:52.553
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.435
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 208.2 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.610
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.623
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.632
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.640
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.644
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:57.679
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:58.617
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:58.730
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-23 21:24:58.744
+!MESSAGE Analyzed Lightning System JavaScript Support in 12.03 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-23 21:25:00.604
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:25:15.629
+!MESSAGE  WARN [2018-03-23 21:25:15,624] (ProjectAddEvaluator.java:visit:86) - Unable to add skip builder flag to added project 'P/RestoApp': Project 'RestoApp' is not open. Cause:
+ (1) Project 'RestoApp' is not open.
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 21:25:15.631
+!MESSAGE  WARN [2018-03-23 21:25:15,631] (ProjectAddEvaluator.java:visit:101) - Unable to add skip builder flag to added project 'P/RestoApp': Project 'RestoApp' is not open. Cause:
+ (1) Project 'RestoApp' is not open.
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 23:28:36.059
+!MESSAGE  WARN [2018-03-23 23:28:36,058] (ConnectionFactory.java:clearCache:217) - No cached connections
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 23:28:36.060
+!MESSAGE  WARN [2018-03-23 23:28:36,060] (DescribeObjectRegistry.java:clearCache:660) - No cached describes
+
+
+!ENTRY com.salesforce.ide.core 2 0 2018-03-23 23:28:36.061
+!MESSAGE  WARN [2018-03-23 23:28:36,060] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
+

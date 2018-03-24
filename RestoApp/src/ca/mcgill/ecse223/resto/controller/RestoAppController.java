@@ -342,6 +342,14 @@ public class RestoAppController {
 		if ( (currentdate.after(date)) || ((currentdate==date)&&(currenttime.after(time)))) {
 			throw new InvalidInputException("Please enter a valid date/time");
 		}
+		
+		if (!contactEmailAddress.contains("@") || !contactEmailAddress.contains(".")) {
+			throw new InvalidInputException("Please enter a valid e-mail address");
+		}
+		
+		if (!contactPhoneNumber.matches("[0-9]+")) {
+			throw new InvalidInputException("Please enter a valid phone number");
+		}
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();

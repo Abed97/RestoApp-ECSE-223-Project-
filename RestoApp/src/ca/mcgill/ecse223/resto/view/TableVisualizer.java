@@ -15,8 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
 
@@ -126,7 +128,7 @@ public class TableVisualizer extends JPanel {
 				g2d.fill(rectangle);
 
 				g2d.setColor(Color.BLACK);
-				
+
 				if (table.getStatus() != Status.Available) {
 					g2d.setColor(Color.RED);
 				}
@@ -141,8 +143,40 @@ public class TableVisualizer extends JPanel {
 						(int) rectangle.getCenterY());
 				g2d.drawString(table.getStatusFullName(), (int) (rectangle.getCenterX() - 0.25 * rectangle.getWidth()),
 						(int) (rectangle.getCenterY() + 0.25 * rectangle.getHeight()));
-				tableRectangles.add(rectangle);
-				tables.put(rectangle, table);
+				ArrayList<Reservation> tableReservations = new ArrayList<Reservation>();
+				for(Reservation reservation: RestoAppApplication.getRestoApp().getReservations()) {
+					if(reservation.getTables().contains(table)) {
+						tableReservations.add(reservation);
+					}
+				}
+				if (tableReservations.size() > 0) {
+					Reservation r=tableReservations.get(0);
+					for(int k=1; k<tableReservations.size();k++) {
+
+
+						if(tableReservations.get(k).getDate().before(r.getDate())) {
+							r=tableReservations.get(k);
+
+						}
+
+						else if (tableReservations.get(k).getDate().equals(r.getDate())){
+							if (tableReservations.get(k).getTime().before(r.getTime())) {
+								r=tableReservations.get(k);
+							}
+						}
+
+						String s="Next Reservation: "+r.getDate().toString()+
+								" ,"+r.getTime().toString();
+						g2d.clearRect((int) (rectangle.getCenterX() - 0.5 * rectangle.getWidth()),
+								(int) (rectangle.getCenterY() - 15 - 0.25 * rectangle.getHeight()),270, 15);
+						g2d.drawString(s, (int) (rectangle.getCenterX() - 0.5 * rectangle.getWidth()),
+								(int) (rectangle.getCenterY() - 0.25 * rectangle.getHeight()));
+					}
+					tableRectangles.add(rectangle);
+					tables.put(rectangle, table);
+					g2d.draw(rectangle);
+
+				}
 			}
 		}
 	}

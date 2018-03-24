@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
@@ -48,7 +49,7 @@ public class MainMenu extends JFrame {
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		JButton btnConfirm = new JButton("Confirm Selection");
-		btnConfirm.setBounds(361, 270, 208, 25);
+		btnConfirm.setBounds(361, 310, 208, 25);
 		buttonsPane.add(btnConfirm);
 		btnConfirm.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,7 +70,10 @@ public class MainMenu extends JFrame {
 		contentPane.add(buttonsPane);
 		getContentPane().add(contentPane, BorderLayout.CENTER);
 		buttonsPane.setLayout(null);
-		
+		JScrollPane scroll = new JScrollPane(contentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(0, 0, 1920, 1980);
+		getContentPane().add(scroll, BorderLayout.CENTER);
+
 
 		
 		JLabel lblRestoapp = new JLabel("RestoApp");

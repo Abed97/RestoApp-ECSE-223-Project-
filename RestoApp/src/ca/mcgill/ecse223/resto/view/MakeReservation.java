@@ -1,51 +1,38 @@
 package ca.mcgill.ecse223.resto.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.sun.xml.internal.ws.api.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
-import com.toedter.calendar.JDayChooser;
+import com.toedter.calendar.JDateChooser;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
-import ca.mcgill.ecse223.resto.*;
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
-
-import com.toedter.calendar.JDateChooser;
-import java.awt.event.ActionListener;
 
 public class MakeReservation extends JFrame {
 
@@ -64,6 +51,7 @@ public class MakeReservation extends JFrame {
 	private JComboBox comboBox;
 	private RestoApp restoApp = RestoAppApplication.getRestoApp();
 	private List<Table> tables;
+	DefaultListModel listModel;
 
 	/**
 	 * Launch the application.
@@ -205,24 +193,6 @@ public class MakeReservation extends JFrame {
 		});
 		btnNewButton.setBounds(166, 176, 117, 25);
 		contentPane.add(btnNewButton);
-		DefaultListModel listModel = new DefaultListModel();
-		for (Reservation reservation : restoApp.getReservations()) {
-			listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate()
-					+ ", Time: " + reservation.getTime());
-			listModel.addElement("Tables: ");
-			for (int i = 0; i < reservation.getTables().size(); i++) {
-
-				listModel.addElement(reservation.getTable(i).getNumber());
-
-			}
-		}
-		JList list = new JList(listModel);
-		list.setBounds(305, 144, 379, 296);
-		contentPane.add(list);
-
-		JLabel lblReservations = new JLabel("Reservations");
-		lblReservations.setBounds(457, 115, 93, 16);
-		contentPane.add(lblReservations);
 	}
 
 	public void addTableActionPerformed(java.awt.event.ActionEvent evt1) throws InvalidInputException {
@@ -294,5 +264,25 @@ public class MakeReservation extends JFrame {
 			// dateChooser.cleanup();
 			comboBox_1.setSelectedIndex(-1);
 		}
+		listModel = new DefaultListModel();
+		restoApp = RestoAppApplication.getRestoApp();
+		for (Reservation reservation : restoApp.getReservations()) {
+			listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate()
+					+ ", Time: " + reservation.getTime());
+			listModel.addElement("Tables: ");
+			for (int i = 0; i < reservation.getTables().size(); i++) {
+
+				listModel.addElement(reservation.getTable(i).getNumber());
+
+			}
+		}
+		JList list = new JList(listModel);
+		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(305, 144, 379, 296);
+		contentPane.add(scroll);
+
+		JLabel lblReservations = new JLabel("Reservations");
+		lblReservations.setBounds(457, 115, 93, 16);
+		contentPane.add(lblReservations);
 	}
 }
