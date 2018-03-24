@@ -1111,3 +1111,53 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.
 !ENTRY com.salesforce.ide.core 2 0 2018-03-23 23:28:36.061
 !MESSAGE  WARN [2018-03-23 23:28:36,060] (MetadataFactory.java:clearCache:125) - No cached metadata stubs
 
+!SESSION 2018-03-23 23:50:30.062 -----------------------------------------------
+eclipse.buildId=4.7.2.M20171130-0510
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_CA
+Framework arguments:  -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.modeling.product -keyring /Users/jason/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-03-23 23:50:37.478
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.412
+!MESSAGE Started Node.js v5.9.1 (V8 v4.6.85.31) in 247.4 ms
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.596
+!MESSAGE Loading tern.js...
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.599
+!MESSAGE Loading library ecma5
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.610
+!MESSAGE Loading library browser
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.625
+!MESSAGE Loading library ecma6
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.629
+!MESSAGE Loading plugin doc_comment
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:48.646
+!MESSAGE Loading plugin aura
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:49.855
+!MESSAGE Tern.js (0.19.0) ready
+
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:50.013
+!MESSAGE ':core' project is not available. Please add '<module>:core</module>' to your list of partial build modules. If using para, set 'ide-search-all-files: true' and run 'para refresh'
+
+!ENTRY mega.js.tern 1 0 2018-03-23 23:50:50.027
+!MESSAGE Analyzed Lightning System JavaScript Support in 13.37 ms
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2018-03-23 23:50:51.887
+!MESSAGE Setup tasks were performed during startup updating 5 preferences. See '/Applications/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.oomph.setup/setup.log' for details

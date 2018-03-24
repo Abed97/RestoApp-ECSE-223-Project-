@@ -193,28 +193,6 @@ public class MakeReservation extends JFrame {
 		});
 		btnNewButton.setBounds(166, 176, 117, 25);
 		contentPane.add(btnNewButton);
-<<<<<<< HEAD
-=======
-		DefaultListModel listModel = new DefaultListModel();
-		for (Reservation reservation : restoApp.getReservations()) {
-			listModel.addElement(" ");
-			listModel.addElement("Client Name: " + reservation.getContactName() + ", Date: " + reservation.getDate()
-					+ ", Time: " + reservation.getTime());
-			listModel.addElement("Tables: ");
-			for (int i = 0; i < reservation.getTables().size(); i++) {
-
-				listModel.addElement(reservation.getTable(i).getNumber());
-
-			}
-		}
-		JList list = new JList(listModel);
-		list.setBounds(305, 144, 379, 296);
-		contentPane.add(list);
-
-		JLabel lblReservations = new JLabel("Reservations");
-		lblReservations.setBounds(457, 115, 93, 16);
-		contentPane.add(lblReservations);
->>>>>>> be33ea3647bbd8bb82d9ce12ab056e59262af9f6
 	}
 
 	public void addTableActionPerformed(java.awt.event.ActionEvent evt1) throws InvalidInputException {
