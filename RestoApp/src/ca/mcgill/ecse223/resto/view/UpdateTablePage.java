@@ -1,6 +1,5 @@
 package ca.mcgill.ecse223.resto.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -37,58 +36,38 @@ public class UpdateTablePage extends JFrame {
 	private JComboBox comboBox;
 	private JRadioButton rdbtnSameNumberOf;
 	private String error = null;
-
+	private int tableNumber = -1;
 
 	/**
 	 * Create the dialog.
 	 */
 
-	public UpdateTablePage() {
+	public UpdateTablePage(int tableNumber) {
+		// Set tableNumber for this class
+		this.tableNumber = tableNumber;
 		initComponents();
 		refreshData();
-
 	}
 
-
 	public void initComponents() {
-
-
-
 		// elements for error message
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(10, 200, 350, 29);
 
-		setTitle("Update Table or Seats");
+		setTitle("Update Table/Seats of table " + tableNumber);
 		setBounds(100, 100, 511, 307);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane, BorderLayout.CENTER);
 		contentPane.setLayout(null);
 
-
-		JLabel lblOldTableNumber = new JLabel("Old table number");
-		lblOldTableNumber.setBounds(12, 78, 121, 16);
-		contentPane.add(lblOldTableNumber);
-
 		JLabel lblNewTableNumber = new JLabel("New table number");
-		lblNewTableNumber.setBounds(12, 120, 105, 16);
+		lblNewTableNumber.setBounds(12, 77, 105, 16);
 		contentPane.add(lblNewTableNumber);
 
-		comboBox = new JComboBox();
-		comboBox.setBounds(145, 75, 52, 22);
-		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List<Table> currentTables = restoApp.getCurrentTables();
-		ArrayList<Integer> numTable = new ArrayList<Integer>();
-		for (Table currentTable : currentTables) {
-			numTable.add(currentTable.getNumber());
-			Collections.sort(numTable);
-		}
-		comboBox.setModel(new DefaultComboBoxModel(numTable.toArray()));
-		contentPane.add(comboBox);
-
 		textField = new JTextField();
-		textField.setBounds(145, 117, 52, 22);
+		textField.setBounds(145, 74, 52, 22);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
@@ -99,12 +78,12 @@ public class UpdateTablePage extends JFrame {
 
 		rdbtnSameNumberOf = new JRadioButton("Same number of seats");
 		rdbtnSameNumberOf.setBounds(276, 74, 170, 25);
-		rdbtnSameNumberOf.addActionListener(new java.awt.event.ActionListener(){
+		rdbtnSameNumberOf.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				if(rdbtnSameNumberOf.isSelected()) {
+				if (rdbtnSameNumberOf.isSelected()) {
 					textField_1.setEditable(false);
 				}
-				if(!rdbtnSameNumberOf.isSelected()) {
+				if (!rdbtnSameNumberOf.isSelected()) {
 					textField_1.setEditable(true);
 				}
 			}
@@ -119,7 +98,7 @@ public class UpdateTablePage extends JFrame {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setBounds(253, 180, 97, 25);
 		contentPane.add(btnUpdate);
-		btnUpdate.addActionListener(new java.awt.event.ActionListener(){
+		btnUpdate.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnUpdateTableActionPerformed(evt);
 			}
@@ -130,6 +109,7 @@ public class UpdateTablePage extends JFrame {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
 	}
+
 	private void refreshData() {// error
 		errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
@@ -143,44 +123,44 @@ public class UpdateTablePage extends JFrame {
 				numTable.add(currentTable.getNumber());
 			}
 			Collections.sort(numTable);
-			comboBox.setModel(new DefaultComboBoxModel(numTable.toArray()));
 		}
 
 	}
+
 	private void btnUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {
-		//clear error message
-				error = null;
-				// call the controller
+		// clear error message
+		error = null;
+		// call the controller
 
-				try {
-					int tableNumber = (Integer)(comboBox.getSelectedItem());
-					int newTableNumber = Integer.parseInt(textField.getText());
-					boolean hasSameSeats = rdbtnSameNumberOf.isSelected();
-					int newSeatsNum;
-					if (hasSameSeats) {
-						newSeatsNum = 1;
-					}else {
-						newSeatsNum = Integer.parseInt(textField_1.getText());
-					}
-					
-					RestoAppController.updateTableOrSeats(tableNumber, newTableNumber, newSeatsNum, hasSameSeats);
+		try {
+			int newTableNumber = Integer.parseInt(textField.getText());
+			boolean hasSameSeats = rdbtnSameNumberOf.isSelected();
+			int newSeatsNum;
+			if (hasSameSeats) {
+				newSeatsNum = 1;
+			} else {
+				newSeatsNum = Integer.parseInt(textField_1.getText());
+			}
 
-				}
-				catch (InvalidInputException e) {
-					error = e.getMessage();
-					contentPane.add(errorMessage);
-				}
-				catch (NumberFormatException e) {
-					error = "One or more input is either empty or is not a number";
-					contentPane.add(errorMessage);
-				}
+			RestoAppController.updateTableOrSeats(tableNumber, newTableNumber, newSeatsNum, hasSameSeats);
+			
+			// Set tableNumber to new number (so that it can be used as the old number next)
+			tableNumber = newTableNumber;
+			
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+			contentPane.add(errorMessage);
+		} catch (NumberFormatException e) {
+			error = "One or more input is either empty or is not a number";
+			contentPane.add(errorMessage);
+		}
 
-				catch (NullPointerException e) {
-					error = "Please select a table";
-					contentPane.add(errorMessage);
-				}
+		catch (NullPointerException e) {
+			error = "Please select a table";
+			contentPane.add(errorMessage);
+		}
 
-				// update visuals
-				refreshData();
+		// update visuals
+		refreshData();
 	}
 }

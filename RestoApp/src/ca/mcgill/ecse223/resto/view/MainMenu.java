@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -45,11 +43,11 @@ public class MainMenu extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
-		setBounds(0, 0, 1920, 1080);
+		setBounds(0, 0, 1200, 900);
 		getContentPane().setLayout(new BorderLayout());
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JButton btnConfirm = new JButton("Confirm Selection");
+		JButton btnConfirm = new JButton("Toggle table state");
 		btnConfirm.setBounds(361, 310, 208, 25);
 		buttonsPane.add(btnConfirm);
 		btnConfirm.addActionListener(new java.awt.event.ActionListener() {
@@ -75,7 +73,6 @@ public class MainMenu extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 0, 1920, 1980);
 		getContentPane().add(scroll, BorderLayout.CENTER);
-
 
 		JLabel lblRestoapp = new JLabel("RestoApp");
 		lblRestoapp.setFont(new Font("Serif", Font.BOLD, 36));
@@ -108,7 +105,14 @@ public class MainMenu extends JFrame {
 		buttonsPane.add(btnDeleteTable);
 		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new DeleteTable().setVisible(true);
+				try {
+					tableVisualizer.removeSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new DeleteTable().setVisible(true);
 			}
 		});
 
@@ -117,7 +121,14 @@ public class MainMenu extends JFrame {
 		buttonsPane.add(btnUpdateTableOr);
 		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new UpdateTablePage().setVisible(true);
+				try {
+					tableVisualizer.updateSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new UpdateTablePage().setVisible(true);
 			}
 		});
 
@@ -126,7 +137,14 @@ public class MainMenu extends JFrame {
 		buttonsPane.add(btnMoveTable);
 		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new RestoAppPage().setVisible(true);
+				try {
+					tableVisualizer.moveSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new RestoAppPage().setVisible(true);
 			}
 		});
 

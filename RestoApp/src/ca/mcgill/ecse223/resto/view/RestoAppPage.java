@@ -31,6 +31,7 @@ public class RestoAppPage extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField;
 	private String error = null;
+	private int tableNumber = -1;
 
 	/**
 	 * Launch the application.
@@ -39,9 +40,11 @@ public class RestoAppPage extends JFrame {
 
 	/**
 	 * Create the dialog.
+	 * @param tableNumber 
 	 */
 
-	public RestoAppPage() {
+	public RestoAppPage(int tableNumber) {
+		this.tableNumber  = tableNumber;
 		initComponents();
 		refreshData();
 
@@ -54,7 +57,7 @@ public class RestoAppPage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(10, 200, 350, 29);
 
-		setTitle("Move Table");
+		setTitle("Move table " + tableNumber);
 		setBounds(100, 100, 483, 324);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,23 +65,19 @@ public class RestoAppPage extends JFrame {
 		contentPane.setLayout(null);
 		{
 
-			JLabel lblTableNumber = new JLabel("Table Number");
-			lblTableNumber.setBounds(27, 40, 88, 16);
-			contentPane.add(lblTableNumber);
-
 
 			JLabel lblNewXPosition = new JLabel("New X Position");
-			lblNewXPosition.setBounds(27, 105, 105, 16);
+			lblNewXPosition.setBounds(143, 57, 105, 16);
 			contentPane.add(lblNewXPosition);
 
 			JLabel lblNewYPosition = new JLabel("New Y Position");
-			lblNewYPosition.setBounds(27, 173, 105, 16);
+			lblNewYPosition.setBounds(143, 125, 105, 16);
 			contentPane.add(lblNewYPosition);
 
 
 
 			JButton btnMoveTable = new JButton("Move Table");
-			btnMoveTable.setBounds(313, 233, 117, 29);
+			btnMoveTable.setBounds(184, 233, 117, 29);
 			contentPane.add(btnMoveTable);
 			btnMoveTable.addActionListener(new java.awt.event.ActionListener(){
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,20 +86,15 @@ public class RestoAppPage extends JFrame {
 
 			});
 
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(140, 35, 81, 26);
-			contentPane.add(textField);
-
 
 			textField_1 = new JTextField();
-			textField_1.setBounds(140, 100, 81, 26);
+			textField_1.setBounds(256, 52, 81, 26);
 			contentPane.add(textField_1);
 			textField_1.setColumns(10);
 
 			textField_2 = new JTextField();
 			textField_2.setColumns(10);
-			textField_2.setBounds(140, 168, 81, 26);
+			textField_2.setBounds(256, 120, 81, 26);
 			contentPane.add(textField_2);
 
 
@@ -115,7 +109,6 @@ public class RestoAppPage extends JFrame {
 		if (error == null || error.length() == 0) {
 			// populate page with data
 
-			textField.setText("");
 			textField_1.setText("");
 			textField_2.setText("");
 
@@ -135,11 +128,10 @@ public class RestoAppPage extends JFrame {
 
 		try {
 
-			int number = Integer.parseInt(textField.getText());
 			int x = Integer.parseInt(textField_1.getText());
 			int y = Integer.parseInt(textField_2.getText());
 
-			RestoAppController.moveTable(number, x,y);
+			RestoAppController.moveTable(tableNumber, x,y);
 
 		}
 		catch (InvalidInputException e) {

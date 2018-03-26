@@ -50,17 +50,27 @@ public class TableVisualizer extends JPanel {
 		this.btnConfirm = btnConfirm;
 	}
 
+	/**
+	 * Mouse listeners for mouse clicks (right or left) and mouse movement
+	 * 
+	 */
 	private void init() {
 		tables = new HashMap<Rectangle2D, Table>();
+
+		// When mouse clicked (right or left) on rectangle
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Boolean alreadySelected = false;
 				int x = e.getX();
 				int y = e.getY();
+				// Check if mouse is clicked on rectangle
 				for (Rectangle2D rectangle : tableRectangles) {
 					if (rectangle.contains(x, y)) {
+						// get table from clicked rectanlge from HashMap
 						selectedTable = tables.get(rectangle);
+
+						// If left click, select table
 						if (SwingUtilities.isLeftMouseButton(e)) {
 							for (Table aTable : selectedTables) {
 								// If it was, set alreadySelected to true
@@ -75,6 +85,8 @@ public class TableVisualizer extends JPanel {
 								selectedTables.add(selectedTable);
 							}
 							break;
+
+							// If right click, open order page
 						} else if (SwingUtilities.isRightMouseButton(e)) {
 							if (selectedTable.getStatus() == Status.Available) {
 								AddToOrderPage addToOrderPage = new AddToOrderPage(selectedTable);
@@ -85,12 +97,13 @@ public class TableVisualizer extends JPanel {
 						}
 					}
 				}
+				// Repaint table visualizer
 				repaint();
 			}
 		});
 
+		// When mouse moved onto a rectangle
 		addMouseMotionListener(new MouseMotionListener() {
-
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				int x = e.getX();
@@ -98,9 +111,12 @@ public class TableVisualizer extends JPanel {
 				Cursor cursor;
 				Reservation r = null;
 				String s = "No reservation";
+				// Check if mouse is moving on a rectangle
 				for (Rectangle2D rectangle : tableRectangles) {
 					if (rectangle.contains(x, y)) {
 						selectedTable = tables.get(rectangle);
+
+						// Get reservations of table the mouse is hovering over
 						ArrayList<Reservation> tableReservations = new ArrayList<Reservation>();
 						for (Reservation reservation : RestoAppApplication.getRestoApp().getReservations()) {
 							if (reservation.getTables().contains(selectedTable)) {
@@ -108,24 +124,31 @@ public class TableVisualizer extends JPanel {
 							}
 						}
 
+						// If there are reservations
 						if (tableReservations.size() > 0) {
+							// Get first reservation
 							r = tableReservations.get(0);
-							for (int k = 0; k < tableReservations.size(); k++) {
-
-								if (tableReservations.get(k).getDate().before(r.getDate())) {
-									r = tableReservations.get(k);
-
+							// For every reservation
+							for (Reservation res : tableReservations) {
+								// Set reservation to r, if its date is before our currently selected
+								// reservation's date
+								if (res.getDate().before(r.getDate())) {
+									r = res;
 								}
 
-								else if (tableReservations.get(k).getDate().equals(r.getDate())) {
-									if (tableReservations.get(k).getTime().before(r.getTime())) {
-										r = tableReservations.get(k);
+								// Set reservation to r, if its time is before our currently selected
+								// reservation's time
+								else if (res.getDate().equals(r.getDate())) {
+									if (res.getTime().before(r.getTime())) {
+										r = res;
 									}
-								} else {
-									s = "No reservations";
 								}
 							}
 							s = "Next Reservation: " + r.getDate().toString() + " ," + r.getTime().toString();
+
+							// Otherwise there are no reservations
+						} else {
+							s = "No reservations";
 						}
 						cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 						setCursor(cursor);
@@ -148,6 +171,63 @@ public class TableVisualizer extends JPanel {
 
 	}
 
+	/**
+	 * Run toggle method on selected tables
+	 * 
+	 * @throws InvalidInputException
+	 */
+	public void removeSelection() throws InvalidInputException {
+		if (selectedTables.isEmpty())
+			throw new InvalidInputException("No tables selected");
+
+		for (Table aTable : selectedTables) {
+			RestoAppController.removeTable(aTable);
+		}
+
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
+
+	/**
+	 * Update selected table
+	 * 
+	 * @throws InvalidInputException
+	 */
+	public void updateSelection() throws InvalidInputException {
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+
+		new UpdateTablePage(selectedTables.get(0).getNumber()).setVisible(true);
+
+		// Clear selected tables
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
+
+	
+	/**
+	 * Move selected table
+	 * 
+	 * @throws InvalidInputException
+	 */
+	public void moveSelection() throws InvalidInputException {
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+
+		new RestoAppPage(selectedTables.get(0).getNumber()).setVisible(true);
+		
+		// Clear selected tables
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
+	
+	
 	/**
 	 * Run toggle method on selected tables
 	 * 

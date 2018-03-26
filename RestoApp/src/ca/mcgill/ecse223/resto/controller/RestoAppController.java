@@ -208,18 +208,20 @@ public class RestoAppController {
 				throw new InvalidInputException("All selected tables need to be in the same state");
 			}
 		}
-		
+
 		// Switch status of every table
 		if (tables.get(0).getStatus() == Status.Available) {
 			startOrder(tables);
 		} else {
-			Table sample = tables.get(0);
-			endOrder(sample.getOrder(sample.numberOfOrders() - 1));
+			for (Table sample : tables) {
+				endOrder(sample.getOrder(sample.numberOfOrders() - 1));
+			}
 		}
 	}
 
 	/**
 	 * Start order for table(s)
+	 * 
 	 * @param tables
 	 * @throws InvalidInputException
 	 */
@@ -271,9 +273,9 @@ public class RestoAppController {
 		RestoAppApplication.save();
 	}
 
-	
-	
-	/** End order for table(s)
+	/**
+	 * End order for table(s)
+	 * 
 	 * @param order
 	 * @throws InvalidInputException
 	 */
@@ -305,7 +307,7 @@ public class RestoAppController {
 		if (allTablesAvailableorDifferentCurrentOrder(tables, order)) {
 			r.removeCurrentOrder(order);
 		}
-		
+
 		RestoAppApplication.save();
 	}
 
@@ -339,14 +341,14 @@ public class RestoAppController {
 			throw new InvalidInputException("Please Enter all fields");
 
 		}
-		if ( (currentdate.after(date)) || ((currentdate==date)&&(currenttime.after(time)))) {
+		if ((currentdate.after(date)) || ((currentdate == date) && (currenttime.after(time)))) {
 			throw new InvalidInputException("Please enter a valid date/time");
 		}
-		
+
 		if (!contactEmailAddress.contains("@") || !contactEmailAddress.contains(".")) {
 			throw new InvalidInputException("Please enter a valid e-mail address");
 		}
-		
+
 		if (!contactPhoneNumber.matches("[0-9]+")) {
 			throw new InvalidInputException("Please enter a valid phone number");
 		}
