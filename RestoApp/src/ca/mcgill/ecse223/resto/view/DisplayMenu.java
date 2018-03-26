@@ -1,17 +1,18 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
@@ -50,10 +51,25 @@ public class DisplayMenu extends JFrame {
 			contentPane.add(list);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(22, 90, 151, 22);
 		comboBox.addItem("Select Category...");
 		for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
 			comboBox.addItem(RestoAppController.getItemCategories().get(i));
 		}
+		
+		JButton deleteButton = new JButton("Delete selected Item");
+		deleteButton.setBounds(22, 220, 151, 22);
+		contentPane.add(deleteButton);
+		
+		JTextField newItemName = new JTextField("new Item Name");
+		newItemName.setForeground(Color.gray);
+		newItemName.setBounds(22, 250, 151, 22);
+		contentPane.add(newItemName);
+		
+		JButton addButton = new JButton("Add Menu Item");
+		addButton.setBounds(22, 280, 151, 22);
+		contentPane.add(addButton);
+
 		ActionListener action = new ActionListener() {
 
 			@Override
@@ -75,7 +91,6 @@ public class DisplayMenu extends JFrame {
 		
 		
 		comboBox.addActionListener(action);
-		comboBox.setBounds(22, 89, 151, 22);
 		contentPane.add(comboBox);
 		comboBox.setVisible(true);
 		
