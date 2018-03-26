@@ -47,10 +47,11 @@ public class MainMenu extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JButton btnConfirm = new JButton("Toggle table state");
-		btnConfirm.setBounds(361, 310, 208, 25);
-		buttonsPane.add(btnConfirm);
-		btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+		// Initialize toggle button
+		JButton btnToggle = new JButton("Toggle table state");
+		btnToggle.setBounds(361, 310, 208, 25);
+		buttonsPane.add(btnToggle);
+		btnToggle.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					tableVisualizer.confirmSelection();
@@ -61,9 +62,61 @@ public class MainMenu extends JFrame {
 				}
 			}
 		});
-		btnConfirm.setVisible(false);
+		btnToggle.setVisible(false);
 
-		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnConfirm);
+		
+		// Initialize delete table button
+		JButton btnDeleteTable = new JButton("Delete Table");
+		btnDeleteTable.setBounds(361, 110, 208, 25);
+		buttonsPane.add(btnDeleteTable);
+		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.removeSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new DeleteTable().setVisible(true);
+			}
+		});
+
+		// Initialize update table button
+		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
+		btnUpdateTableOr.setBounds(361, 150, 208, 25);
+		buttonsPane.add(btnUpdateTableOr);
+		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.updateSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new UpdateTablePage().setVisible(true);
+			}
+		});
+
+		// Initialize move table button
+		JButton btnMoveTable = new JButton("Move Table");
+		btnMoveTable.setBounds(361, 190, 208, 25);
+		buttonsPane.add(btnMoveTable);
+		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.moveSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new RestoAppPage().setVisible(true);
+			}
+		});
+
+		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
@@ -97,54 +150,6 @@ public class MainMenu extends JFrame {
 		btnAddTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new CreateTablePage().setVisible(true);
-			}
-		});
-
-		JButton btnDeleteTable = new JButton("Delete Table");
-		btnDeleteTable.setBounds(361, 110, 208, 25);
-		buttonsPane.add(btnDeleteTable);
-		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				try {
-					tableVisualizer.removeSelection();
-					errorMessage.setText(null);
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
-					errorMessage.setText(e.getMessage());
-				}
-				// new DeleteTable().setVisible(true);
-			}
-		});
-
-		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
-		btnUpdateTableOr.setBounds(361, 150, 208, 25);
-		buttonsPane.add(btnUpdateTableOr);
-		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				try {
-					tableVisualizer.updateSelection();
-					errorMessage.setText(null);
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
-					errorMessage.setText(e.getMessage());
-				}
-				// new UpdateTablePage().setVisible(true);
-			}
-		});
-
-		JButton btnMoveTable = new JButton("Move Table");
-		btnMoveTable.setBounds(361, 190, 208, 25);
-		buttonsPane.add(btnMoveTable);
-		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				try {
-					tableVisualizer.moveSelection();
-					errorMessage.setText(null);
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
-					errorMessage.setText(e.getMessage());
-				}
-				// new RestoAppPage().setVisible(true);
 			}
 		});
 

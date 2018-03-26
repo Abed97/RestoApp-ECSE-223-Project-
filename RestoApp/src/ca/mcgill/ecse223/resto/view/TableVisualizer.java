@@ -32,6 +32,9 @@ public class TableVisualizer extends JPanel {
 	// UI elements
 	private List<Rectangle2D> tableRectangles = new ArrayList<Rectangle2D>();
 	private JButton btnConfirm;
+	private JButton btnDelete;
+	private JButton btnUpdate;
+	private JButton btnMove;
 
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
@@ -43,11 +46,15 @@ public class TableVisualizer extends JPanel {
 	private List<Table> currentTables = new ArrayList<Table>();
 	private List<Table> selectedTables = new ArrayList<Table>();
 
-	public TableVisualizer(List<Table> currentTables, JButton btnConfirm) {
+	public TableVisualizer(List<Table> currentTables, JButton btnConfirm, JButton btnDeleteTable,
+			JButton btnUpdateTableOr, JButton btnMoveTable) {
 		super();
 		init();
 		this.currentTables = currentTables;
 		this.btnConfirm = btnConfirm;
+		this.btnDelete = btnDeleteTable;
+		this.btnUpdate = btnUpdateTableOr;
+		this.btnMove = btnMoveTable;
 	}
 
 	/**
@@ -207,7 +214,6 @@ public class TableVisualizer extends JPanel {
 		repaint();
 	}
 
-	
 	/**
 	 * Move selected table
 	 * 
@@ -221,13 +227,12 @@ public class TableVisualizer extends JPanel {
 		}
 
 		new RestoAppPage(selectedTables.get(0).getNumber()).setVisible(true);
-		
+
 		// Clear selected tables
 		selectedTables = new ArrayList<Table>();
 		repaint();
 	}
-	
-	
+
 	/**
 	 * Run toggle method on selected tables
 	 * 
@@ -343,8 +348,14 @@ public class TableVisualizer extends JPanel {
 	public void confirmButton() {
 		if (confirm) {
 			btnConfirm.setVisible(true);
+			btnDelete.setVisible(true);
+			btnUpdate.setVisible(true);
+			btnMove.setVisible(true);
 		} else {
 			btnConfirm.setVisible(false);
+			btnDelete.setVisible(false);
+			btnUpdate.setVisible(false);
+			btnMove.setVisible(false);
 		}
 		confirm = false;
 	}
