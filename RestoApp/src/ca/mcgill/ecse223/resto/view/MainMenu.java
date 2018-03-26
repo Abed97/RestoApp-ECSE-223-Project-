@@ -1,6 +1,5 @@
 package ca.mcgill.ecse223.resto.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -26,10 +25,10 @@ public class MainMenu extends JFrame {
 	private RestoApp restoApp = RestoAppApplication.getRestoApp();
 	private JLabel errorMessage;
 	private String error = null;
+
 	/**
 	 * Launch the application.
 	 */
-
 
 	/**
 	 * Create the dialog.
@@ -44,14 +43,15 @@ public class MainMenu extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
-		setBounds(0, 0, 1920, 1080);
+		setBounds(0, 0, 1200, 900);
 		getContentPane().setLayout(new BorderLayout());
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		JButton btnConfirm = new JButton("Confirm Selection");
-		btnConfirm.setBounds(361, 310, 208, 25);
-		buttonsPane.add(btnConfirm);
-		btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+
+		// Initialize toggle button
+		JButton btnToggle = new JButton("Toggle table state");
+		btnToggle.setBounds(361, 310, 208, 25);
+		buttonsPane.add(btnToggle);
+		btnToggle.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					tableVisualizer.confirmSelection();
@@ -62,91 +62,115 @@ public class MainMenu extends JFrame {
 				}
 			}
 		});
-		btnConfirm.setVisible(false);
+		btnToggle.setVisible(false);
+
 		
-		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnConfirm);
+		// Initialize delete table button
+		JButton btnDeleteTable = new JButton("Delete Table");
+		btnDeleteTable.setBounds(361, 110, 208, 25);
+		buttonsPane.add(btnDeleteTable);
+		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.removeSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new DeleteTable().setVisible(true);
+			}
+		});
+
+		// Initialize update table button
+		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
+		btnUpdateTableOr.setBounds(361, 150, 208, 25);
+		buttonsPane.add(btnUpdateTableOr);
+		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.updateSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new UpdateTablePage().setVisible(true);
+			}
+		});
+
+		// Initialize move table button
+		JButton btnMoveTable = new JButton("Move Table");
+		btnMoveTable.setBounds(361, 190, 208, 25);
+		buttonsPane.add(btnMoveTable);
+		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					tableVisualizer.moveSelection();
+					errorMessage.setText(null);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					errorMessage.setText(e.getMessage());
+				}
+				// new RestoAppPage().setVisible(true);
+			}
+		});
+
+		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
 		getContentPane().add(contentPane, BorderLayout.CENTER);
 		buttonsPane.setLayout(null);
-		JScrollPane scroll = new JScrollPane(contentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scroll = new JScrollPane(contentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 0, 1920, 1980);
 		getContentPane().add(scroll, BorderLayout.CENTER);
 
-
-		
 		JLabel lblRestoapp = new JLabel("RestoApp");
 		lblRestoapp.setFont(new Font("Serif", Font.BOLD, 36));
 
 		lblRestoapp.setBounds(120, 118, 156, 47);
 		buttonsPane.add(lblRestoapp);
-		
-		//JLabel lblGroup = new JLabel("Group 19");
-		//lblGroup.setBounds(120, 171, 70, 16);
+
+		// JLabel lblGroup = new JLabel("Group 19");
+		// lblGroup.setBounds(120, 171, 70, 16);
 
 		lblRestoapp.setBounds(12, 118, 156, 47);
 		buttonsPane.add(lblRestoapp);
-		
+
 		JLabel lblGroup = new JLabel("Group 19");
 		lblGroup.setBounds(59, 171, 56, 16);
 
 		buttonsPane.add(lblGroup);
-		
+
 		JButton btnAddTable = new JButton("Add Table");
 		btnAddTable.setBounds(361, 70, 208, 25);
 		buttonsPane.add(btnAddTable);
-		btnAddTable.addActionListener(new java.awt.event.ActionListener(){
+		btnAddTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new CreateTablePage().setVisible(true);
 			}
 		});
-		
-		JButton btnDeleteTable = new JButton("Delete Table");
-		btnDeleteTable.setBounds(361, 110, 208, 25);
-		buttonsPane.add(btnDeleteTable);
-		btnDeleteTable.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new DeleteTable().setVisible(true);
-			}
-		});
-		
-		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
-		btnUpdateTableOr.setBounds(361, 150, 208, 25);
-		buttonsPane.add(btnUpdateTableOr);
-		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new UpdateTablePage().setVisible(true);
-			}
-		});
-		
-		JButton btnMoveTable = new JButton("Move Table");
-		btnMoveTable.setBounds(361, 190, 208, 25);
-		buttonsPane.add(btnMoveTable);
-		btnMoveTable.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new RestoAppPage().setVisible(true);
-			}
-		});
-		
+
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setBounds(361, 230, 208, 25);
 		buttonsPane.add(btnMenu);
-		btnMenu.addActionListener(new java.awt.event.ActionListener(){
+		btnMenu.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new DisplayMenu().setVisible(true);
 			}
 		});
-		
+
 		JLabel lblFeatures = new JLabel("Features");
 		lblFeatures.setBounds(440, 27, 56, 16);
 		lblFeatures.setFont(new Font("Serif", Font.BOLD, 14));
 		buttonsPane.add(lblFeatures);
-		
+
 		JButton btnNewButton = new JButton("Make Reservation");
 		btnNewButton.setBounds(361, 270, 208, 25);
 		buttonsPane.add(btnNewButton);
-		btnNewButton.addActionListener(new java.awt.event.ActionListener(){
+		btnNewButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new MakeReservation().setVisible(true);
 			}
