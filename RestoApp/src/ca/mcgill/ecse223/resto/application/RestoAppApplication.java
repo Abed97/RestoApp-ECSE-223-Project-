@@ -1,12 +1,8 @@
 package ca.mcgill.ecse223.resto.application;
 
-import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
-import ca.mcgill.ecse223.resto.view.CreateTablePage;
-import ca.mcgill.ecse223.resto.view.DeleteTable;
-import ca.mcgill.ecse223.resto.view.DisplayMenu;
-import ca.mcgill.ecse223.resto.view.MainMenu;
-import ca.mcgill.ecse223.resto.view.RestoAppPage;
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.resto.view.MainMenu;
 
 public class RestoAppApplication {
 	private static RestoApp restoApp;
@@ -36,6 +32,8 @@ public class RestoAppApplication {
 			// load model
 			restoApp = load();
 					}
+		
+
  		return restoApp;
 	}
 	
@@ -57,6 +55,7 @@ public class RestoAppApplication {
 		}
 		return restoApp;
 	}
+	
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
 	}
