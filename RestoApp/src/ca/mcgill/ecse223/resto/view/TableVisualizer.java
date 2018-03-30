@@ -295,8 +295,11 @@ public class TableVisualizer extends JPanel {
 					}
 				}
 				g2d.draw(rectangle);
-				g2d.drawString(new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX(),
+				g2d.drawString("Table " + new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX()- 14,
 						(int) rectangle.getCenterY());
+
+				g2d.drawString(new Integer(table.getSeats().size()).toString() + " seats",
+						(int) rectangle.getCenterX() - 14, (int) rectangle.getCenterY() + 13);
 				// g2d.drawString(table.getStatusFullName(), (int) (rectangle.getCenterX() -
 				// 0.25 * rectangle.getWidth()),
 				// (int) (rectangle.getCenterY() + 0.25 * rectangle.getHeight()));
