@@ -100,3 +100,8 @@ class Bill {
    * bills -- 1 Order order; // order.bills.issuedForSeats = order.orderItems.seats
    * bills -- 1..* Seat issuedForSeats; // only from order.orderItems.seats;
 }
+
+class Rating {
+   0..* ratings -- 1 OrderItem orderItem;
+   Integer stars;
+}
