@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.resto.application;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.MainMenu;
+import ca.mcgill.ecse223.resto.view.MenuRating;
 
 public class RestoAppApplication {
 	private static RestoApp restoApp;
@@ -20,8 +21,11 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                menu = new MainMenu();
-                menu.setVisible(true);
+            	MenuRating rating;
+            	rating =  new MenuRating();
+            	rating.setVisible(true);
+            	//menu = new MainMenu();
+                //menu.setVisible(true);
             }
         });
         

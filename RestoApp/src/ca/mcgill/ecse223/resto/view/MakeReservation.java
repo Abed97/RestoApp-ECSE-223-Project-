@@ -33,6 +33,8 @@ import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class MakeReservation extends JFrame {
 
@@ -129,27 +131,66 @@ public class MakeReservation extends JFrame {
 		comboBox_1.setBounds(305, 81, 104, 22);
 		contentPane.add(comboBox_1);
 
-		// Name
+		// First name
 		txtFirstName = new JTextField();
 		txtFirstName.setText("Full Name");
 		txtFirstName.setBounds(33, 142, 116, 22);
 		contentPane.add(txtFirstName);
 		txtFirstName.setColumns(10);
 
+		// Listeners for first name text box
+		txtFirstName.addFocusListener(new FocusAdapter() {
+			// When focused gained
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				txtFirstName.setText("");
+			}
+
+			// When focused lost
+			@Override
+			public void focusLost(FocusEvent e) {
+				txtFirstName.setText("Full Name");
+			}
+		});
+
 		// Phone Number
 		txtPhoneNumber = new JTextField();
 		txtPhoneNumber.setText("Phone Number");
-
 		txtPhoneNumber.setBounds(33, 177, 116, 22);
 		contentPane.add(txtPhoneNumber);
 		txtPhoneNumber.setColumns(10);
 
+		txtPhoneNumber.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtPhoneNumber.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				txtPhoneNumber.setText("Phone Number");
+			}
+		});
+
 		// Email
 		txtEmail = new JTextField();
+
 		txtEmail.setText("Email");
 		txtEmail.setBounds(33, 240, 116, 22);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
+
+		txtEmail.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtEmail.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				txtEmail.setText("Phone Number");
+			}
+		});
 
 		// Reserve
 		JLabel lblReserveTable = new JLabel("Reservation");
@@ -277,7 +318,8 @@ public class MakeReservation extends JFrame {
 			}
 		}
 		JList list = new JList(listModel);
-		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(305, 144, 379, 296);
 		contentPane.add(scroll);
 
