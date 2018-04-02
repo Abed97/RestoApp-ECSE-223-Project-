@@ -9,44 +9,44 @@ public class RestoAppApplication {
 	private static RestoApp restoApp;
 	private static String filename = "menu.resto";
 	private static MainMenu menu;
-	
-	
+
+
 	public static MainMenu getMenu() {
 		return menu;
 	}
 
 	public static void main(String[] args) {
-		
+
 		getRestoApp();
 		// start UI
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            	MenuRating rating;
-            	rating =  new MenuRating();
-            	rating.setVisible(true);
-            	//menu = new MainMenu();
-                //menu.setVisible(true);
-            }
-        });
-        
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				MenuRating rating;
+				//            	rating =  new MenuRating();
+				//            	rating.setVisible(true);
+				menu = new MainMenu();
+				menu.setVisible(true);
+			}
+		});
+
 	}
-	
+
 	public static RestoApp getRestoApp() {
 		if (restoApp == null) {
 			// load model
 			restoApp = load();
-					}
-		
+		}
 
- 		return restoApp;
+
+		return restoApp;
 	}
-	
+
 	public static void save() {
 		PersistenceObjectStream.serialize(restoApp);
-        menu.validate();
-        menu.repaint();
+		menu.validate();
+		menu.repaint();
 	}	
-	
+
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
@@ -59,10 +59,10 @@ public class RestoAppApplication {
 		}
 		return restoApp;
 	}
-	
+
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
 	}
-	
-	
+
+
 }

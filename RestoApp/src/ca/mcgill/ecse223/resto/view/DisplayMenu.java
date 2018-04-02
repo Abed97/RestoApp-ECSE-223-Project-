@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,12 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 public class DisplayMenu extends JFrame {
 
@@ -49,25 +53,66 @@ public class DisplayMenu extends JFrame {
 
 		DefaultListModel listModel = new DefaultListModel();
 		JList list = new JList(listModel);
-		list.setBounds(202, 89, 206, 200);
-		contentPane.add(list);
+		//list.setBounds(250, 89, 206, 200);
+		//contentPane.add(list);
+		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(250, 89, 206, 200);
+		contentPane.add(scroll);
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(22, 90, 151, 22);
+		comboBox.setBounds(22, 90, 180, 22);
 		comboBox.addItem("Select Category...");
 		for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
 			comboBox.addItem(RestoAppController.getItemCategories().get(i));
 		}
 
 		JButton deleteButton = new JButton("Delete selected Item");
-		deleteButton.setBounds(22, 220, 151, 22);
+		deleteButton.setBounds(22, 220, 180, 22);
 		contentPane.add(deleteButton);
+		deleteButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				//clear error message
+				//error = null;
+				// call the controller
+
+				try {
+					int index = list.getSelectedIndex();
+					MenuItem toRemove = RestoAppController
+					.getMenuItems(RestoAppController.getItemCategories()
+							.get(comboBox.getSelectedIndex() - 1))
+					.get(index);
+
+					RestoAppController.removeMenuItem(toRemove);
+					listModel.remove(index);
+				}
+				catch (InvalidInputException e) {
+					//error = e.getMessage();
+					contentPane.add(errorMessage);
+				}
+				catch (NumberFormatException e) {
+					//error = "One or more input is either empty or is not a number";
+					contentPane.add(errorMessage);
+				}
+
+				// update visuals
+				//refreshData();
+			}
+
+		});
 
 		JTextField newItemName = new JTextField("New item name");
 
-		newItemName.setForeground(Color.gray);
-		newItemName.setBounds(22, 250, 151, 22);
+		newItemName.setForeground(Color.BLACK);
+		newItemName.setBounds(22, 250, 135, 22);
 		contentPane.add(newItemName);
+
+		JTextField newItemPrice = new JTextField("Price");
+
+
+		newItemPrice.setForeground(Color.BLACK);
+		newItemPrice.setBounds(155, 250, 50, 22);
+		contentPane.add(newItemPrice);
 
 		newItemName.addFocusListener(new FocusAdapter() {
 			@Override
@@ -77,13 +122,58 @@ public class DisplayMenu extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				newItemName.setText("New item name");
+				if(newItemName.getText().isEmpty()) {
+					newItemName.setText("New item name");
+				}			}
+		});
+
+		newItemPrice.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				newItemPrice.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(newItemPrice.getText().isEmpty()) {
+					newItemPrice.setText("Price");
+				}
 			}
 		});
 
 		JButton addButton = new JButton("Add Menu Item");
-		addButton.setBounds(22, 280, 151, 22);
+		addButton.setBounds(22, 280, 180, 22);
 		contentPane.add(addButton);
+		addButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				//clear error message
+				//error = null;
+				// call the controller
+
+				try {
+					String name = newItemName.getText();
+					double price = Double.parseDouble(newItemPrice.getText());
+					ItemCategory category = RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1);
+
+					RestoAppController.addMenuItem(name, category, price);
+					newItemName.setText("New item name");
+					newItemPrice.setText("Price");
+					listModel.addElement(name + " :  " + price);
+				}
+				catch (InvalidInputException e) {
+					//error = e.getMessage();
+					contentPane.add(errorMessage);
+				}
+				catch (NumberFormatException e) {
+					//error = "One or more input is either empty or is not a number";
+					contentPane.add(errorMessage);
+				}
+
+				// update visuals
+				//refreshData();
+			}
+
+		});
 
 		ActionListener action = new ActionListener() {
 
@@ -98,19 +188,19 @@ public class DisplayMenu extends JFrame {
 							.size(); i++) {
 
 						listModel
-								.addElement(
-										RestoAppController
-												.getMenuItems(RestoAppController.getItemCategories()
-														.get(comboBox.getSelectedIndex() - 1))
-												.get(i).getName().toString().concat(
-														" :  " + String
-																.valueOf(RestoAppController
-																		.getMenuItems(
-																				RestoAppController.getItemCategories()
-																						.get(comboBox.getSelectedIndex()
-																								- 1))
-																		.get(i).getCurrentPricedMenuItem()
-																		.getPrice())));
+						.addElement(
+								RestoAppController
+								.getMenuItems(RestoAppController.getItemCategories()
+										.get(comboBox.getSelectedIndex() - 1))
+								.get(i).getName().toString().concat(
+										" :  " + String
+										.valueOf(RestoAppController
+												.getMenuItems(
+														RestoAppController.getItemCategories()
+														.get(comboBox.getSelectedIndex()
+																- 1))
+												.get(i).getCurrentPricedMenuItem()
+												.getPrice())));
 					}
 					contentPane.remove(errorMessage);
 				}
