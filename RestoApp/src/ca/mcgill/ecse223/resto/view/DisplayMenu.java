@@ -26,16 +26,18 @@ import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 public class DisplayMenu extends JFrame {
 
 	private JPanel contentPane;
-
+	private String error = null;
+	private JLabel errorMessage;
+	
 	/**
 	 * Create the frame.
 	 */
 	public DisplayMenu() {
-		String error = "Please select a category";
-		JLabel errorMessage = new JLabel(error);
+		//error = "Please select a category";
+		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
-		errorMessage.setBounds(22, 200, 350, 29);
-		setBounds(100, 100, 505, 355);
+		errorMessage.setBounds(22, 310, 350, 29);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,11 +75,14 @@ public class DisplayMenu extends JFrame {
 		deleteButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				//clear error message
-				//error = null;
+				error = null;
 				// call the controller
 
 				try {
 					int index = list.getSelectedIndex();
+					if (index < 0) {
+						throw new InvalidInputException("Please select an item");
+					}
 					MenuItem toRemove = RestoAppController
 					.getMenuItems(RestoAppController.getItemCategories()
 							.get(comboBox.getSelectedIndex() - 1))
@@ -87,14 +92,11 @@ public class DisplayMenu extends JFrame {
 					listModel.remove(index);
 				}
 				catch (InvalidInputException e) {
-					//error = e.getMessage();
-					contentPane.add(errorMessage);
+					error = e.getMessage();
 				}
-				catch (NumberFormatException e) {
-					//error = "One or more input is either empty or is not a number";
-					contentPane.add(errorMessage);
-				}
-
+				errorMessage.setText(error);
+				contentPane.add(errorMessage);
+				setContentPane(contentPane);
 				// update visuals
 				//refreshData();
 			}
@@ -147,12 +149,15 @@ public class DisplayMenu extends JFrame {
 		addButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				//clear error message
-				//error = null;
+				error = null;
 				// call the controller
 
 				try {
 					String name = newItemName.getText();
 					double price = Double.parseDouble(newItemPrice.getText());
+					if (comboBox.getSelectedIndex() == 0) {
+						throw new InvalidInputException("Please select a category");
+					}
 					ItemCategory category = RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1);
 
 					RestoAppController.addMenuItem(name, category, price);
@@ -161,16 +166,16 @@ public class DisplayMenu extends JFrame {
 					listModel.addElement(name + " :  " + price);
 				}
 				catch (InvalidInputException e) {
-					//error = e.getMessage();
-					contentPane.add(errorMessage);
+					error = e.getMessage();
+
 				}
 				catch (NumberFormatException e) {
-					//error = "One or more input is either empty or is not a number";
-					contentPane.add(errorMessage);
-				}
+					error = "Price is either empty or is not a number";
 
-				// update visuals
-				//refreshData();
+				}
+				errorMessage.setText(error);
+				contentPane.add(errorMessage);
+				setContentPane(contentPane);
 			}
 
 		});
