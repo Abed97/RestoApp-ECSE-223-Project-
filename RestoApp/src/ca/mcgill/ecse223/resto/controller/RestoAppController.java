@@ -13,6 +13,7 @@ import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
@@ -419,5 +420,47 @@ public class RestoAppController {
 		RestoAppApplication.save();
 		
 	}
+	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException {
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List <Table> currentTables = restoApp.getCurrentTables();
+		
+		if (currentTables.isEmpty() || table == null ) {
+			throw new InvalidInputException("Table doesn't have seats");
+		}
+		
+		Boolean current = currentTables.contains(table);
+		if (current == false) {
+			throw new InvalidInputException("Table is not a current table");
+		}
+
+		// status type
+		Status status = table.getStatus();
+		if ( status == Status.Available) {
+			throw new InvalidInputException("Table should be in use");
+		}
+
+		Order lastOrder = null;
+		// Get last ordered object
+		if (table.numberOfOrders() > 0) {
+			lastOrder = table.getOrder(table.numberOfOrders() - 1);
+		}
+		else {
+			throw new InvalidInputException("This table must have an order");
+		}
+		List <Seat> currentSeats = table.getCurrentSeats();		
+		List<OrderItem> result = new ArrayList<OrderItem>();
+		for (Seat seat : currentSeats) {
+			List<OrderItem> orderItems = seat.getOrderItems();
+			for ( OrderItem orderItem : orderItems) {
+				// not sure abt order type
+				Order order = orderItem.getOrder();
+				if (lastOrder.equals(order)&& !result.contains(orderItem)) {
+					result.add(orderItem);
+				}
+			}
+		}
+		return result;
+	}
+	
 	
 }
