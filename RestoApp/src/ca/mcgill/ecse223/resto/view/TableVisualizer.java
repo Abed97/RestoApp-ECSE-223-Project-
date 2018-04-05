@@ -21,6 +21,7 @@ import javax.swing.ToolTipManager;
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
@@ -35,7 +36,9 @@ public class TableVisualizer extends JPanel {
 	private JButton btnDelete;
 	private JButton btnUpdate;
 	private JButton btnMove;
+	private JButton btnViewOrder;
 
+	
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
@@ -44,10 +47,10 @@ public class TableVisualizer extends JPanel {
 	Table selectedTable;
 	private Boolean confirm = false;
 	private List<Table> currentTables = new ArrayList<Table>();
-	private List<Table> selectedTables = new ArrayList<Table>();
+	private static List<Table> selectedTables = new ArrayList<Table>();
 
 	public TableVisualizer(List<Table> currentTables, JButton btnConfirm, JButton btnDeleteTable,
-			JButton btnUpdateTableOr, JButton btnMoveTable) {
+			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder) {
 		super();
 		init();
 		this.currentTables = currentTables;
@@ -55,6 +58,7 @@ public class TableVisualizer extends JPanel {
 		this.btnDelete = btnDeleteTable;
 		this.btnUpdate = btnUpdateTableOr;
 		this.btnMove = btnMoveTable;
+		this.btnViewOrder = btnViewOrder;
 	}
 
 	/**
@@ -262,6 +266,19 @@ public class TableVisualizer extends JPanel {
 		tables = new HashMap<Rectangle2D, Table>();
 		repaint();
 	}
+	public  void viewOrder() throws InvalidInputException {
+		List<OrderItem> orders = new ArrayList<>();
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+		orders = RestoAppController.getOrderItems(selectedTables.get(0));
+		
+		new ViewOrder(orders).setVisible(true);
+		
+		
+		}
 
 	/**
 	 * Create rectangles on main menu
@@ -354,11 +371,13 @@ public class TableVisualizer extends JPanel {
 			btnDelete.setVisible(true);
 			btnUpdate.setVisible(true);
 			btnMove.setVisible(true);
+			btnViewOrder.setVisible(true);
 		} else {
 			btnConfirm.setVisible(false);
 			btnDelete.setVisible(false);
 			btnUpdate.setVisible(false);
 			btnMove.setVisible(false);
+			btnViewOrder.setVisible(false);
 		}
 		confirm = false;
 	}
