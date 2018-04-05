@@ -20,6 +20,7 @@ import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
+import ca.mcgill.ecse223.resto.view.MenuRating;
 
 public class RestoAppController {
 
@@ -211,6 +212,12 @@ public class RestoAppController {
 			}
 		}
 
+		// Show rating menu
+		if (tables.get(0).getStatus() == Status.Ordered) {
+			for (Table aTable : tables) {
+				new MenuRating(aTable).setVisible(true);
+			}
+		}
 		// Switch status of every table
 		if (tables.get(0).getStatus() == Status.Available) {
 			startOrder(tables);
@@ -219,6 +226,7 @@ public class RestoAppController {
 				endOrder(sample.getOrder(sample.numberOfOrders() - 1));
 			}
 		}
+
 	}
 
 	/**
@@ -383,15 +391,15 @@ public class RestoAppController {
 		RestoAppApplication.save();
 
 	}
-	
-	public static void addMenuItem(String name, ItemCategory category, double price) throws InvalidInputException{
-		if(name.isEmpty() || name == null) {
+
+	public static void addMenuItem(String name, ItemCategory category, double price) throws InvalidInputException {
+		if (name.isEmpty() || name == null) {
 			throw new InvalidInputException("Name cannot be empty");
 		}
-		if(category == null || price <=0) {
+		if (category == null || price <= 0) {
 			throw new InvalidInputException("Category cannot be empty");
 		}
-		if(price <=0) {
+		if (price <= 0) {
 			throw new InvalidInputException("Price has to be greater than 0");
 		}
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
@@ -407,8 +415,8 @@ public class RestoAppController {
 			throw new InvalidInputException("Menu item with the same name already exists");
 		}
 	}
-	
-	public static void removeMenuItem(MenuItem menuItem) throws InvalidInputException{
+
+	public static void removeMenuItem(MenuItem menuItem) throws InvalidInputException {
 		if (menuItem == null) {
 			throw new InvalidInputException("Menu item cannot be empty");
 		}
@@ -418,16 +426,17 @@ public class RestoAppController {
 		}
 		menuItem.setCurrentPricedMenuItem(null);
 		RestoAppApplication.save();
-		
+
 	}
+
 	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException {
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List <Table> currentTables = restoApp.getCurrentTables();
-		
-		if (currentTables.isEmpty() || table == null ) {
+		List<Table> currentTables = restoApp.getCurrentTables();
+
+		if (currentTables.isEmpty() || table == null) {
 			throw new InvalidInputException("Table doesn't have seats");
 		}
-		
+
 		Boolean current = currentTables.contains(table);
 		if (current == false) {
 			throw new InvalidInputException("Table is not a current table");
@@ -435,7 +444,7 @@ public class RestoAppController {
 
 		// status type
 		Status status = table.getStatus();
-		if ( status == Status.Available) {
+		if (status == Status.Available) {
 			throw new InvalidInputException("Table should be in use");
 		}
 
@@ -443,24 +452,22 @@ public class RestoAppController {
 		// Get last ordered object
 		if (table.numberOfOrders() > 0) {
 			lastOrder = table.getOrder(table.numberOfOrders() - 1);
-		}
-		else {
+		} else {
 			throw new InvalidInputException("This table must have an order");
 		}
-		List <Seat> currentSeats = table.getCurrentSeats();		
+		List<Seat> currentSeats = table.getCurrentSeats();
 		List<OrderItem> result = new ArrayList<OrderItem>();
 		for (Seat seat : currentSeats) {
 			List<OrderItem> orderItems = seat.getOrderItems();
-			for ( OrderItem orderItem : orderItems) {
+			for (OrderItem orderItem : orderItems) {
 				// not sure abt order type
 				Order order = orderItem.getOrder();
-				if (lastOrder.equals(order)&& !result.contains(orderItem)) {
+				if (lastOrder.equals(order) && !result.contains(orderItem)) {
 					result.add(orderItem);
 				}
 			}
 		}
 		return result;
 	}
-	
-	
+
 }

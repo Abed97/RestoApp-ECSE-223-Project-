@@ -1,6 +1,14 @@
 package ca.mcgill.ecse223.resto.application;
 
+import java.sql.Date;
+import java.sql.Time;
+
+import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
+import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.MainMenu;
 import ca.mcgill.ecse223.resto.view.MenuRating;
@@ -9,7 +17,6 @@ public class RestoAppApplication {
 	private static RestoApp restoApp;
 	private static String filename = "menu.resto";
 	private static MainMenu menu;
-
 
 	public static MainMenu getMenu() {
 		return menu;
@@ -26,6 +33,18 @@ public class RestoAppApplication {
 				//            	rating.setVisible(true);
 				menu = new MainMenu();
 				menu.setVisible(true);
+				
+				
+				for (Table aTable: restoApp.getTables()) {
+					Date date = new Date(0);
+					Time time = new Time(0);
+					
+					Order order = new Order(date, time, restoApp, aTable);
+					Seat seat = aTable.getSeat(0);
+					
+					aTable.addToOrderItem(new OrderItem(10, restoApp.getPricedMenuItem(1), order, seat), seat);
+					
+				}
 			}
 		});
 
@@ -37,7 +56,6 @@ public class RestoAppApplication {
 			restoApp = load();
 		}
 
-
 		return restoApp;
 	}
 
@@ -45,7 +63,7 @@ public class RestoAppApplication {
 		PersistenceObjectStream.serialize(restoApp);
 		menu.validate();
 		menu.repaint();
-	}	
+	}
 
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
@@ -53,8 +71,7 @@ public class RestoAppApplication {
 		// model cannot be loaded - create empty RestoApp
 		if (restoApp == null) {
 			restoApp = new RestoApp();
-		}
-		else {
+		} else {
 			restoApp.reinitialize();
 		}
 		return restoApp;
@@ -63,6 +80,5 @@ public class RestoAppApplication {
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
 	}
-
 
 }
