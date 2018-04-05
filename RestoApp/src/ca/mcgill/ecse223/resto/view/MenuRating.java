@@ -15,8 +15,20 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Table;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuRating extends JFrame {
 
@@ -28,26 +40,18 @@ public class MenuRating extends JFrame {
 	private Shape[] stars = new Shape[5];
 	private Boolean[] selectedStars = { false, false, false, false, false };
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuRating window = new MenuRating();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Table table;
+
+
 
 	/**
 	 * Create the application.
+	 * 
+	 * @param aTable
 	 */
-	public MenuRating() {
+	public MenuRating(Table aTable) {
+		this.table = aTable;
+
 		setTitle("Menu Rating");
 		getContentPane().setLayout(null);
 
@@ -58,6 +62,8 @@ public class MenuRating extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 660, 476);
 		setBounds(100, 100, 649, 387);
@@ -67,13 +73,33 @@ public class MenuRating extends JFrame {
 
 		// Menu items
 		JComboBox comboBox = new JComboBox();
+		comboBox.addPopupMenuListener(new PopupMenuListener() {
+			public void popupMenuCanceled(PopupMenuEvent arg0) {
+			}
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+				repaint();
+			}
+			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
+			}
+		});
 		comboBox.setBounds(230, 11, 151, 30);
 		getContentPane().add(comboBox);
 		comboBox.setBackground(Color.WHITE);
 
 		comboBox.addItem("Select a menu item:");
 
+		for (Order aOrder : table.getOrders()) {
+			for (OrderItem aItem : aOrder.getOrderItems()) {
+				comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
+			}
+		}
+
 		JButton btnConfirmRating = new JButton("Confirm rating");
+		btnConfirmRating.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnConfirmRating.setBounds(230, 304, 151, 23);
 		getContentPane().add(btnConfirmRating);
 
@@ -124,7 +150,6 @@ public class MenuRating extends JFrame {
 		}
 	}
 
-	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
