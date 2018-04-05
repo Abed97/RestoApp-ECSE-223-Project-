@@ -217,6 +217,21 @@ public class TableVisualizer extends JPanel {
 		selectedTables = new ArrayList<Table>();
 		repaint();
 	}
+	
+	
+	public void OrderItem() throws InvalidInputException {
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+
+		new OrderItemPage(selectedTables.get(0).getNumber()).setVisible(true);
+
+		// Clear selected tables
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
 
 	/**
 	 * Move selected table

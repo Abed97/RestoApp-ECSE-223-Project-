@@ -81,7 +81,22 @@ public class MainMenu extends JFrame {
 				// new DeleteTable().setVisible(true);
 			}
 		});
-
+		// Initialize update table button
+				JButton btnOrderItem = new JButton("New orderItem");
+				btnOrderItem.setBounds(361, 150, 208, 25);
+				buttonsPane.add(btnOrderItem);
+				btnOrderItem.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						try {
+							tableVisualizer.OrderItem();
+							errorMessage.setText(null);
+						} catch (InvalidInputException e) {
+							error = e.getMessage();
+							errorMessage.setText(e.getMessage());
+						}
+						// new UpdateTablePage().setVisible(true);
+					}
+				});
 		// Initialize update table button
 		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
 		btnUpdateTableOr.setBounds(361, 150, 208, 25);
