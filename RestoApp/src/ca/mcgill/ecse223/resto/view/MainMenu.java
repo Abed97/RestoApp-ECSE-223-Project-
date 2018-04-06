@@ -113,7 +113,22 @@ public class MainMenu extends JFrame {
 				// new UpdateTablePage().setVisible(true);
 			}
 		});
-
+		// Initialize cancel order button
+				JButton btnCancelOrder = new JButton("Cancel order");
+				btnCancelOrder.setBounds(361, 390, 208, 25);
+				buttonsPane.add(btnCancelOrder);
+				btnCancelOrder.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						try {
+							tableVisualizer.moveSelection();
+							errorMessage.setText(null);
+						} catch (InvalidInputException e) {
+							error = e.getMessage();
+							errorMessage.setText(e.getMessage());
+						}
+						
+					}
+				});
 		// Initialize move table button
 		JButton btnMoveTable = new JButton("Move Table");
 		btnMoveTable.setBounds(361, 190, 208, 25);
@@ -145,7 +160,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 
-		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder);
+		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder, btnCancelOrder);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
