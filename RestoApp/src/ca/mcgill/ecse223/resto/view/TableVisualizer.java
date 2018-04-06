@@ -38,7 +38,6 @@ public class TableVisualizer extends JPanel {
 	private JButton btnMove;
 	private JButton btnViewOrder;
 
-	
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
@@ -195,7 +194,8 @@ public class TableVisualizer extends JPanel {
 			RestoAppController.removeTable(aTable);
 		}
 
-		selectedTables = new ArrayList<Table>();
+		// Clear selected tables
+		resetSelections();
 		repaint();
 	}
 
@@ -214,7 +214,7 @@ public class TableVisualizer extends JPanel {
 		new UpdateTablePage(selectedTables.get(0).getNumber()).setVisible(true);
 
 		// Clear selected tables
-		selectedTables = new ArrayList<Table>();
+		resetSelections();
 		repaint();
 	}
 
@@ -233,7 +233,7 @@ public class TableVisualizer extends JPanel {
 		new RestoAppPage(selectedTables.get(0).getNumber()).setVisible(true);
 
 		// Clear selected tables
-		selectedTables = new ArrayList<Table>();
+		resetSelections();
 		repaint();
 	}
 
@@ -252,7 +252,7 @@ public class TableVisualizer extends JPanel {
 			throw e;
 		}
 
-		selectedTables = new ArrayList<Table>();
+		resetSelections();
 		repaint();
 	}
 
@@ -266,7 +266,8 @@ public class TableVisualizer extends JPanel {
 		tables = new HashMap<Rectangle2D, Table>();
 		repaint();
 	}
-	public  void viewOrder() throws InvalidInputException {
+
+	public void viewOrder() throws InvalidInputException {
 		List<OrderItem> orders = new ArrayList<>();
 		if (selectedTables.isEmpty()) {
 			throw new InvalidInputException("No tables selected");
@@ -274,11 +275,11 @@ public class TableVisualizer extends JPanel {
 			throw new InvalidInputException("Only one table must be selected");
 		}
 		orders = RestoAppController.getOrderItems(selectedTables.get(0));
-		
+
 		new ViewOrder(orders).setVisible(true);
-		
-		
-		}
+
+		resetSelections();
+	}
 
 	/**
 	 * Create rectangles on main menu
@@ -312,7 +313,7 @@ public class TableVisualizer extends JPanel {
 					}
 				}
 				g2d.draw(rectangle);
-				g2d.drawString("Table " + new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX()- 14,
+				g2d.drawString("Table " + new Integer(table.getNumber()).toString(), (int) rectangle.getCenterX() - 14,
 						(int) rectangle.getCenterY());
 
 				g2d.drawString(new Integer(table.getSeats().size()).toString() + " seats",
@@ -380,6 +381,11 @@ public class TableVisualizer extends JPanel {
 			btnViewOrder.setVisible(false);
 		}
 		confirm = false;
+	}
+
+	// Reset selection of all rectangles
+	public void resetSelections() {
+		selectedTables = new ArrayList<Table>();
 	}
 
 }
