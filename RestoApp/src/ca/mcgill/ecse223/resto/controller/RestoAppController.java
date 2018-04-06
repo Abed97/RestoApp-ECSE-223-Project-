@@ -470,6 +470,7 @@ public class RestoAppController {
 		return result;
 	}
 
+
 	public static void orderMenuItem(MenuItem menuItem, int quantity, List<Seat> seats) throws InvalidInputException {
 		if(menuItem==null||seats==null||seats.size()==0||quantity<=0) {throw new InvalidInputException("please fill in all the required fields");}
 		RestoApp r=RestoAppApplication.getRestoApp();
@@ -528,8 +529,55 @@ public class RestoAppController {
 				
 				
 				}
+	
+	
+	
+	
+
+	public static void cancelOrderItem(OrderItem orderItem) throws InvalidInputException {
+		if (orderItem == null) {
+			throw new InvalidInputException("The orderItem doesn't exist");
+		}
+
+		List<Seat> seats = orderItem.getSeats();
+		Order order = orderItem.getOrder();
+
+		List<Table> tables = null;
+		Order lastOrder = null;
+
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			if (table.minimumNumberOfOrders() > 0) {
+				lastOrder = table.getOrder(table.minimumNumberOfOrders() - 1);
+			} else {
+				throw new InvalidInputException("Table does not have an order");
+			}
+			if (lastOrder.equals(order) && !tables.contains(table)) {
+				tables.add(table);
+			}
+		}
+		for (Table table : tables) {
+			table.cancelOrderItem(orderItem);
+		}
+		RestoAppApplication.save();
 	}
-	
-	
-	
+
+	public static void cancelOrder(Table table) throws InvalidInputException {
+		if (table == null) {
+			throw new InvalidInputException("The table doesn't exist");
+		}
+
+		RestoApp r = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = r.getCurrentTables();
+		Boolean current = currentTables.contains(table);
+		
+		if (current == false) {
+			throw new InvalidInputException("Table is not currently in use");
+		} else {
+			table.cancelOrder();
+		}
+		RestoAppApplication.save();
+	}
+
+}
 
