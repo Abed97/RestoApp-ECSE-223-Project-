@@ -8,8 +8,17 @@ import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
-import ca.mcgill.ecse223.resto.model.*;
+import ca.mcgill.ecse223.resto.model.Bill;
+import ca.mcgill.ecse223.resto.model.Menu;
+import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
+import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.Reservation;
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
+import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
 import ca.mcgill.ecse223.resto.view.MenuRating;
 
@@ -129,10 +138,6 @@ public class RestoAppController {
 		return mis;
 	}
 
-	
-	
-	
-	
 	public static void updateTableOrSeats(int oldNumber, int newNumber, int newNumSeats, boolean hasSameSeats)
 			throws InvalidInputException {
 		if (newNumber <= 0 || newNumSeats <= 0) {
@@ -169,10 +174,6 @@ public class RestoAppController {
 		RestoAppApplication.save();
 
 	}
-	
-	
-	
-	
 
 	// returns how many seats are avaliable(already been billed)
 	public static int numberOfBilledSeatsOfTable(Table t) {
@@ -197,15 +198,8 @@ public class RestoAppController {
 		return count;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * Toggle whether table is in use or not
+	 * Toggle wether table is in use or not
 	 * 
 	 * @param aTable
 	 * @throws InvalidInputException
@@ -235,14 +229,6 @@ public class RestoAppController {
 
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Start order for table(s)
 	 * 
@@ -297,14 +283,6 @@ public class RestoAppController {
 		RestoAppApplication.save();
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * End order for table(s)
 	 * 
@@ -343,29 +321,6 @@ public class RestoAppController {
 		RestoAppApplication.save();
 	}
 
-	
-	// Rating an order item
-	public static void rateOrderItem(OrderItem orderItem, int stars) throws InvalidInputException {
-		RestoApp r = RestoAppApplication.getRestoApp();
-		Rating rating = null;
-		boolean ratingSet = false, wasAdded = false;
-		
-		if (r == null) 
-			throw new InvalidInputException("No RestoApp object");
-		
-		
-		// Add rating to the order item
-		rating = orderItem.addRating(stars);
-		
-		if (rating == null)
-			throw new InvalidInputException("Rating not added");
-		
-	
-		RestoAppApplication.save();
-	}
-	
-	
-	
 	private static boolean allTablesAvailableorDifferentCurrentOrder(List<Table> tables, Order order) {
 		boolean tableAvailable = true, differentCurrentOrder = false;
 		for (Table aTable : tables) {
@@ -385,15 +340,6 @@ public class RestoAppController {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public static void reserveTable(Date date, Time time, int numberInParty, String contactName,
 			String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException {
 		Date currentdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());

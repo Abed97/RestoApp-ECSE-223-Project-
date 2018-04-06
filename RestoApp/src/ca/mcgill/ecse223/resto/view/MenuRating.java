@@ -2,30 +2,33 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
-import ca.mcgill.ecse223.resto.controller.InvalidInputException;
-import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
+
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuRating extends JFrame {
 
@@ -38,6 +41,8 @@ public class MenuRating extends JFrame {
 	private Boolean[] selectedStars = { false, false, false, false, false };
 
 	private Table table;
+
+
 
 	/**
 	 * Create the application.
@@ -57,7 +62,6 @@ public class MenuRating extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		// Get restoApp object
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 
 		frame = new JFrame();
@@ -72,11 +76,9 @@ public class MenuRating extends JFrame {
 		comboBox.addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuCanceled(PopupMenuEvent arg0) {
 			}
-
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
 				repaint();
 			}
-
 			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
 			}
 		});
@@ -92,72 +94,14 @@ public class MenuRating extends JFrame {
 			}
 		}
 
-		// Confirm rating button listener
 		JButton btnConfirmRating = new JButton("Confirm rating");
 		btnConfirmRating.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				// Get number of stars selected
-				int stars = 0;
-				// Store current order item object
-				OrderItem currItem = null;
-				for (int i = 0; i < 5; i++) {
-					if (selectedStars[i] == true) {
-						stars++;
-					} else {
-						break;
-					}
-				}
-
-				// Get order item selected on combobox
-				String itemName = comboBox.getSelectedItem().toString();
-
-				if (stars != 0 && itemName != "Select a menu item:") {
-
-					// Find order item object from RestoApp
-					for (Order aOrder : table.getOrders()) {
-						for (OrderItem aItem : aOrder.getOrderItems()) {
-							if (aItem.getPricedMenuItem().getMenuItem().getName() == itemName) {
-								// Store currently selected order item
-								currItem = aItem;
-								break;
-							}
-
-						}
-					}
-
-					// Set the rating for the order item
-					try {
-						RestoAppController.rateOrderItem(currItem, stars);
-					} catch (InvalidInputException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					comboBox.removeItem(currItem.getPricedMenuItem().getMenuItem().getName());
-
-				}
-
-				// Reset stars
-				for (int i = 0; i < 5; i++) {
-					selectedStars[i] = false;
-				}
-
-				repaint();
+				
 			}
 		});
 		btnConfirmRating.setBounds(230, 304, 151, 23);
 		getContentPane().add(btnConfirmRating);
-
-		// NO rating button listener
-		JButton btnNoRating = new JButton("No Rating");
-		btnNoRating.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-			}
-		});
-		btnNoRating.setBounds(432, 304, 89, 23);
-		getContentPane().add(btnNoRating);
 
 		repaint();
 
@@ -186,7 +130,6 @@ public class MenuRating extends JFrame {
 
 	}
 
-	// Draw stars
 	private void doDrawing(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g.create();
@@ -207,19 +150,16 @@ public class MenuRating extends JFrame {
 		}
 	}
 
-	// Method to paint stars
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		doDrawing(g);
 	}
 
-	// Method to reate a 5 point star
 	private static Shape createDefaultStar(double radius, double centerX, double centerY) {
 		return createStar(centerX, centerY, radius, radius * 2.63, 5, Math.toRadians(-18));
 	}
 
-	// Method to create a star
 	private static Shape createStar(double centerX, double centerY, double innerRadius, double outerRadius, int numRays,
 			double startAngleRad) {
 		Path2D path = new Path2D.Double();

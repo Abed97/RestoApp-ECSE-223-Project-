@@ -29,8 +29,22 @@ public class RestoAppApplication {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				MenuRating rating;
+				//            	rating =  new MenuRating();
+				//            	rating.setVisible(true);
 				menu = new MainMenu();
 				menu.setVisible(true);
+				
+				
+				for (Table aTable: restoApp.getTables()) {
+					Date date = new Date(0);
+					Time time = new Time(0);
+					
+					Order order = new Order(date, time, restoApp, aTable);
+					Seat seat = aTable.getSeat(0);
+					
+					aTable.addToOrderItem(new OrderItem(10, restoApp.getPricedMenuItem(1), order, seat), seat);
+					
+				}
 			}
 		});
 
