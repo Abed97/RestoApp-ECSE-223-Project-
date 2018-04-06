@@ -37,7 +37,7 @@ public class TableVisualizer extends JPanel {
 	private JButton btnUpdate;
 	private JButton btnMove;
 	private JButton btnViewOrder;
-
+	private JButton btnCancelOrder;
 	
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
@@ -50,7 +50,7 @@ public class TableVisualizer extends JPanel {
 	private static List<Table> selectedTables = new ArrayList<Table>();
 
 	public TableVisualizer(List<Table> currentTables, JButton btnConfirm, JButton btnDeleteTable,
-			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder) {
+			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder, JButton btnCancelOrder) {
 		super();
 		init();
 		this.currentTables = currentTables;
@@ -59,6 +59,7 @@ public class TableVisualizer extends JPanel {
 		this.btnUpdate = btnUpdateTableOr;
 		this.btnMove = btnMoveTable;
 		this.btnViewOrder = btnViewOrder;
+		this.btnCancelOrder = btnCancelOrder;
 	}
 
 	/**
@@ -212,6 +213,21 @@ public class TableVisualizer extends JPanel {
 		}
 
 		new UpdateTablePage(selectedTables.get(0).getNumber()).setVisible(true);
+
+		// Clear selected tables
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
+	
+	
+	public void OrderItem() throws InvalidInputException {
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+
+		new OrderItemPage(selectedTables.get(0).getNumber()).setVisible(true);
 
 		// Clear selected tables
 		selectedTables = new ArrayList<Table>();
@@ -372,12 +388,14 @@ public class TableVisualizer extends JPanel {
 			btnUpdate.setVisible(true);
 			btnMove.setVisible(true);
 			btnViewOrder.setVisible(true);
+			btnCancelOrder.setVisible(true);
 		} else {
 			btnConfirm.setVisible(false);
 			btnDelete.setVisible(false);
 			btnUpdate.setVisible(false);
 			btnMove.setVisible(false);
 			btnViewOrder.setVisible(false);
+			btnCancelOrder.setVisible(false);
 		}
 		confirm = false;
 	}
