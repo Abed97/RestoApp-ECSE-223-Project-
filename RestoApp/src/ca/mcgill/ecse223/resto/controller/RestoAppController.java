@@ -421,7 +421,7 @@ public class RestoAppController {
 		if (name.isEmpty() || name == null) {
 			throw new InvalidInputException("Name cannot be empty");
 		}
-		if (category == null || price <= 0) {
+		if (category == null) {
 			throw new InvalidInputException("Category cannot be empty");
 		}
 		if (price <= 0) {
