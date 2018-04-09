@@ -555,8 +555,8 @@ public class RestoAppController {
 				}
 
 				table.orderItem(quantity, lastOrder, seat, pmi);
-				if (lastOrder.numberOfOrderItems() > 0
-						&& !lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1).equals(lastItem)) {
+				if ((lastOrder.numberOfOrderItems() > 0)
+						&& !(lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1).equals(lastItem))) {
 					itemCreated = true;
 					newItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1);
 				}

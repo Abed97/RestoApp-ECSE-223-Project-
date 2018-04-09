@@ -48,12 +48,12 @@ public class ViewOrder extends JFrame {
 		JList list = new JList(listModel);
 		test.add("Hello");
 		test.add("world");
-		/*for (OrderItem item : orders) {
+		for (OrderItem item : orders) {
 			listModel.addElement(item.getPricedMenuItem().getMenuItem().getName());
-		}*/
-		for (String tests: test) {
-			listModel.addElement(tests);
 		}
+		/*for (String tests: test) {
+			listModel.addElement(tests);
+		}*/
 		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(209, 57, 202, 196);

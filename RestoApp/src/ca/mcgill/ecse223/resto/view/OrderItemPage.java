@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +32,8 @@ public class OrderItemPage extends JFrame {
 	private JComboBox comboBox1;
 	private JComboBox comboBox2;
 	private JButton btnOrder;
+	private String error = null;
+	private JLabel errorMessage;
 	List<Seat>seats = new ArrayList<Seat>();
 	/**
 	 * 
@@ -49,6 +52,11 @@ public class OrderItemPage extends JFrame {
 		refreshData();
 		}
 	public void initComponents() {
+		
+		errorMessage = new JLabel(error);
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(10, 200, 350, 29);
+		
 		setTitle(" Order Item");
 		setBounds(100, 100, 492, 329);
 		contentPane = new JPanel();
@@ -187,6 +195,8 @@ public class OrderItemPage extends JFrame {
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					error = e.getMessage();
+					contentPane.add(errorMessage);
 				}
 			
 			
