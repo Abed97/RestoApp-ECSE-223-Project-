@@ -228,30 +228,6 @@ public class TableVisualizer extends JPanel {
 	}
 
 	/**
-	 * Cancel Order
-	 * 
-	 * @throws InvalidInputException
-	 */
-	public void cancelOrderSelection() throws InvalidInputException {
-		if (selectedTables.isEmpty()) {
-			throw new InvalidInputException("No tables selected");
-		} else if (selectedTables.size() > 1) {
-			throw new InvalidInputException("Only one table must be selected");
-		}
-		
-		if (selectedTables.get(0).hasOrders()) {
-			RestoAppController.cancelOrder(selectedTables.get(0));
-		} else {
-			throw new InvalidInputException("This table does not have an order");
-		}
-
-		// Clear selected tables
-		selectedTables = new ArrayList<Table>();
-		repaint();
-	}
-	
-	
-	/**
 	 * Update selected table
 	 * 
 	 * @throws InvalidInputException
@@ -286,6 +262,30 @@ List<Integer>tableNumbers=new ArrayList<Integer>();
 		repaint();
 	}
 
+	/**
+	 * Cancel Order
+	 * 
+	 * @throws InvalidInputException
+	 */
+	public void cancelOrderSelection() throws InvalidInputException {
+		if (selectedTables.isEmpty()) {
+			throw new InvalidInputException("No tables selected");
+		} else if (selectedTables.size() > 1) {
+			throw new InvalidInputException("Only one table must be selected");
+		}
+		
+		if (selectedTables.get(0).hasOrders()) {
+			RestoAppController.cancelOrder(selectedTables.get(0));
+		} else {
+			throw new InvalidInputException("This table does not have an order");
+		}
+       
+		// Clear selected tables
+		selectedTables = new ArrayList<Table>();
+		repaint();
+	}
+
+	
 	/**
 	 * Move selected table
 	 * 
@@ -343,7 +343,7 @@ List<Integer>tableNumbers=new ArrayList<Integer>();
 		}
 		orders = RestoAppController.getOrderItems(selectedTables.get(0));
 		
-		new ViewOrder(orders).setVisible(true);
+		new ViewOrder (orders, selectedTables.get(0)).setVisible(true);
 		
 		
 		}

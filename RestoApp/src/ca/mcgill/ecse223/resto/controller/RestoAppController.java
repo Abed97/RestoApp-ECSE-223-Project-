@@ -577,13 +577,13 @@ public class RestoAppController {
 		List<Seat> seats = orderItem.getSeats();
 		Order order = orderItem.getOrder();
 
-		List<Table> tables = null;
+		List<Table> tables = new ArrayList<Table>();
 		Order lastOrder = null;
 
 		for (Seat seat : seats) {
 			Table table = seat.getTable();
-			if (table.minimumNumberOfOrders() > 0) {
-				lastOrder = table.getOrder(table.minimumNumberOfOrders() - 1);
+			if (table.numberOfOrders() > 0) {
+				lastOrder = table.getOrder(table.numberOfOrders() - 1);
 			} else {
 				throw new InvalidInputException("Table does not have an order");
 			}
@@ -608,9 +608,9 @@ public class RestoAppController {
 
 		if (current == false) {
 			throw new InvalidInputException("Table is not currently in use");
-		} else {
+		} 
 			table.cancelOrder();
-		}
+		
 		RestoAppApplication.save();
 	}
 

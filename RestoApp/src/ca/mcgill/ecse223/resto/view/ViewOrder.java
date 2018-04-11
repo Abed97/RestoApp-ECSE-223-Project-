@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -27,7 +28,7 @@ public class ViewOrder extends JFrame {
 	private List<OrderItem> orders;
 	private ArrayList<String> test = new ArrayList<String>();
 	private JLabel errorMessage;
-
+    private Table table;
 	/**
 	 * Launch the application.
 	 */
@@ -36,8 +37,8 @@ public class ViewOrder extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewOrder(List<OrderItem> orders) {
-		
+	public ViewOrder(List<OrderItem> orders, Table table) {
+		this.table = table;
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(22, 310, 350, 29);
@@ -90,7 +91,7 @@ public class ViewOrder extends JFrame {
 						throw new InvalidInputException("Please select an item");
 					}
 
-					//RestoAppController.cancelOrderItem(RestoAppController.getOrderItems(t).get(0);
+					RestoAppController.cancelOrderItem(RestoAppController.getOrderItems(table).get(index));
 					listModel.remove(index);
 				}
 				catch (InvalidInputException e) {

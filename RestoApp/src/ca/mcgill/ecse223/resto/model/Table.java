@@ -939,15 +939,19 @@ public class Table implements Serializable
    */
   // line 80 "../../../../../RestoState.ump"
    private boolean iIsLastItem(OrderItem i){
-    // TODO
-      return false;
+    Order order = i.getOrder();
+          if (order.numberOfOrderItems() == 1) {
+        	  return true;
+        	  } else {
+        	  return false;
+        	  }
   }
 
 
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 86 "../../../../../RestoState.ump"
+  // line 91 "../../../../../RestoState.ump"
    private boolean allSeatsBilled(){
     boolean billed= true;
    Order o=this.getOrder(this.numberOfOrders()-1);
