@@ -40,7 +40,7 @@ public class TableVisualizer extends JPanel {
 	private JButton btnMove;
 	private JButton btnViewOrder;
 	private JButton btnCancelOrder;
-	private HashMap<Seat, Integer> seatsh;
+	public static HashMap<Seat, Integer> seatsh;
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
@@ -83,7 +83,7 @@ public class TableVisualizer extends JPanel {
 		
 		
 		
-		seatsh=new HashMap<Seat, Integer>();
+		/**seatsh=new HashMap<Seat, Integer>();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int z=0;
 		for(int i=0;i<restoApp.getTables().size();i++) {
@@ -93,7 +93,7 @@ public class TableVisualizer extends JPanel {
 			}
 			
 		}
-		
+		**/
 		tables = new HashMap<Rectangle2D, Table>();
 
 		// When mouse clicked (right or left) on rectangle
@@ -251,7 +251,7 @@ public class TableVisualizer extends JPanel {
 		if (selectedTables.isEmpty()) {
 			throw new InvalidInputException("No tables selected");
 		} 
-List<Integer>tableNumbers=new ArrayList<Integer>();
+   List<Integer>tableNumbers=new ArrayList<Integer>();
 /*for(int i=0; i<selectedTables.size();i++) {
 	tableNumbers.add(selectedTables.get(i).getNumber());
 }*/

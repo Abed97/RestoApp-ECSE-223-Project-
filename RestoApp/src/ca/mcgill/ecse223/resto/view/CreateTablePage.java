@@ -9,8 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 
 import java.awt.Label;
 import java.awt.TextField;
@@ -151,6 +153,16 @@ public class CreateTablePage extends JFrame {
 			int nbSeats = Integer.parseInt(nbSeatsField.getText());
 			
 			RestoAppController.createTable(tableNumber, x, y, width, length, nbSeats);
+			RestoApp restoApp = RestoAppApplication.getRestoApp();
+			int z=0;
+			for(int i=0;i<restoApp.getTables().size();i++) {
+				for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+					TableVisualizer.seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+					z++;
+				}
+				
+			}
+			
 
 		}
 		catch (InvalidInputException e) {
