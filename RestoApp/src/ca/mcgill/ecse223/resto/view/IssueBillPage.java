@@ -44,9 +44,12 @@ public class IssueBillPage extends JFrame {
 	private String error = null;
 	private Order order;
 	private DefaultListModel listModel;
+	private DefaultListModel listModel1;
 	private HashMap<Seat, Integer> seatsh;
 	List<Seat> seatsList;
 	private JList list;
+	private JList list1;
+
 
 	/**
 	 * Create the dialog.
@@ -66,7 +69,7 @@ public class IssueBillPage extends JFrame {
 		errorMessage.setBounds(10, 200, 350, 29);
 
 		setTitle("Issue Bill");
-		setBounds(100, 100, 511, 307);
+		setBounds(100, 100, 800, 307);
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -114,7 +117,7 @@ public class IssueBillPage extends JFrame {
 		
 		for (OrderItem item : order.getOrderItems()) {
 			for (Seat seat : item.getSeats()) {
-				if (!listModel.contains(seat)) {
+				if (!listModel.contains(seatsh.get(seat))) {
 					listModel.addElement(seatsh.get(seat));
 				}
 			}
@@ -128,6 +131,7 @@ public class IssueBillPage extends JFrame {
 
 	private void refreshData() {// error
 		errorMessage.setText(error);
+		/*
 		if (error == null || error.length() == 0) {
 			// populate page with data
 			// textField.setText("");
@@ -140,6 +144,7 @@ public class IssueBillPage extends JFrame {
 			}
 			Collections.sort(numTable);
 		}
+		*/
 
 	}
 
@@ -148,7 +153,7 @@ public class IssueBillPage extends JFrame {
 		error = null;
 		// call the controller
 		try {
-			List<Seat> seats = null;
+			List<Seat> seats = new ArrayList<>();
 			int[] selectedIx = list.getSelectedIndices();
 			for (int i = 0; i < selectedIx.length; i++) {
 				for (Entry<Seat, Integer> entry : seatsh.entrySet()) {
@@ -157,7 +162,30 @@ public class IssueBillPage extends JFrame {
 					}
 				}
 			}
+			listModel1 = new DefaultListModel();
+			list1 = new JList(listModel1);
+			JScrollPane scroll1 = new JScrollPane(list1, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scroll1.setBounds(500, 37, 156, 159);
+			contentPane.add(scroll1);
 			RestoAppController.issueBill(seats);
+			double subtotal = 0.0;
+			int nbSharedSeats = 0;
+			for (Seat seat: seats) {
+				for (OrderItem orderItem: seat.getOrderItems()) {
+					nbSharedSeats = 0;
+					for (Seat seatx: orderItem.getSeats()) {
+						if (seats.contains(seatx)) {
+							nbSharedSeats++;
+						}
+					}
+					String name = orderItem.getPricedMenuItem().getMenuItem().getName();
+					double price =  ( (double) (orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
+					listModel1.addElement(name + ":  " + price);
+					subtotal += orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
+				}
+			}
+			listModel1.addElement(subtotal);
 
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
@@ -168,7 +196,7 @@ public class IssueBillPage extends JFrame {
 		}
 
 		catch (NullPointerException e) {
-			error = "Please select a table";
+			error = "Please select a seat";
 			contentPane.add(errorMessage);
 		}
 

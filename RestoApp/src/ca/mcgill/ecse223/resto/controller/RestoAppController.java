@@ -615,7 +615,7 @@ public class RestoAppController {
 	}
 	public static void issueBill(List<Seat> seats) throws InvalidInputException {
 		for (Seat seat : seats) {
-			if (seat.getTable().getStatusFullName().equals("Available")) {
+			if (seat.getTable().getStatus().equals(Table.Status.Available)) {
 				throw new InvalidInputException("One of the tables is not currently in use");
 			}
 		}
@@ -627,6 +627,7 @@ public class RestoAppController {
 			order = orders.get(orders.size() -1);
 		}
 		table.billForSeat(order, seats.get(0));
+		
 		for (Seat seat : seats) {
 			table = seat.getTable();
 			table.addToBill(order.getBills().get(order.getBills().size() - 1), seat);
@@ -635,3 +636,4 @@ public class RestoAppController {
 	}
 
 }
+
