@@ -135,7 +135,7 @@ public class MainMenu extends JFrame {
 				btnCancelOrder.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						try {
-							tableVisualizer.moveSelection();
+							tableVisualizer.cancelOrderSelection();
 							errorMessage.setText(null);
 						} catch (InvalidInputException e) {
 							error = e.getMessage();
