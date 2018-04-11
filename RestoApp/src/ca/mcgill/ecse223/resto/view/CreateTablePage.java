@@ -157,7 +157,7 @@ public class CreateTablePage extends JFrame {
 			int z=0;
 			for(int i=0;i<restoApp.getTables().size();i++) {
 				for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
-					MainMenu.seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+					TableVisualizer.seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
 					z++;
 				}
 				
