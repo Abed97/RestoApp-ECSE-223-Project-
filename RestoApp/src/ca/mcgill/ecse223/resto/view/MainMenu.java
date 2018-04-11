@@ -236,6 +236,15 @@ public class MainMenu extends JFrame {
 				new MakeReservation().setVisible(true);
 			}
 		});
+		
+		JButton btnIssueBill = new JButton("Issue Bill");
+		btnIssueBill.setBounds(361, 430, 208, 25);
+		buttonsPane.add(btnIssueBill);
+		btnIssueBill.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				new IssueBillPage(seatsh).setVisible(true);
+			}
+		});
 
 		
 		JPanel buttonPane = new JPanel();
