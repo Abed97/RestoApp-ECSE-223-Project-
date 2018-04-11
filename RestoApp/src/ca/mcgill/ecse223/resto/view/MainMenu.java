@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
 
 public class MainMenu extends JFrame {
 
@@ -25,7 +27,7 @@ public class MainMenu extends JFrame {
 	private RestoApp restoApp = RestoAppApplication.getRestoApp();
 	private JLabel errorMessage;
 	private String error = null;
-
+	public static HashMap<Seat, Integer> seatsh;
 	/**
 	 * Launch the application.
 	 */
@@ -35,6 +37,19 @@ public class MainMenu extends JFrame {
 	 */
 
 	public MainMenu() {
+		
+		
+		seatsh=new HashMap<Seat, Integer>();
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int z=0;
+		for(int i=0;i<restoApp.getTables().size();i++) {
+			for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+				z++;
+			}
+			
+		}
+		
 		// elements for error message
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
@@ -94,7 +109,7 @@ public class MainMenu extends JFrame {
 							error = e.getMessage();
 							errorMessage.setText(e.getMessage());
 						}
-						// new UpdateTablePage().setVisible(true);
+						
 					}
 				});
 		// Initialize update table button
@@ -160,7 +175,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 
-		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder, btnCancelOrder);
+		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder, btnCancelOrder,seatsh);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
@@ -194,6 +209,8 @@ public class MainMenu extends JFrame {
 		btnAddTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				new CreateTablePage().setVisible(true);
+			
+				
 			}
 		});
 

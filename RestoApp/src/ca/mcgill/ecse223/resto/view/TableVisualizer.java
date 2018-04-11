@@ -52,9 +52,10 @@ public class TableVisualizer extends JPanel {
 	private static List<Table> selectedTables = new ArrayList<Table>();
 
 	public TableVisualizer(List<Table> currentTables, JButton btnConfirm, JButton btnDeleteTable,
-			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder, JButton btnCancelOrder) {
+			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder, JButton btnCancelOrder,HashMap<Seat, Integer> seatsh) {
 		super();
 		init();
+		this.seatsh=seatsh;
 		this.currentTables = currentTables;
 		this.btnConfirm = btnConfirm;
 		this.btnDelete = btnDeleteTable;
@@ -62,6 +63,26 @@ public class TableVisualizer extends JPanel {
 		this.btnMove = btnMoveTable;
 		this.btnViewOrder = btnViewOrder;
 		this.btnCancelOrder = btnCancelOrder;
+		/**seatsh=new HashMap<Seat, Integer>();
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int z=0;
+		for(int i=0;i<restoApp.getTables().size();i++) {
+			for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+				z++;
+			}
+			
+		}**/
+	}
+
+	/**
+	 * Mouse listeners for mouse clicks (right or left) and mouse movement
+	 * 
+	 */
+	private void init() {
+		
+		
+		
 		seatsh=new HashMap<Seat, Integer>();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int z=0;
@@ -72,13 +93,7 @@ public class TableVisualizer extends JPanel {
 			}
 			
 		}
-	}
-
-	/**
-	 * Mouse listeners for mouse clicks (right or left) and mouse movement
-	 * 
-	 */
-	private void init() {
+		
 		tables = new HashMap<Rectangle2D, Table>();
 
 		// When mouse clicked (right or left) on rectangle

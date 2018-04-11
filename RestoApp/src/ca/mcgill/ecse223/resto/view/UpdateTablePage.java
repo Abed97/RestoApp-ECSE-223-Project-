@@ -143,6 +143,15 @@ public class UpdateTablePage extends JFrame {
 			}
 
 			RestoAppController.updateTableOrSeats(tableNumber, newTableNumber, newSeatsNum, hasSameSeats);
+			RestoApp restoApp = RestoAppApplication.getRestoApp();
+			int z=0;
+			for(int i=0;i<restoApp.getTables().size();i++) {
+				for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+					MainMenu.seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+					z++;
+				}
+				
+			}
 			
 			// Set tableNumber to new number (so that it can be used as the old number next)
 			tableNumber = newTableNumber;
