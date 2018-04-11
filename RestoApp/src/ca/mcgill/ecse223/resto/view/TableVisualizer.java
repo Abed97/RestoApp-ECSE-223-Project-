@@ -23,6 +23,8 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
 
@@ -38,7 +40,7 @@ public class TableVisualizer extends JPanel {
 	private JButton btnMove;
 	private JButton btnViewOrder;
 	private JButton btnCancelOrder;
-	
+	private HashMap<Seat, Integer> seatsh;
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
 
@@ -60,6 +62,16 @@ public class TableVisualizer extends JPanel {
 		this.btnMove = btnMoveTable;
 		this.btnViewOrder = btnViewOrder;
 		this.btnCancelOrder = btnCancelOrder;
+		seatsh=new HashMap<Seat, Integer>();
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int z=0;
+		for(int i=0;i<restoApp.getTables().size();i++) {
+			for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+				z++;
+			}
+			
+		}
 	}
 
 	/**
@@ -228,7 +240,7 @@ List<Integer>tableNumbers=new ArrayList<Integer>();
 /*for(int i=0; i<selectedTables.size();i++) {
 	tableNumbers.add(selectedTables.get(i).getNumber());
 }*/
-		new OrderItemPage(selectedTables).setVisible(true);
+		new OrderItemPage(selectedTables,seatsh).setVisible(true);
 
 		// Clear selected tables
 		selectedTables = new ArrayList<Table>();

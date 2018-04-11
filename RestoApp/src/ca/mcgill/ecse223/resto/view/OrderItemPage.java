@@ -1,8 +1,10 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -34,20 +36,33 @@ public class OrderItemPage extends JFrame {
 	private JButton btnOrder;
 	private String error = null;
 	private JLabel errorMessage;
+	private HashMap<Seat, Integer> seatsh;
+	//private List<Integer> seatNumbers = new ArrayList<Integer>();
+	//private Seat seath;
 	List<Seat>seats = new ArrayList<Seat>();
-	/**
-	 * 
-	 * Launch the application.
-	 */
 	
-
-	/**
-	 * Create the frame.
-	 */
-	public OrderItemPage(List<Table>selectedTables) {
+	
+	
+	
+	
+	public OrderItemPage(List<Table>selectedTables,HashMap<Seat, Integer> seatsh) {
+		//seatsh=new HashMap<Seat, Integer>();
+		this.seatsh=seatsh;
 		//this.tableNumbers=tableNumbers;
 		this.selectedTables=selectedTables;
 		this.tableNumber = tableNumber;
+		
+		/**RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int z=0;
+		for(int i=0;i<restoApp.getTables().size();i++) {
+			for(int k=0;k<restoApp.getTable(i).getSeats().size();k++) {
+				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
+				z++;
+			}
+			
+		}
+		**/
+		
 		initComponents();
 		refreshData();
 		}
@@ -111,9 +126,9 @@ public class OrderItemPage extends JFrame {
 			//comboBox.addItem(restoApp.getCurrentTable(i).getNumber());
 		for (int i = 0; i < selectedTables.size(); i++) {
 		
-			for(int k=0; k<(selectedTables.get(i).getSeats().size());k++){
+			for(int k=0; k<(selectedTables.get(i).getCurrentSeats().size());k++){
 				comboBox1.addItem( "Table ".concat(String.valueOf(selectedTables.get(i).getNumber())).concat(
-						", seat:").concat(String.valueOf(k)));
+						", seat:").concat(String.valueOf(seatsh.get(selectedTables.get(i).getSeat(k)))));
 								//selectedTables.get(i).getSeat(k).toString()) );
 			}	
 		
@@ -149,7 +164,7 @@ public class OrderItemPage extends JFrame {
 			    int w=0;
 				for (int i = 0; i < selectedTables.size(); i++) {
 					
-					for(int k=0; k<(selectedTables.get(i).getSeats().size());k++){
+					for(int k=0; k<(selectedTables.get(i).getCurrentSeats().size());k++){
 						if(comboBox1.getSelectedIndex()==l) {
 							found=1;
 							w=k;
