@@ -115,7 +115,7 @@ public class IssueBillPage extends JFrame {
 		for (OrderItem item : order.getOrderItems()) {
 			for (Seat seat : item.getSeats()) {
 				if (!listModel.contains(seat)) {
-					listModel.addElement(1);
+					listModel.addElement(seatsh.get(seat));
 				}
 			}
 		}
