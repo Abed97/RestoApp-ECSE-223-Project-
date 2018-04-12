@@ -18,6 +18,8 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
+import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 
 public class MainMenu extends JFrame {
 
@@ -69,6 +71,7 @@ public class MainMenu extends JFrame {
 		btnToggle.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
+					// Show rating menu
 					tableVisualizer.confirmSelection();
 					errorMessage.setText(null);
 				} catch (InvalidInputException e) {
@@ -97,7 +100,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		// Initialize update table button
-				JButton btnOrderItem = new JButton("New orderItem");
+				JButton btnOrderItem = new JButton("Order Item");
 				btnOrderItem.setBounds(361, 150, 208, 25);
 				buttonsPane.add(btnOrderItem);
 				btnOrderItem.addActionListener(new java.awt.event.ActionListener() {

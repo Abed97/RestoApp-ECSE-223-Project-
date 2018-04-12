@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,7 +28,6 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
-import javafx.scene.control.TableSelectionModel;
 
 public class MenuRating extends JFrame {
 
@@ -39,7 +40,11 @@ public class MenuRating extends JFrame {
 	private Boolean[] selectedStars = { false, false, false, false, false };
 
 	private Table table;
+	List<Table> tables = new ArrayList<Table>();
 
+	
+	private JComboBox comboBox = new JComboBox();
+	
 	/**
 	 * Create the application.
 	 * 
@@ -47,6 +52,7 @@ public class MenuRating extends JFrame {
 	 */
 	public MenuRating(Table aTable) {
 		this.table = aTable;
+		tables.add(table);
 
 		setTitle("Menu Rating");
 		getContentPane().setLayout(null);
@@ -69,7 +75,6 @@ public class MenuRating extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Menu items
-		JComboBox comboBox = new JComboBox();
 		comboBox.addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuCanceled(PopupMenuEvent arg0) {
 			}
@@ -86,11 +91,19 @@ public class MenuRating extends JFrame {
 		comboBox.setBackground(Color.WHITE);
 
 		comboBox.addItem("Select a menu item:");
+		
+		List<OrderItem> orders = new ArrayList<OrderItem>();
+		try {
+			orders = RestoAppController.getOrderItems(table);
+		} catch (InvalidInputException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
-		Order lastOrder = table.getOrder(table.getOrders().size() - 1);
-
-		for (OrderItem aItem : lastOrder.getOrderItems()) {
-			comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
+		for (OrderItem aItem : orders) {
+			if (!aItem.hasRating()) {
+				comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
+			}
 		}
 
 		// Confirm rating button listener
@@ -144,8 +157,16 @@ public class MenuRating extends JFrame {
 					selectedStars[i] = false;
 				}
 
-				if (comboBox.getItemCount() == 0)
+				if (comboBox.getItemCount() == 1) {
+
+					try {
+						RestoAppController.toggleUse(tables);
+					} catch (InvalidInputException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					setVisible(false);
+				}
 
 				repaint();
 			}
@@ -157,6 +178,12 @@ public class MenuRating extends JFrame {
 		JButton btnNoRating = new JButton("No Rating");
 		btnNoRating.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					RestoAppController.toggleUse(tables);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				setVisible(false);
 			}
 		});

@@ -212,12 +212,7 @@ public class RestoAppController {
 			}
 		}
 
-		// Show rating menu
-		if (tables.get(0).getStatus() == Status.Ordered) {
-			for (Table aTable : tables) {
-				new MenuRating(aTable).setVisible(true);
-			}
-		}
+
 		// Switch status of every table
 		if (tables.get(0).getStatus() == Status.Available) {
 			startOrder(tables);
@@ -311,7 +306,6 @@ public class RestoAppController {
 			if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders() - 1).equals(order)) {
 				table.endOrder(order);
 			}
-			System.out.println(table.numberOfOrders());
 		}
 
 		if (allTablesAvailableorDifferentCurrentOrder(tables, order)) {
@@ -367,7 +361,7 @@ public class RestoAppController {
 				tableAvailable = false;
 			}
 
-			if (!aTable.getOrder(Table.minimumNumberOfOrders() - 1).equals(order)) {
+			if (!aTable.getOrder(aTable.getOrders().size() - 1).equals(order)) {
 				differentCurrentOrder = true;
 			}
 		}

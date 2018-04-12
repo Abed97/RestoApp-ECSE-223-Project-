@@ -70,7 +70,7 @@ public class TableVisualizer extends JPanel {
 				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
 				z++;
 			}
-			
+
 		}**/
 	}
 
@@ -79,9 +79,9 @@ public class TableVisualizer extends JPanel {
 	 * 
 	 */
 	private void init() {
-		
-		
-		
+
+
+
 		/**seatsh=new HashMap<Seat, Integer>();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int z=0;
@@ -90,9 +90,9 @@ public class TableVisualizer extends JPanel {
 				seatsh.put(restoApp.getTable(i).getSeat(k),(Integer)z );
 				z++;
 			}
-			
+
 		}
-		**/
+		 **/
 		tables = new HashMap<Rectangle2D, Table>();
 
 		// When mouse clicked (right or left) on rectangle
@@ -244,8 +244,8 @@ public class TableVisualizer extends JPanel {
 		selectedTables = new ArrayList<Table>();
 		repaint();
 	}
-	
-	
+
+
 	public void OrderItem() throws InvalidInputException {
 		if (selectedTables.isEmpty()) {
 			throw new InvalidInputException("No tables selected");
@@ -255,8 +255,8 @@ public class TableVisualizer extends JPanel {
 				throw new InvalidInputException("Table " + table.getNumber() + " does not have an order");
 			}
 		}
-   List<Integer>tableNumbers=new ArrayList<Integer>();
-/*for(int i=0; i<selectedTables.size();i++) {
+		List<Integer>tableNumbers=new ArrayList<Integer>();
+		/*for(int i=0; i<selectedTables.size();i++) {
 	tableNumbers.add(selectedTables.get(i).getNumber());
 }*/
 		new OrderItemPage(selectedTables,seatsh).setVisible(true);
@@ -277,20 +277,20 @@ public class TableVisualizer extends JPanel {
 		} else if (selectedTables.size() > 1) {
 			throw new InvalidInputException("Only one table must be selected");
 		}
-		
+
 		if (selectedTables.get(0).hasOrders()) {
 			RestoAppController.cancelOrder(selectedTables.get(0));
-			
+
 		} else {
 			throw new InvalidInputException("This table does not have an order");
 		}
-       
+
 		// Clear selected tables
 		selectedTables = new ArrayList<Table>();
 		repaint();
 	}
 
-	
+
 	/**
 	 * Move selected table
 	 * 
@@ -319,11 +319,17 @@ public class TableVisualizer extends JPanel {
 		if (selectedTables.isEmpty())
 			throw new InvalidInputException("No tables selected");
 
-		try {
-			RestoAppController.toggleUse(selectedTables);
-		} catch (InvalidInputException e) {
-			throw e;
+		// Show rating menu
+		if (selectedTables.get(0).getStatus() == Status.Ordered) {
+			for (Table aTable : selectedTables) {
+				new MenuRating(aTable).setVisible(true);
+			}
+
 		}
+		else {
+			RestoAppController.toggleUse(selectedTables);
+		}
+		
 
 		selectedTables = new ArrayList<Table>();
 		repaint();
@@ -347,11 +353,11 @@ public class TableVisualizer extends JPanel {
 			throw new InvalidInputException("Only one table must be selected");
 		}
 		orders = RestoAppController.getOrderItems(selectedTables.get(0));
-		
+
 		new ViewOrder (orders, selectedTables.get(0)).setVisible(true);
-		
-		
-		}
+
+
+	}
 
 	/**
 	 * Create rectangles on main menu
