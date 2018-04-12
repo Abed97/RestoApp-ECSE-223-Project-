@@ -1,40 +1,33 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
-import ca.mcgill.ecse223.resto.application.*;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
-import ca.mcgill.ecse223.resto.model.Table;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.UIManager;
-import javax.swing.JLabel;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
 
 public class IssueBillPage extends JFrame {
 
@@ -181,10 +174,14 @@ public class IssueBillPage extends JFrame {
 							nbSharedSeats++;
 						}
 					}
-					String name = orderItem.getPricedMenuItem().getMenuItem().getName();
-					double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
-					listModel1.addElement(name + ":  " + price);
-					subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
+					for (Order currentOrder : RestoAppApplication.getRestoApp().getCurrentOrders()) {
+						if (currentOrder.getOrderItems().contains(orderItem)) {
+							String name = orderItem.getPricedMenuItem().getMenuItem().getName();
+							double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
+							listModel1.addElement(name + ":  " + price);
+							subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
+						}
+					}
 				}
 			}
 			listModel1.addElement("Total :" + subtotal);
