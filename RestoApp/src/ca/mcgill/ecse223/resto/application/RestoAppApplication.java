@@ -1,14 +1,9 @@
 package ca.mcgill.ecse223.resto.application;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.io.ObjectStreamClass;
 
-import ca.mcgill.ecse223.resto.model.Order;
-import ca.mcgill.ecse223.resto.model.OrderItem;
-import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.Rating;
 import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Seat;
-import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.MainMenu;
 import ca.mcgill.ecse223.resto.view.MenuRating;
@@ -23,7 +18,6 @@ public class RestoAppApplication {
 	}
 
 	public static void main(String[] args) {
-
 		getRestoApp();
 		// start UI
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -33,18 +27,7 @@ public class RestoAppApplication {
 				//            	rating.setVisible(true);
 				menu = new MainMenu();
 				menu.setVisible(true);
-				
-				
-				for (Table aTable: restoApp.getTables()) {
-					Date date = new Date(0);
-					Time time = new Time(0);
-					
-					Order order = new Order(date, time, restoApp, aTable);
-					Seat seat = aTable.getSeat(0);
-					
-					aTable.addToOrderItem(new OrderItem(10, restoApp.getPricedMenuItem(1), order, seat), seat);
-					
-				}
+
 			}
 		});
 
@@ -72,6 +55,7 @@ public class RestoAppApplication {
 		if (restoApp == null) {
 			restoApp = new RestoApp();
 		} else {
+			restoApp.initializeRatings();
 			restoApp.reinitialize();
 		}
 		return restoApp;

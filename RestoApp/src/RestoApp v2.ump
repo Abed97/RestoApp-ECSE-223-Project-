@@ -12,6 +12,10 @@ class RestoApp {
    1 <@>- 1 Menu menu;   
    1 <@>- * PricedMenuItem pricedMenuItems;
    1 <@>- * Bill bills;
+   1 <@>- * Rating ratings;
+   public void initializeRatings(){
+   	ratings = new ArrayList<Rating>();
+   }
 }
 
 class Reservation {
@@ -85,6 +89,7 @@ class Menu {
 }
 
 class MenuItem {
+	lazy int rating;
    unique name;
    enum ItemCategory { Appetizer, Main, Dessert, AlcoholicBeverage, NonAlcoholicBeverage }
    lazy ItemCategory itemCategory;
@@ -102,6 +107,6 @@ class Bill {
 }
 
 class Rating {
-   0..* ratings -- 1 OrderItem orderItem;
+   0..1 rating -- 1 OrderItem orderItem;
    Integer stars;
 }

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 60 "../../../../../RestoPersistence.ump"
-// line 87 "../../../../../RestoApp v2.ump"
+// line 91 "../../../../../RestoApp v2.ump"
 public class MenuItem implements Serializable
 {
 
@@ -27,6 +27,7 @@ public class MenuItem implements Serializable
   //------------------------
 
   //MenuItem Attributes
+  private int rating;
   private String name;
   private ItemCategory itemCategory;
 
@@ -57,6 +58,14 @@ public class MenuItem implements Serializable
   // INTERFACE
   //------------------------
 
+  public boolean setRating(int aRating)
+  {
+    boolean wasSet = false;
+    rating = aRating;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -79,6 +88,11 @@ public class MenuItem implements Serializable
     itemCategory = aItemCategory;
     wasSet = true;
     return wasSet;
+  }
+
+  public int getRating()
+  {
+    return rating;
   }
 
   public String getName()
@@ -287,6 +301,7 @@ public class MenuItem implements Serializable
   public String toString()
   {
     return super.toString() + "["+
+            "rating" + ":" + getRating()+ "," +
             "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "itemCategory" + "=" + (getItemCategory() != null ? !getItemCategory().equals(this)  ? getItemCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "currentPricedMenuItem = "+(getCurrentPricedMenuItem()!=null?Integer.toHexString(System.identityHashCode(getCurrentPricedMenuItem())):"null") + System.getProperties().getProperty("line.separator") +

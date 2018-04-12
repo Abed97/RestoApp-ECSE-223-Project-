@@ -74,3 +74,10 @@ class Bill {
   isA Serializable;
   private static final long serialVersionUID = 1301576255893682821L;
 }
+
+class Rating {
+  depend java.io.Serializable;
+  depend java.io.ObjectStreamClass;
+  isA Serializable;
+  long serialVersionUID = ObjectStreamClass.lookup(this.getClass()).getSerialVersionUID();
+}

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 45 "../../../../../RestoPersistence.ump"
-// line 77 "../../../../../RestoApp v2.ump"
+// line 81 "../../../../../RestoApp v2.ump"
 public class OrderItem implements Serializable
 {
 
@@ -21,7 +21,7 @@ public class OrderItem implements Serializable
   private PricedMenuItem pricedMenuItem;
   private List<Seat> seats;
   private Order order;
-  private List<Rating> ratings;
+  private Rating rating;
 
   //------------------------
   // CONSTRUCTOR
@@ -46,7 +46,6 @@ public class OrderItem implements Serializable
     {
       throw new RuntimeException("Unable to create orderItem due to order");
     }
-    ratings = new ArrayList<Rating>();
   }
 
   //------------------------
@@ -109,34 +108,15 @@ public class OrderItem implements Serializable
     return order;
   }
 
-  public Rating getRating(int index)
+  public Rating getRating()
   {
-    Rating aRating = ratings.get(index);
-    return aRating;
+    return rating;
   }
 
-  public List<Rating> getRatings()
+  public boolean hasRating()
   {
-    List<Rating> newRatings = Collections.unmodifiableList(ratings);
-    return newRatings;
-  }
-
-  public int numberOfRatings()
-  {
-    int number = ratings.size();
-    return number;
-  }
-
-  public boolean hasRatings()
-  {
-    boolean has = ratings.size() > 0;
+    boolean has = rating != null;
     return has;
-  }
-
-  public int indexOfRating(Rating aRating)
-  {
-    int index = ratings.indexOf(aRating);
-    return index;
   }
 
   public boolean setPricedMenuItem(PricedMenuItem aPricedMenuItem)
@@ -311,76 +291,31 @@ public class OrderItem implements Serializable
     return wasSet;
   }
 
-  public static int minimumNumberOfRatings()
+  public boolean setRating(Rating aNewRating)
   {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Rating addRating(int aStars)
-  {
-    return new Rating(aStars, this);
-  }
+    boolean wasSet = false;
+    if (rating != null && !rating.equals(aNewRating) && equals(rating.getOrderItem()))
+    {
+      //Unable to setRating, as existing rating would become an orphan
+      return wasSet;
+    }
 
-  public boolean addRating(Rating aRating)
-  {
-    boolean wasAdded = false;
-    if (ratings.contains(aRating)) { return false; }
-    OrderItem existingOrderItem = aRating.getOrderItem();
-    boolean isNewOrderItem = existingOrderItem != null && !this.equals(existingOrderItem);
-    if (isNewOrderItem)
-    {
-      aRating.setOrderItem(this);
-    }
-    else
-    {
-      ratings.add(aRating);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+    rating = aNewRating;
+    OrderItem anOldOrderItem = aNewRating != null ? aNewRating.getOrderItem() : null;
 
-  public boolean removeRating(Rating aRating)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aRating, as it must always have a orderItem
-    if (!this.equals(aRating.getOrderItem()))
+    if (!this.equals(anOldOrderItem))
     {
-      ratings.remove(aRating);
-      wasRemoved = true;
+      if (anOldOrderItem != null)
+      {
+        anOldOrderItem.rating = null;
+      }
+      if (rating != null)
+      {
+        rating.setOrderItem(this);
+      }
     }
-    return wasRemoved;
-  }
-
-  public boolean addRatingAt(Rating aRating, int index)
-  {  
-    boolean wasAdded = false;
-    if(addRating(aRating))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfRatings()) { index = numberOfRatings() - 1; }
-      ratings.remove(aRating);
-      ratings.add(index, aRating);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveRatingAt(Rating aRating, int index)
-  {
-    boolean wasAdded = false;
-    if(ratings.contains(aRating))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfRatings()) { index = numberOfRatings() - 1; }
-      ratings.remove(aRating);
-      ratings.add(index, aRating);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addRatingAt(aRating, index);
-    }
-    return wasAdded;
+    wasSet = true;
+    return wasSet;
   }
 
   public void delete()
@@ -403,10 +338,11 @@ public class OrderItem implements Serializable
     {
       placeholderOrder.removeOrderItem(this);
     }
-    for(int i=ratings.size(); i > 0; i--)
+    Rating existingRating = rating;
+    rating = null;
+    if (existingRating != null)
     {
-      Rating aRating = ratings.get(i - 1);
-      aRating.delete();
+      existingRating.delete();
     }
   }
 
@@ -416,7 +352,8 @@ public class OrderItem implements Serializable
     return super.toString() + "["+
             "quantity" + ":" + getQuantity()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "pricedMenuItem = "+(getPricedMenuItem()!=null?Integer.toHexString(System.identityHashCode(getPricedMenuItem())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null");
+            "  " + "order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "rating = "+(getRating()!=null?Integer.toHexString(System.identityHashCode(getRating())):"null");
   }  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

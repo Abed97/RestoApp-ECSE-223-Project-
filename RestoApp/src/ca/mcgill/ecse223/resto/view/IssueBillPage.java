@@ -66,7 +66,7 @@ public class IssueBillPage extends JFrame {
 		// elements for error message
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
-		errorMessage.setBounds(10, 200, 350, 29);
+		errorMessage.setBounds(10, 180, 350, 29);
 
 		setTitle("Issue Bill");
 		setBounds(100, 100, 800, 307);
@@ -91,11 +91,40 @@ public class IssueBillPage extends JFrame {
 		DefaultComboBoxModel model = new DefaultComboBoxModel();
 		JComboBox comboBox = new JComboBox(model);
 		comboBox.setBounds(34, 42, 86, 22);
+		comboBox.addItem("");
 		for (Order aOrder : restoApp.getCurrentOrders()) {
 			if (model.getIndexOf(aOrder.getNumber()) == -1) {
 				model.addElement(aOrder.getNumber());
 			}
 		}
+		ActionListener action = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listModel.removeAllElements();
+				if (comboBox.getSelectedIndex() == 0) {
+					contentPane.add(errorMessage);
+				} else {
+					for (Order aOrder : restoApp.getCurrentOrders()) {
+						if ((int) comboBox.getSelectedItem() == aOrder.getNumber()) {
+							order = aOrder;
+						}
+					}
+					
+					for (OrderItem item : order.getOrderItems()) {
+						for (Seat seat : item.getSeats()) {
+							if (!listModel.contains(seatsh.get(seat))) {
+								listModel.addElement(seatsh.get(seat));
+							}
+						}
+					}
+					contentPane.remove(errorMessage);
+				}
+			}
+
+		};
+
+		comboBox.addActionListener(action);
 		contentPane.add(comboBox);
 
 		JLabel lblSeatsNumber = new JLabel("Seats number:");
@@ -109,20 +138,6 @@ public class IssueBillPage extends JFrame {
 		scroll.setBounds(296, 37, 156, 159);
 		contentPane.add(scroll);
 
-		for (Order aOrder : restoApp.getCurrentOrders()) {
-			if ((int) comboBox.getSelectedItem() == aOrder.getNumber()) {
-				order = aOrder;
-			}
-		}
-		
-		for (OrderItem item : order.getOrderItems()) {
-			for (Seat seat : item.getSeats()) {
-				if (!listModel.contains(seatsh.get(seat))) {
-					listModel.addElement(seatsh.get(seat));
-				}
-			}
-		}
-
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -131,20 +146,7 @@ public class IssueBillPage extends JFrame {
 
 	private void refreshData() {// error
 		errorMessage.setText(error);
-		/*
-		if (error == null || error.length() == 0) {
-			// populate page with data
-			// textField.setText("");
-			// textField_1.setText("");
-			RestoApp restoApp = RestoAppApplication.getRestoApp();
-			List<Table> currentTables = restoApp.getCurrentTables();
-			ArrayList<Integer> numTable = new ArrayList<Integer>();
-			for (Table currentTable : currentTables) {
-				numTable.add(currentTable.getNumber());
-			}
-			Collections.sort(numTable);
-		}
-		*/
+		
 
 	}
 
@@ -180,12 +182,12 @@ public class IssueBillPage extends JFrame {
 						}
 					}
 					String name = orderItem.getPricedMenuItem().getMenuItem().getName();
-					double price =  ( (double) (orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
+					double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
 					listModel1.addElement(name + ":  " + price);
-					subtotal += orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
+					subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
 				}
 			}
-			listModel1.addElement(subtotal);
+			listModel1.addElement("Total :" + subtotal);
 
 		} catch (InvalidInputException e) {
 			error = e.getMessage();

@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 13 "../../../../../RestoPersistence.ump"
 // line 1 "../../../../../RestoState.ump"
-// line 48 "../../../../../RestoApp v2.ump"
+// line 52 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
 
@@ -287,7 +287,7 @@ public class Table implements Serializable
       case Ordered:
         if (allSeatsBilled())
         {
-        // line 82 "../../../../../RestoState.ump"
+        // line 85 "../../../../../RestoState.ump"
           
           setStatus(Status.Available);
           wasEventProcessed = true;
@@ -408,9 +408,12 @@ public class Table implements Serializable
             	}
             }
     	  else {
+    	  	if(s.getBills().size() != 0){
+    	  	
     		  if (s.getBills().get(s.getBills().size() - 1) == b) {
     			  b.addIssuedForSeat(s);
     		  }
+    		 }
     	  }
         setStatus(Status.Ordered);
         wasEventProcessed = true;
@@ -944,7 +947,7 @@ public class Table implements Serializable
   /**
    * check that the provided quantity is an integer greater than 0
    */
-  // line 91 "../../../../../RestoState.ump"
+  // line 94 "../../../../../RestoState.ump"
    private boolean quantityNotNegative(int quantity){
     if(quantity>=0){return true;}
       else{return false;}
@@ -954,7 +957,7 @@ public class Table implements Serializable
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-  // line 97 "../../../../../RestoState.ump"
+  // line 100 "../../../../../RestoState.ump"
    private boolean iIsLastItem(OrderItem i){
     Order order = i.getOrder();
           if (order.numberOfOrderItems() == 1) {
@@ -968,7 +971,7 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 108 "../../../../../RestoState.ump"
+  // line 111 "../../../../../RestoState.ump"
    private boolean allSeatsBilled(){
     boolean billed= true;
    Order o=this.getOrder(this.numberOfOrders()-1);
@@ -1001,7 +1004,7 @@ public class Table implements Serializable
   /**
    * Added overlap method
    */
-  // line 58 "../../../../../RestoApp v2.ump"
+  // line 62 "../../../../../RestoApp v2.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
     return !(this.x > x + width // R1 is right to R2
 	 || this.x + width < x // R1 is left to R2

@@ -26,6 +26,7 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
+import javafx.scene.control.TableSelectionModel;
 
 public class MenuRating extends JFrame {
 
@@ -86,14 +87,12 @@ public class MenuRating extends JFrame {
 
 		comboBox.addItem("Select a menu item:");
 
-		for (Order aOrder : table.getOrders()) {
-			for (OrderItem aItem : aOrder.getOrderItems()) {
-				comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
-			}
+		Order lastOrder = table.getOrder(table.getOrders().size() - 1);
+
+		for (OrderItem aItem : lastOrder.getOrderItems()) {
+			comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
 		}
-		
-		
-		
+
 		// Confirm rating button listener
 		JButton btnConfirmRating = new JButton("Confirm rating");
 		btnConfirmRating.addActionListener(new ActionListener() {
@@ -147,7 +146,7 @@ public class MenuRating extends JFrame {
 
 				if (comboBox.getItemCount() == 0)
 					setVisible(false);
-				
+
 				repaint();
 			}
 		});

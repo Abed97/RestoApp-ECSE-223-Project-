@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.*;
 
 // line 33 "../../../../../RestoPersistence.ump"
-// line 17 "../../../../../RestoApp v2.ump"
+// line 21 "../../../../../RestoApp v2.ump"
 public class Reservation implements Serializable
 {
 
@@ -357,7 +357,7 @@ public class Reservation implements Serializable
     }
   }
 
-  // line 28 "../../../../../RestoApp v2.ump"
+  // line 32 "../../../../../RestoApp v2.ump"
    public boolean doesOverlap(Date date, Time time){
     Date thisdate = this.getDate();
 	  Time thistime = this.getTime();	  

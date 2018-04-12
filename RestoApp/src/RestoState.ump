@@ -74,9 +74,12 @@ class Table {
             	}
             }
     	  else {
+    	  	if(s.getBills().size() != 0){
+    	  	
     		  if (s.getBills().get(s.getBills().size() - 1) == b) {
     			  b.addIssuedForSeat(s);
     		  }
+    		 }
     	  }
          } -> Ordered;
          endOrder(Order o) [allSeatsBilled()] / {

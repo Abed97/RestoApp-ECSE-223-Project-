@@ -25,6 +25,7 @@ public class RestoApp implements Serializable
   private Menu menu;
   private List<PricedMenuItem> pricedMenuItems;
   private List<Bill> bills;
+  private List<Rating> ratings;
 
   //------------------------
   // CONSTRUCTOR
@@ -44,6 +45,7 @@ public class RestoApp implements Serializable
     menu = aMenu;
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    ratings = new ArrayList<Rating>();
   }
 
   public RestoApp()
@@ -56,6 +58,7 @@ public class RestoApp implements Serializable
     menu = new Menu(this);
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    ratings = new ArrayList<Rating>();
   }
 
   //------------------------
@@ -283,6 +286,36 @@ public class RestoApp implements Serializable
   public int indexOfBill(Bill aBill)
   {
     int index = bills.indexOf(aBill);
+    return index;
+  }
+
+  public Rating getRating(int index)
+  {
+    Rating aRating = ratings.get(index);
+    return aRating;
+  }
+
+  public List<Rating> getRatings()
+  {
+    List<Rating> newRatings = Collections.unmodifiableList(ratings);
+    return newRatings;
+  }
+
+  public int numberOfRatings()
+  {
+    int number = ratings.size();
+    return number;
+  }
+
+  public boolean hasRatings()
+  {
+    boolean has = ratings.size() > 0;
+    return has;
+  }
+
+  public int indexOfRating(Rating aRating)
+  {
+    int index = ratings.indexOf(aRating);
     return index;
   }
 
@@ -760,6 +793,78 @@ public class RestoApp implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfRatings()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Rating addRating(int aStars, OrderItem aOrderItem)
+  {
+    return new Rating(aStars, aOrderItem, this);
+  }
+
+  public boolean addRating(Rating aRating)
+  {
+    boolean wasAdded = false;
+    if (ratings.contains(aRating)) { return false; }
+    RestoApp existingRestoApp = aRating.getRestoApp();
+    boolean isNewRestoApp = existingRestoApp != null && !this.equals(existingRestoApp);
+    if (isNewRestoApp)
+    {
+      aRating.setRestoApp(this);
+    }
+    else
+    {
+      ratings.add(aRating);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeRating(Rating aRating)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aRating, as it must always have a restoApp
+    if (!this.equals(aRating.getRestoApp()))
+    {
+      ratings.remove(aRating);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addRatingAt(Rating aRating, int index)
+  {  
+    boolean wasAdded = false;
+    if(addRating(aRating))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRatings()) { index = numberOfRatings() - 1; }
+      ratings.remove(aRating);
+      ratings.add(index, aRating);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveRatingAt(Rating aRating, int index)
+  {
+    boolean wasAdded = false;
+    if(ratings.contains(aRating))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRatings()) { index = numberOfRatings() - 1; }
+      ratings.remove(aRating);
+      ratings.add(index, aRating);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addRatingAt(aRating, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     while (reservations.size() > 0)
@@ -805,11 +910,23 @@ public class RestoApp implements Serializable
       bills.remove(aBill);
     }
     
+    while (ratings.size() > 0)
+    {
+      Rating aRating = ratings.get(ratings.size() - 1);
+      aRating.delete();
+      ratings.remove(aRating);
+    }
+    
   }
 
   // line 9 "../../../../../RestoPersistence.ump"
    public void reinitialize(){
     Table.reinitializeUniqueNumber(this.getTables());
+  }
+
+  // line 17 "../../../../../RestoApp v2.ump"
+   public void initializeRatings(){
+    ratings = new ArrayList<Rating>();
   }
   
   //------------------------
