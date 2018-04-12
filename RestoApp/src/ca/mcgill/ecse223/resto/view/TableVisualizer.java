@@ -23,7 +23,6 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
-import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
@@ -251,6 +250,11 @@ public class TableVisualizer extends JPanel {
 		if (selectedTables.isEmpty()) {
 			throw new InvalidInputException("No tables selected");
 		} 
+		for (Table table: selectedTables) {
+			if (table.getStatus().equals(Table.Status.Available)){
+				throw new InvalidInputException("Table " + table.getNumber() + " does not have an order");
+			}
+		}
    List<Integer>tableNumbers=new ArrayList<Integer>();
 /*for(int i=0; i<selectedTables.size();i++) {
 	tableNumbers.add(selectedTables.get(i).getNumber());
@@ -276,6 +280,7 @@ public class TableVisualizer extends JPanel {
 		
 		if (selectedTables.get(0).hasOrders()) {
 			RestoAppController.cancelOrder(selectedTables.get(0));
+			
 		} else {
 			throw new InvalidInputException("This table does not have an order");
 		}

@@ -242,7 +242,12 @@ public class MainMenu extends JFrame {
 		buttonsPane.add(btnIssueBill);
 		btnIssueBill.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				new IssueBillPage(seatsh).setVisible(true);
+				try {
+					new IssueBillPage(seatsh).setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 

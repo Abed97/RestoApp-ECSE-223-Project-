@@ -301,7 +301,7 @@ public class RestoAppController {
 		current = currentOrders.contains(order);
 
 		if (!current)
-			throw new InvalidInputException("No such current order");
+			throw new InvalidInputException("Table has pending orders");
 
 		List<Table> tables = order.getTables();
 

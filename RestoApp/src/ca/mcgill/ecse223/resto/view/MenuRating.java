@@ -91,7 +91,9 @@ public class MenuRating extends JFrame {
 				comboBox.addItem(aItem.getPricedMenuItem().getMenuItem().getName());
 			}
 		}
-
+		
+		
+		
 		// Confirm rating button listener
 		JButton btnConfirmRating = new JButton("Confirm rating");
 		btnConfirmRating.addActionListener(new ActionListener() {
@@ -143,6 +145,9 @@ public class MenuRating extends JFrame {
 					selectedStars[i] = false;
 				}
 
+				if (comboBox.getItemCount() == 0)
+					setVisible(false);
+				
 				repaint();
 			}
 		});
