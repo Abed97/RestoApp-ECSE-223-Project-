@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -18,22 +20,32 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 
 public class DisplayMenu extends JFrame {
 
 	private JPanel contentPane;
 	private String error = null;
 	private JLabel errorMessage;
-	
+
+	private List<String> appetizerList = new ArrayList<String>();
+	private List<String> mainList = new ArrayList<String>();
+	private List<String> dessertList = new ArrayList<String>();
+	private List<String> alcoholicList = new ArrayList<String>();
+	private List<String> nonalcoholicList = new ArrayList<String>();
+
 	/**
 	 * Create the frame.
 	 */
 	public DisplayMenu() {
-		//error = "Please select a category";
+
+		// error = "Please select a category";
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(22, 310, 350, 29);
@@ -55,8 +67,8 @@ public class DisplayMenu extends JFrame {
 
 		DefaultListModel listModel = new DefaultListModel();
 		JList list = new JList(listModel);
-		//list.setBounds(250, 89, 206, 200);
-		//contentPane.add(list);
+		// list.setBounds(250, 89, 206, 200);
+		// contentPane.add(list);
 		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(250, 89, 206, 200);
@@ -72,9 +84,9 @@ public class DisplayMenu extends JFrame {
 		JButton deleteButton = new JButton("Delete selected Item");
 		deleteButton.setBounds(22, 220, 180, 22);
 		contentPane.add(deleteButton);
-		deleteButton.addActionListener(new java.awt.event.ActionListener(){
+		deleteButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//clear error message
+				// clear error message
 				error = null;
 				// call the controller
 
@@ -84,21 +96,19 @@ public class DisplayMenu extends JFrame {
 						throw new InvalidInputException("Please select an item");
 					}
 					MenuItem toRemove = RestoAppController
-					.getMenuItems(RestoAppController.getItemCategories()
-							.get(comboBox.getSelectedIndex() - 1))
-					.get(index);
+							.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
+							.get(index);
 
 					RestoAppController.removeMenuItem(toRemove);
 					listModel.remove(index);
-				}
-				catch (InvalidInputException e) {
+				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
 				errorMessage.setText(error);
 				contentPane.add(errorMessage);
 				setContentPane(contentPane);
 				// update visuals
-				//refreshData();
+				// refreshData();
 			}
 
 		});
@@ -109,7 +119,6 @@ public class DisplayMenu extends JFrame {
 		contentPane.add(newItemName);
 
 		JTextField newItemPrice = new JTextField("Price");
-
 
 		newItemPrice.setForeground(Color.BLACK);
 		newItemPrice.setBounds(155, 250, 50, 22);
@@ -123,9 +132,10 @@ public class DisplayMenu extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if(newItemName.getText().isEmpty()) {
+				if (newItemName.getText().isEmpty()) {
 					newItemName.setText("New item name");
-				}			}
+				}
+			}
 		});
 
 		newItemPrice.addFocusListener(new FocusAdapter() {
@@ -136,7 +146,7 @@ public class DisplayMenu extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if(newItemPrice.getText().isEmpty()) {
+				if (newItemPrice.getText().isEmpty()) {
 					newItemPrice.setText("Price");
 				}
 			}
@@ -144,54 +154,82 @@ public class DisplayMenu extends JFrame {
 		JButton updateButton = new JButton("update selected Item");
 		updateButton.setBounds(22, 310, 180, 22);
 		contentPane.add(updateButton);
-		updateButton.addActionListener(new java.awt.event.ActionListener(){
+		updateButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//clear error message
+				// clear error message
 				error = null;
 				// call the controller
 
 				try {
-						String name = newItemName.getText();
-						double price = Double.parseDouble(newItemPrice.getText());
-						if (comboBox.getSelectedIndex() == 0) {
-							throw new InvalidInputException("Please select a category");
-						}
+					String name = newItemName.getText();
+					double price = Double.parseDouble(newItemPrice.getText());
+					if (comboBox.getSelectedIndex() == 0) {
+						throw new InvalidInputException("Please select a category");
+					}
 					int index = list.getSelectedIndex();
 					if (index < 0) {
 						throw new InvalidInputException("Please select an item");
 					}
-					MenuItem toUpdate = RestoAppController
-					.getMenuItems(RestoAppController.getItemCategories()
-							.get(comboBox.getSelectedIndex() - 1))
-					.get(index);
+					/*
+					 * MenuItem toUpdate = RestoAppController
+					 * .getMenuItems(RestoAppController.getItemCategories().get(comboBox.
+					 * getSelectedIndex() - 1)) .get(index);
+					 */
 
-					RestoAppController.updateMenuItem(toUpdate, name , RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1), price);
-					listModel.removeAllElements();
-					for (int i = 0; i < RestoAppController
-							.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
-							.size(); i++) {
-						MenuItem menuItem = RestoAppController
-								.getMenuItems(RestoAppController.getItemCategories()
-										.get(comboBox.getSelectedIndex() - 1))
-								.get(i);
-						listModel
-						.addElement(
-								menuItem.getName().toString().concat(
-										" :  " + String
-										.valueOf(menuItem.getCurrentPricedMenuItem()
-												.getPrice())) + "  " + menuItem.getRating() + " stars");
+					int[] selectedItems = list.getSelectedIndices();
+					if (selectedItems.length != 1) {
+						throw new InvalidInputException("Please select exactly one item");
 					}
-					contentPane.remove(errorMessage);
 
-				}
-				catch (InvalidInputException e) {
+					MenuItem toUpdate = null;
+					List<String> tempList = new ArrayList<String>();
+					switch (RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1)) {
+
+					case Appetizer:
+						toUpdate = getMenuItem(appetizerList.get(selectedItems[0]).toString());
+						break;
+					case Main:
+						toUpdate = getMenuItem(mainList.get(selectedItems[0]).toString());
+						break;
+					case Dessert:
+						toUpdate = getMenuItem(dessertList.get(selectedItems[0]).toString());
+						break;
+					case AlcoholicBeverage:
+						toUpdate = getMenuItem(alcoholicList.get(selectedItems[0]).toString());
+						break;
+					case NonAlcoholicBeverage:
+						toUpdate = getMenuItem(nonalcoholicList.get(selectedItems[0]).toString());
+						break;
+					}
+
+					RestoAppController.updateMenuItem(toUpdate, name,
+							RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1), price);
+					listModel.removeAllElements();
+
+					tempList = populateList(listModel, comboBox);
+					/*
+					 * for (int i = 0; i < RestoAppController
+					 * .getMenuItems(RestoAppController.getItemCategories().get(comboBox.
+					 * getSelectedIndex() - 1)) .size(); i++) { MenuItem menuItem =
+					 * RestoAppController .getMenuItems(
+					 * RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
+					 * .get(i);
+					 * 
+					 * listModel.addElement(menuItem.getName().toString() .concat(" :  " +
+					 * String.valueOf(menuItem.getCurrentPricedMenuItem().getPrice())) + "  " +
+					 * menuItem.getRating() + " stars");
+					 * 
+					 * } contentPane.remove(errorMessage);
+					 */
+
+				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
 				errorMessage.setText(error);
 				contentPane.add(errorMessage);
 				setContentPane(contentPane);
 				// update visuals
-				//refreshData();
+				// refreshData();
 			}
 
 		});
@@ -199,9 +237,9 @@ public class DisplayMenu extends JFrame {
 		JButton addButton = new JButton("Add Menu Item");
 		addButton.setBounds(22, 280, 180, 22);
 		contentPane.add(addButton);
-		addButton.addActionListener(new java.awt.event.ActionListener(){
+		addButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//clear error message
+				// clear error message
 				error = null;
 				// call the controller
 
@@ -217,12 +255,10 @@ public class DisplayMenu extends JFrame {
 					newItemName.setText("New item name");
 					newItemPrice.setText("Price");
 					listModel.addElement(name + " :  " + price);
-				}
-				catch (InvalidInputException e) {
+				} catch (InvalidInputException e) {
 					error = e.getMessage();
 
-				}
-				catch (NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					error = "Price is either empty or is not a number";
 
 				}
@@ -241,22 +277,36 @@ public class DisplayMenu extends JFrame {
 				if (comboBox.getSelectedIndex() == 0) {
 					contentPane.add(errorMessage);
 				} else {
-					for (int i = 0; i < RestoAppController
-							.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
-							.size(); i++) {
-						MenuItem menuItem = RestoAppController
-								.getMenuItems(RestoAppController.getItemCategories()
-										.get(comboBox.getSelectedIndex() - 1))
-								.get(i);
-						listModel
-						.addElement(
-								menuItem.getName().toString().concat(
-										" :  " + String
-										.valueOf(menuItem.getCurrentPricedMenuItem()
-												.getPrice())) + "  " + menuItem.getRating() + " stars");
+
+					switch (RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1)) {
+
+					case Appetizer:
+						appetizerList = populateList(listModel, comboBox);
+						break;
+					case Main:
+						mainList = populateList(listModel, comboBox);
+						break;
+					case Dessert:
+						dessertList = populateList(listModel, comboBox);
+						break;
+					case AlcoholicBeverage:
+						alcoholicList = populateList(listModel, comboBox);
+						break;
+					case NonAlcoholicBeverage:
+						nonalcoholicList = populateList(listModel, comboBox);
+						break;
 					}
-					contentPane.remove(errorMessage);
-				}
+
+					/*
+					 * for (int i = 0; i < RestoAppController
+					 * .getMenuItems(RestoAppController.getItemCategories().get(comboBox.
+					 * getSelectedIndex() - 1)) .size(); i++) { MenuItem menuItem =
+					 * RestoAppController .getMenuItems(
+					 * RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
+					 * .get(i); listModel.addElement(menuItem.getName().toString() .concat(" :  " +
+					 * String.valueOf(menuItem.getCurrentPricedMenuItem().getPrice())) + "  " +
+					 * menuItem.getRating() + " stars"); } contentPane.remove(errorMessage);
+					 */ }
 			}
 
 		};
@@ -267,4 +317,43 @@ public class DisplayMenu extends JFrame {
 
 	}
 
+	private List<String> populateList(DefaultListModel listModel, JComboBox comboBox) {
+		listModel.removeAllElements();
+		List<String> menuList = new ArrayList<String>();
+		// Get number of menu items in the selected category
+		int numOfItems = RestoAppController
+				.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1)).size();
+
+		for (int j = 5; j >= 0; j--) {
+			for (int i = 0; i < numOfItems; i++) {
+				MenuItem menuItem = RestoAppController
+						.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
+						.get(i);
+				if (menuItem.getRating() == j) {
+					listModel.addElement(menuItem.getName().toString()
+							.concat(" :  " + String.valueOf(menuItem.getCurrentPricedMenuItem().getPrice())) + "  "
+							+ menuItem.getRating() + " stars");
+
+					menuList.add(menuItem.getName().toString());
+				}
+			}
+		}
+		contentPane.remove(errorMessage);
+		return menuList;
+
+	}
+
+	private MenuItem getMenuItem(String itemName) {
+		RestoApp r = RestoAppApplication.getRestoApp();
+		MenuItem foundItem = null;
+
+		for (PricedMenuItem menuItem : r.getPricedMenuItems()) {
+			if (menuItem.getMenuItem().getName() == itemName) {
+				foundItem = menuItem.getMenuItem();
+				break;
+			}
+		}
+
+		return foundItem;
+	}
 }
