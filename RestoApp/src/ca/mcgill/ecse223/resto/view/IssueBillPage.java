@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,6 +168,8 @@ public class IssueBillPage extends JFrame {
 			RestoAppController.issueBill(seats);
 			double subtotal = 0.0;
 			int nbSharedSeats = 0;
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.CEILING);
 			for (Seat seat: seats) {
 				for (OrderItem orderItem: seat.getOrderItems()) {
 					nbSharedSeats = 0;
@@ -178,13 +182,13 @@ public class IssueBillPage extends JFrame {
 						if (currentOrder.getOrderItems().contains(orderItem)) {
 							String name = orderItem.getPricedMenuItem().getMenuItem().getName();
 							double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
-							listModel1.addElement(name + ":  " + price);
+							listModel1.addElement(name + ":  " + df.format(price));
 							subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
 						}
 					}
 				}
 			}
-			listModel1.addElement("Total :" + subtotal);
+			listModel1.addElement("Total :" + df.format(subtotal));
 
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
