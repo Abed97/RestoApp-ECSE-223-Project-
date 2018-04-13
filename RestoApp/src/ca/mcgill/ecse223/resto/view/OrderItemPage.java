@@ -1,6 +1,8 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +87,19 @@ public class OrderItemPage extends JFrame {
 		txtquantity.setBounds(200, 25, 100, 30);
 		contentPane.add(txtquantity);
 		txtquantity.setColumns(10);
+		txtquantity.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtquantity.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtquantity.getText().isEmpty()) {
+					txtquantity.setText("Quantity");
+				}
+			}
+		});
 		
 		
 		comboBox = new JComboBox();
