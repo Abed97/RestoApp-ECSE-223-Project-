@@ -1,17 +1,21 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -22,6 +26,9 @@ import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
+
+import javax.swing.JList;
 
 public class OrderItemPage extends JFrame {
 
@@ -80,15 +87,13 @@ public class OrderItemPage extends JFrame {
 		contentPane.setLayout(null);
 		 
 		
+		
+		
 		txtquantity = new JTextField();
 		txtquantity.setText("quantity");
 		txtquantity.setBounds(200, 25, 100, 30);
 		contentPane.add(txtquantity);
 		txtquantity.setColumns(10);
-		
-	
-	
-		
 		
 		
 		comboBox = new JComboBox();
@@ -149,7 +154,44 @@ public class OrderItemPage extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(20, 120, 117, 25);
-		contentPane.add(btnNewButton);}
+		contentPane.add(btnNewButton);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(291, 60, 122, 22);
+		contentPane.add(comboBox_1);
+	    comboBox_1.addItem("Select Category...");
+	    for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
+			comboBox_1.addItem(RestoAppController.getItemCategories().get(i));
+		}
+
+	    
+	    DefaultListModel listModel = new DefaultListModel();
+		JList list = new JList(listModel);
+		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(250, 89, 206, 200);
+		contentPane.add(scroll);
+		
+		ActionListener action = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listModel.removeAllElements();
+				if (comboBox.getSelectedIndex() == 0) {
+					contentPane.add(errorMessage);
+				} else {
+					for (int i = 0; i < RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox_1.getSelectedIndex() - 1)).size(); i++) {
+						MenuItem menuItem = RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox_1.getSelectedIndex() - 1)).get(i);
+						listModel.addElement(menuItem.getName());
+					}
+					contentPane.remove(errorMessage);
+				}
+			}
+
+		};
+		comboBox_1.addActionListener(action);
+	    
+	}
 	
 		public void addSeatActionPerformed(java.awt.event.ActionEvent evt1) throws InvalidInputException {
 			
@@ -219,8 +261,6 @@ for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
 			// update visuals
 		refreshData();	
 		}
-
-		
 		
 	}
 	//}
