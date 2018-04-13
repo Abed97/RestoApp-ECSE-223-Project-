@@ -70,16 +70,10 @@ public class OrderItemPage extends JFrame {
 		
 		errorMessage = new JLabel(error);
 		errorMessage.setForeground(Color.RED);
-		errorMessage.setBounds(10, 200, 350, 29);
+		errorMessage.setBounds(100, 250, 350, 29);
 		
 		setTitle(" Order Item");
 		setBounds(100, 100, 492, 329);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -184,7 +178,7 @@ public class OrderItemPage extends JFrame {
 			
 				// populate page with data
 				txtquantity.setText("quantity");
-				
+				errorMessage.setText(error);
 				RestoApp restoApp = RestoAppApplication.getRestoApp();
 			
 			}
@@ -210,17 +204,17 @@ for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
 				if(comboBox.getSelectedIndex()==i) {m=currentMenuItems.get(i);
 				break;}
 			}
-				int quantity = Integer.parseInt(txtquantity.getText());
 				
 				try {
-					RestoAppController.orderMenuItem(m,quantity,seats);
-				} catch (InvalidInputException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					error = e.getMessage();
-					contentPane.add(errorMessage);
-				}
-			
+					int quantity = Integer.parseInt(txtquantity.getText());
+						RestoAppController.orderMenuItem(m,quantity,seats);
+					} catch (InvalidInputException e) {
+						error = "Please fix your input";
+						contentPane.add(errorMessage);
+					} catch (NumberFormatException e) {
+						error = "Please select a quantity";
+						contentPane.add(errorMessage);
+					}			
 			
 			// update visuals
 		refreshData();	
