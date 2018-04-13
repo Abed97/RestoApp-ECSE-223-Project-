@@ -147,7 +147,12 @@ public class ViewOrder extends JFrame {
 						if (entry.getValue().equals(seatNumber)) {
 							Seat seatToCancel = entry.getKey();
 							for (int i = 0; i < seatToCancel.getOrderItems().size(); i++) {
-								RestoAppController.cancelOrderItem(seatToCancel.getOrderItems().get(i));
+								if(seatToCancel.getOrderItems().get(i).getSeats().size() == 1) {
+									RestoAppController.cancelOrderItem(seatToCancel.getOrderItems().get(i));
+								}
+								else {
+									seatToCancel.getOrderItems().get(i).removeSeat(seatToCancel);
+								}
 								listModel.clear();
 								for (OrderItem item : RestoAppController.getOrderItems(table)) {
 									seatNumbers = new StringBuilder();
