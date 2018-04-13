@@ -255,6 +255,25 @@ public class DisplayMenu extends JFrame {
 					newItemName.setText("New item name");
 					newItemPrice.setText("Price");
 					listModel.addElement(name + " :  " + price);
+
+					switch (RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1)) {
+
+					case Appetizer:
+						appetizerList.add(name);
+						break;
+					case Main:
+						mainList.add(name);
+						break;
+					case Dessert:
+						dessertList.add(name);
+						break;
+					case AlcoholicBeverage:
+						alcoholicList.add(name);
+						break;
+					case NonAlcoholicBeverage:
+						nonalcoholicList.add(name);
+						break;
+					}
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 
