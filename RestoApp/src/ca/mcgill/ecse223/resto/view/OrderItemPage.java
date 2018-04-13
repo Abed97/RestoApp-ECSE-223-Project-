@@ -100,7 +100,8 @@ public class OrderItemPage extends JFrame {
 		comboBox = new JComboBox();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
-			comboBox.addItem( restoApp.getMenu().getMenuItem(i).getName());
+			if(restoApp.getMenu().getMenuItem(i).getCurrentPricedMenuItem()!=null) {
+			comboBox.addItem( restoApp.getMenu().getMenuItem(i).getName());}
 					//.toString());
 		}
 		comboBox.setBounds(20, 35, 100, 26);
