@@ -71,6 +71,7 @@ public class ViewOrder extends JFrame {
 		listModel = new DefaultListModel();
 		JList list = new JList(listModel);
 		for (OrderItem item : orders) {
+			seatNumbers = new StringBuilder();
 			for (Seat seat: item.getSeats()) {
 				seatNumbers.append(TableVisualizer.seatsh.get(seat) + ",");
 			}
@@ -146,7 +147,7 @@ public class ViewOrder extends JFrame {
 					for (Entry<Seat, Integer> entry : TableVisualizer.seatsh.entrySet()) {
 						if (entry.getValue().equals(seatNumber)) {
 							Seat seatToCancel = entry.getKey();
-							for (int i = 0; i < seatToCancel.getOrderItems().size(); i++) {
+							for (int i = seatToCancel.getOrderItems().size() - 1; i >= 0; i--) {
 								if(seatToCancel.getOrderItems().get(i).getSeats().size() == 1) {
 									RestoAppController.cancelOrderItem(seatToCancel.getOrderItems().get(i));
 								}
@@ -160,6 +161,7 @@ public class ViewOrder extends JFrame {
 										seatNumbers.append(TableVisualizer.seatsh.get(seat) + ",");
 									}
 									listModel.addElement(item.getPricedMenuItem().getMenuItem().getName() + " x" + item.getQuantity() + " seats: " + seatNumbers);
+									seatNumbers = new StringBuilder();
 								}
 							}
 						}

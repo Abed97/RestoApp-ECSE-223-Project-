@@ -1,21 +1,15 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -26,9 +20,6 @@ import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
-import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
-
-import javax.swing.JList;
 
 public class OrderItemPage extends JFrame {
 
@@ -215,6 +206,7 @@ for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
 				try {
 					int quantity = Integer.parseInt(txtquantity.getText());
 						RestoAppController.orderMenuItem(m,quantity,seats);
+						seats = new ArrayList<Seat>();
 					} catch (InvalidInputException e) {
 						error = "Please fix your input";
 						contentPane.add(errorMessage);
