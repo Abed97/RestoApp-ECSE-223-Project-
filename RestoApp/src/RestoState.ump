@@ -82,7 +82,7 @@ class Table {
     		 }
     	  }
          } -> Ordered;
-         endOrder(Order o) [allSeatsBilled()] / {
+         endOrder(Order o) / {
          
         
          } -> Available;

@@ -143,12 +143,11 @@ public class MenuRating extends JFrame {
 					// Set the rating for the order item
 					try {
 						RestoAppController.rateOrderItem(currItem, stars);
+						comboBox.removeItem(currItem.getPricedMenuItem().getMenuItem().getName());
 					} catch (InvalidInputException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-					comboBox.removeItem(currItem.getPricedMenuItem().getMenuItem().getName());
 
 				}
 

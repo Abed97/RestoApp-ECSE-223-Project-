@@ -285,14 +285,10 @@ public class Table implements Serializable
         wasEventProcessed = true;
         break;
       case Ordered:
-        if (allSeatsBilled())
-        {
         // line 85 "../../../../../RestoState.ump"
-          
-          setStatus(Status.Available);
-          wasEventProcessed = true;
-          break;
-        }
+        
+        setStatus(Status.Available);
+        wasEventProcessed = true;
         break;
       default:
         // Other states do respond to this event

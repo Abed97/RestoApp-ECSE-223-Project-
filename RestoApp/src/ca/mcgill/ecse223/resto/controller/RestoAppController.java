@@ -211,27 +211,27 @@ public class RestoAppController {
 			throw new InvalidInputException("Price cannot be negative");
 		}
 
-	
+
 		boolean current = menuItem.hasCurrentPricedMenuItem();
 		if (!current) {
 			throw new InvalidInputException("No such menu item in RestoApp");
 		}
-		
+
 		boolean duplicate = menuItem.setName(name);
 		if (!duplicate) {
 			throw new InvalidInputException("No such menu item in RestoApp");
 		}
-		
+
 		menuItem.setItemCategory(category);
-		
+
 		if (price != menuItem.getCurrentPricedMenuItem().getPrice()) {
 			RestoApp r = RestoAppApplication.getRestoApp();
-			
+
 			PricedMenuItem pmi = menuItem.addPricedMenuItem(price, r);
-			
+
 			menuItem.setCurrentPricedMenuItem(pmi);
 		}
-		
+
 		RestoAppApplication.save();
 	}
 
@@ -371,8 +371,10 @@ public class RestoAppController {
 		int samples = 0;
 		for (PricedMenuItem pricedItem : menuItem.getPricedMenuItems()) {
 			for (OrderItem item : pricedItem.getOrderItems()) {
-				sum += item.getRating().getStars();
-				samples++;
+				if (item.hasRating()) {
+					sum += item.getRating().getStars();
+					samples++;
+				}
 			}
 		}
 		if (samples != 0) {

@@ -56,7 +56,7 @@ public class RestoAppApplication {
 			restoApp = new RestoApp();
 		} else {
 			restoApp.reinitialize();
-			//restoApp.initializeRatings();
+			restoApp.initializeRatings();
 		}
 		return restoApp;
 	}
