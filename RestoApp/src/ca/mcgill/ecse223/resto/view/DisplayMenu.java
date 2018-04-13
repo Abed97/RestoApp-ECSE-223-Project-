@@ -102,7 +102,6 @@ public class DisplayMenu extends JFrame {
 			}
 
 		});
-
 		JTextField newItemName = new JTextField("New item name");
 
 		newItemName.setForeground(Color.BLACK);
@@ -141,6 +140,60 @@ public class DisplayMenu extends JFrame {
 					newItemPrice.setText("Price");
 				}
 			}
+		});
+		JButton updateButton = new JButton("update selected Item");
+		updateButton.setBounds(22, 310, 180, 22);
+		contentPane.add(updateButton);
+		updateButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				//clear error message
+				error = null;
+				// call the controller
+
+				try {
+						String name = newItemName.getText();
+						double price = Double.parseDouble(newItemPrice.getText());
+						if (comboBox.getSelectedIndex() == 0) {
+							throw new InvalidInputException("Please select a category");
+						}
+					int index = list.getSelectedIndex();
+					if (index < 0) {
+						throw new InvalidInputException("Please select an item");
+					}
+					MenuItem toUpdate = RestoAppController
+					.getMenuItems(RestoAppController.getItemCategories()
+							.get(comboBox.getSelectedIndex() - 1))
+					.get(index);
+
+					RestoAppController.updateMenuItem(toUpdate, name , RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1), price);
+					listModel.removeAllElements();
+					for (int i = 0; i < RestoAppController
+							.getMenuItems(RestoAppController.getItemCategories().get(comboBox.getSelectedIndex() - 1))
+							.size(); i++) {
+						MenuItem menuItem = RestoAppController
+								.getMenuItems(RestoAppController.getItemCategories()
+										.get(comboBox.getSelectedIndex() - 1))
+								.get(i);
+						listModel
+						.addElement(
+								menuItem.getName().toString().concat(
+										" :  " + String
+										.valueOf(menuItem.getCurrentPricedMenuItem()
+												.getPrice())) + "  " + menuItem.getRating() + " stars");
+					}
+					contentPane.remove(errorMessage);
+
+				}
+				catch (InvalidInputException e) {
+					error = e.getMessage();
+				}
+				errorMessage.setText(error);
+				contentPane.add(errorMessage);
+				setContentPane(contentPane);
+				// update visuals
+				//refreshData();
+			}
+
 		});
 
 		JButton addButton = new JButton("Add Menu Item");
