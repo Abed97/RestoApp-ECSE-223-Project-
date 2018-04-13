@@ -149,7 +149,9 @@ public class MakeReservation extends JFrame {
 			// When focused lost
 			@Override
 			public void focusLost(FocusEvent e) {
-				txtFirstName.setText("Full Name");
+				if (txtFirstName.getText() == "") {
+					txtFirstName.setText("Full Name");
+				}
 			}
 		});
 
@@ -168,7 +170,9 @@ public class MakeReservation extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent e) {
+				if (txtPhoneNumber.getText() == "") {
 				txtPhoneNumber.setText("Phone Number");
+				}
 			}
 		});
 
@@ -188,7 +192,9 @@ public class MakeReservation extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				txtEmail.setText("Phone Number");
+				if (txtEmail.getText() == "") {
+				txtEmail.setText("Email");
+				}
 			}
 		});
 

@@ -101,7 +101,7 @@ public class MainMenu extends JFrame {
 		});
 		// Initialize update table button
 				JButton btnOrderItem = new JButton("Order Item");
-				btnOrderItem.setBounds(361, 150, 208, 25);
+				btnOrderItem.setBounds(361, 470, 208, 25);
 				buttonsPane.add(btnOrderItem);
 				btnOrderItem.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
