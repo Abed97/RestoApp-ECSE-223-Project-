@@ -198,6 +198,43 @@ public class RestoAppController {
 		return count;
 	}
 
+	public static void updateMenuItem(MenuItem menuItem, String name, ItemCategory category, double price)
+			throws InvalidInputException {
+
+		if (menuItem == null) {
+			throw new InvalidInputException("Invalid menu item");
+		} else if (name == null || name == "") {
+			throw new InvalidInputException("Invalid name");
+		} else if (category == null) {
+			throw new InvalidInputException("Invalid category");
+		} else if (price < 0) {
+			throw new InvalidInputException("Price cannot be negative");
+		}
+
+	
+		boolean current = menuItem.hasCurrentPricedMenuItem();
+		if (!current) {
+			throw new InvalidInputException("No such menu item in RestoApp");
+		}
+		
+		boolean duplicate = menuItem.setName(name);
+		if (!duplicate) {
+			throw new InvalidInputException("No such menu item in RestoApp");
+		}
+		
+		menuItem.setItemCategory(category);
+		
+		if (price != menuItem.getCurrentPricedMenuItem().getPrice()) {
+			RestoApp r = RestoAppApplication.getRestoApp();
+			
+			PricedMenuItem pmi = menuItem.addPricedMenuItem(price, r);
+			
+			menuItem.setCurrentPricedMenuItem(pmi);
+		}
+		
+		RestoAppApplication.save();
+	}
+
 	/**
 	 * Toggle wether table is in use or not
 	 * 
@@ -211,7 +248,6 @@ public class RestoAppController {
 				throw new InvalidInputException("All selected tables need to be in the same state");
 			}
 		}
-
 
 		// Switch status of every table
 		if (tables.get(0).getStatus() == Status.Available) {
@@ -326,7 +362,6 @@ public class RestoAppController {
 
 		// Add rating to the order item
 		rating = r.addRating(stars, orderItem);
-		
 
 		if (rating == null)
 			throw new InvalidInputException("Rating not added");
@@ -334,8 +369,8 @@ public class RestoAppController {
 		int average = 0;
 		int sum = 0;
 		int samples = 0;
-		for (PricedMenuItem pricedItem: menuItem.getPricedMenuItems()) {
-			for (OrderItem item: pricedItem.getOrderItems()) {
+		for (PricedMenuItem pricedItem : menuItem.getPricedMenuItems()) {
+			for (OrderItem item : pricedItem.getOrderItems()) {
 				sum += item.getRating().getStars();
 				samples++;
 			}
@@ -346,13 +381,6 @@ public class RestoAppController {
 		}
 		RestoAppApplication.save();
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	private static boolean allTablesAvailableorDifferentCurrentOrder(List<Table> tables, Order order) {
 		boolean tableAvailable = true, differentCurrentOrder = false;
@@ -616,98 +644,96 @@ public class RestoAppController {
 
 		if (current == false) {
 			throw new InvalidInputException("Table is not currently in use");
-		} 
-			table.cancelOrder();
-		
+		}
+		table.cancelOrder();
+
 		RestoAppApplication.save();
 	}
+
 	public static void issueBill(List<Seat> seats) throws InvalidInputException {
 		RestoApp r = RestoAppApplication.getRestoApp();
-		
-		if(seats == null || seats.size() == 0) {
+
+		if (seats == null || seats.size() == 0) {
 			throw new InvalidInputException("List of seats is empty.");
 		}
 		List<Table> currentTables = r.getCurrentTables();
 		Order lastOrder = null;
 
-		for (Seat s1: seats) {
-			
+		for (Seat s1 : seats) {
+
 			Table table = s1.getTable();
 			boolean current = currentTables.contains(table);
 			if (!current) {
 				throw new InvalidInputException("This seat's table does not exist.");
 			}
-			
+
 			List<Seat> currentSeats = table.getCurrentSeats();
 			current = currentSeats.contains(s1);
 			if (!current) {
 				throw new InvalidInputException("Seat not found for this particular table.");
 			}
-			
+
 			if (lastOrder == null) {
-				if(table.numberOfOrders()>0) {
-					lastOrder = table.getOrder(table.numberOfOrders()-1);
-				}
-				else {
+				if (table.numberOfOrders() > 0) {
+					lastOrder = table.getOrder(table.numberOfOrders() - 1);
+				} else {
 					throw new InvalidInputException("No Last Order");
-				}			
+				}
 			}
-			
+
 			else {
 				Order comparedOrder = null;
-				if(table.numberOfOrders()>0) {
-					comparedOrder = table.getOrder(table.numberOfOrders()-1);
-				}
-				else {
+				if (table.numberOfOrders() > 0) {
+					comparedOrder = table.getOrder(table.numberOfOrders() - 1);
+				} else {
 					throw new InvalidInputException("No Last Order for this seat.");
 				}
-				
-				if(!comparedOrder.equals(lastOrder)) {
+
+				if (!comparedOrder.equals(lastOrder)) {
 					throw new InvalidInputException("Last Order should be same for every seat");
 				}
 			}
 		}
-		
+
 		if (lastOrder == null) {
 			throw new InvalidInputException("No Last Order found");
 		}
-			
-		//The first for loop ends here
-		
+
+		// The first for loop ends here
+
 		boolean billCreated = false;
-		Bill newBill = null; 
+		Bill newBill = null;
 		boolean isAvailable = false;
-		
-		for(Seat s1: seats) {
+
+		for (Seat s1 : seats) {
 			Table table = s1.getTable();
-			
-			if(billCreated) {
+
+			if (billCreated) {
 				table.addToBill(newBill, s1);
-			}
-			else {
+			} else {
 				Bill lastBill = null;
-				if (lastOrder.numberOfBills()>0) {
-					lastBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+				if (lastOrder.numberOfBills() > 0) {
+					lastBill = lastOrder.getBill(lastOrder.numberOfBills() - 1);
 				}
 				table.billForSeat(lastOrder, s1);
-				if(lastOrder.numberOfBills()>0 && !lastOrder.getBill(lastOrder.numberOfBills()-1).equals(lastBill)) {
+				if (lastOrder.numberOfBills() > 0
+						&& !lastOrder.getBill(lastOrder.numberOfBills() - 1).equals(lastBill)) {
 					billCreated = true;
-					newBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+					newBill = lastOrder.getBill(lastOrder.numberOfBills() - 1);
 				}
-				
-				}
+
+			}
 			if (table.getStatus().equals(Table.Status.Available)) {
 				isAvailable = true;
 			}
 
-			}
-		
+		}
+
 		if (billCreated == false && isAvailable) {
 			throw new InvalidInputException("Cannot bill seats, one of the tables in no longer in use");
 		}
-		
+
 		RestoAppApplication.save();
-		}
+	}
 
 }
-
