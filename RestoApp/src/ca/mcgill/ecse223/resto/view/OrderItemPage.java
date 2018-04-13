@@ -47,6 +47,7 @@ public class OrderItemPage extends JFrame {
 	//private List<Integer> seatNumbers = new ArrayList<Integer>();
 	//private Seat seath;
 	List<Seat>seats = new ArrayList<Seat>();
+	private JComboBox comboBox_2;
 	
 	
 	
@@ -157,40 +158,17 @@ public class OrderItemPage extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(291, 60, 122, 22);
+		comboBox_1.setBounds(291, 60, 129, 22);
 		contentPane.add(comboBox_1);
 	    comboBox_1.addItem("Select Category...");
+	    
+	    comboBox_2 = new JComboBox();
+	    comboBox_2.setBounds(291, 121, 129, 22);
+	    contentPane.add(comboBox_2);
 	    for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
 			comboBox_1.addItem(RestoAppController.getItemCategories().get(i));
 		}
 
-	    
-	    DefaultListModel listModel = new DefaultListModel();
-		JList list = new JList(listModel);
-		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(250, 89, 206, 200);
-		contentPane.add(scroll);
-		
-		ActionListener action = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listModel.removeAllElements();
-				if (comboBox.getSelectedIndex() == 0) {
-					contentPane.add(errorMessage);
-				} else {
-					for (int i = 0; i < RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox_1.getSelectedIndex() - 1)).size(); i++) {
-						MenuItem menuItem = RestoAppController.getMenuItems(RestoAppController.getItemCategories().get(comboBox_1.getSelectedIndex() - 1)).get(i);
-						listModel.addElement(menuItem.getName());
-					}
-					contentPane.remove(errorMessage);
-				}
-			}
-
-		};
-		comboBox_1.addActionListener(action);
-	    
 	}
 	
 		public void addSeatActionPerformed(java.awt.event.ActionEvent evt1) throws InvalidInputException {
