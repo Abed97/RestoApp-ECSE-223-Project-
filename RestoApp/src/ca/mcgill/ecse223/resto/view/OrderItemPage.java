@@ -94,7 +94,7 @@ public class OrderItemPage extends JFrame {
 			comboBox.addItem( restoApp.getMenu().getMenuItem(i).getName());}
 					//.toString());
 		}
-		comboBox.setBounds(20, 35, 100, 26);
+		comboBox.setBounds(20, 35, 170, 26);
 		contentPane.add(comboBox);
 
 		JLabel lblChooseTable = new JLabel("Choose Menu Item");

@@ -85,7 +85,7 @@ public class ViewOrder extends JFrame {
 		contentPane.add(scroll);
 
 		JButton btnDeleteItem = new JButton("Delete selected item");
-		btnDeleteItem.setBounds(31, 55, 160, 25);
+		btnDeleteItem.setBounds(31, 55, 170, 25);
 		contentPane.add(btnDeleteItem);
 		btnDeleteItem.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +116,7 @@ public class ViewOrder extends JFrame {
 		});
 
 		JTextField seatNb = new JTextField();
-		seatNb.setText("Seat Number");
+		seatNb.setText("Seat");
 		seatNb.setBounds(31, 120, 40, 25);
 		contentPane.add(seatNb);
 
@@ -136,7 +136,7 @@ public class ViewOrder extends JFrame {
 		});
 
 		JButton cancelOrderCustomer = new JButton("Cancel customer order");
-		cancelOrderCustomer.setBounds(31, 90, 200, 25);
+		cancelOrderCustomer.setBounds(31, 90, 170, 25);
 		contentPane.add(cancelOrderCustomer);
 		cancelOrderCustomer.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

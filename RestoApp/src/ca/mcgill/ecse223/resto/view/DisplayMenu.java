@@ -151,7 +151,7 @@ public class DisplayMenu extends JFrame {
 				}
 			}
 		});
-		JButton updateButton = new JButton("update selected Item");
+		JButton updateButton = new JButton("Update Selected Item");
 		updateButton.setBounds(22, 310, 180, 22);
 		contentPane.add(updateButton);
 		updateButton.addActionListener(new java.awt.event.ActionListener() {
