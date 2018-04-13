@@ -196,12 +196,18 @@ public class OrderItemPage extends JFrame {
 			// clear error message
 		
 			// call the controller
-
+List<MenuItem>currentMenuItems= new ArrayList<MenuItem>();
+for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
+	if(restoApp.getMenu().getMenuItem(i).getCurrentPricedMenuItem()!=null) {
+	currentMenuItems.add( restoApp.getMenu().getMenuItem(i));
+	}
+			//.toString());
+}
 		
 
 			MenuItem m= null;
-			for (int i = 0; i < restoApp.getMenu().getMenuItems().size(); i++) {
-				if(comboBox.getSelectedIndex()==i) {m=restoApp.getMenu().getMenuItems().get(i);
+			for (int i = 0; i < currentMenuItems.size(); i++) {
+				if(comboBox.getSelectedIndex()==i) {m=currentMenuItems.get(i);
 				break;}
 			}
 				int quantity = Integer.parseInt(txtquantity.getText());
