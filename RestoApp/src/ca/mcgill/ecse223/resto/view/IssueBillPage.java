@@ -181,9 +181,9 @@ public class IssueBillPage extends JFrame {
 					for (Order currentOrder : RestoAppApplication.getRestoApp().getCurrentOrders()) {
 						if (currentOrder.getOrderItems().contains(orderItem)) {
 							String name = orderItem.getPricedMenuItem().getMenuItem().getName();
-							double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats) / orderItem.getSeats().size());
+							double price =  ( (double) (orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice()) / orderItem.getSeats().size());
 							listModel1.addElement(name + ":  " + df.format(price));
-							subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() * nbSharedSeats / orderItem.getSeats().size();
+							subtotal += orderItem.getQuantity() * orderItem.getPricedMenuItem().getPrice() / orderItem.getSeats().size();
 						}
 					}
 				}
