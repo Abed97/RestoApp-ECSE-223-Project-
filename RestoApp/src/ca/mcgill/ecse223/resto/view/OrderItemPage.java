@@ -47,7 +47,6 @@ public class OrderItemPage extends JFrame {
 	//private List<Integer> seatNumbers = new ArrayList<Integer>();
 	//private Seat seath;
 	List<Seat>seats = new ArrayList<Seat>();
-	private JComboBox comboBox_2;
 	
 	
 	
@@ -156,18 +155,6 @@ public class OrderItemPage extends JFrame {
 		});
 		btnNewButton.setBounds(20, 120, 117, 25);
 		contentPane.add(btnNewButton);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(291, 60, 129, 22);
-		contentPane.add(comboBox_1);
-	    comboBox_1.addItem("Select Category...");
-	    
-	    comboBox_2 = new JComboBox();
-	    comboBox_2.setBounds(291, 121, 129, 22);
-	    contentPane.add(comboBox_2);
-	    for (int i = 0; i < RestoAppController.getItemCategories().size(); i++) {
-			comboBox_1.addItem(RestoAppController.getItemCategories().get(i));
-		}
 
 	}
 	
