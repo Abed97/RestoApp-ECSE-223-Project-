@@ -65,8 +65,8 @@ public class MainMenu extends JFrame {
 		buttonsPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		// Initialize toggle button
-		JButton btnToggle = new JButton("Toggle table state");
-		btnToggle.setBounds(361, 310, 208, 25);
+		JButton btnToggle = new JButton("Toggle Table State");
+		btnToggle.setBounds(188, 376, 208, 25);
 		buttonsPane.add(btnToggle);
 		btnToggle.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +85,7 @@ public class MainMenu extends JFrame {
 		
 		// Initialize delete table button
 		JButton btnDeleteTable = new JButton("Delete Table");
-		btnDeleteTable.setBounds(361, 110, 208, 25);
+		btnDeleteTable.setBounds(188, 176, 208, 25);
 		buttonsPane.add(btnDeleteTable);
 		btnDeleteTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,7 +101,7 @@ public class MainMenu extends JFrame {
 		});
 		// Initialize update table button
 				JButton btnOrderItem = new JButton("Order Item");
-				btnOrderItem.setBounds(361, 470, 208, 25);
+				btnOrderItem.setBounds(188, 536, 208, 25);
 				buttonsPane.add(btnOrderItem);
 				btnOrderItem.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,8 +116,8 @@ public class MainMenu extends JFrame {
 					}
 				});
 		// Initialize update table button
-		JButton btnUpdateTableOr = new JButton("Update Table or Seats");
-		btnUpdateTableOr.setBounds(361, 150, 208, 25);
+		JButton btnUpdateTableOr = new JButton("Update Table Or Seats");
+		btnUpdateTableOr.setBounds(188, 216, 208, 25);
 		buttonsPane.add(btnUpdateTableOr);
 		btnUpdateTableOr.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,8 +132,8 @@ public class MainMenu extends JFrame {
 			}
 		});
 		// Initialize cancel order button
-				JButton btnCancelOrder = new JButton("Cancel order");
-				btnCancelOrder.setBounds(361, 390, 208, 25);
+				JButton btnCancelOrder = new JButton("Cancel Order");
+				btnCancelOrder.setBounds(188, 456, 208, 25);
 				buttonsPane.add(btnCancelOrder);
 				btnCancelOrder.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,7 +149,7 @@ public class MainMenu extends JFrame {
 				});
 		// Initialize move table button
 		JButton btnMoveTable = new JButton("Move Table");
-		btnMoveTable.setBounds(361, 190, 208, 25);
+		btnMoveTable.setBounds(188, 256, 208, 25);
 		buttonsPane.add(btnMoveTable);
 		btnMoveTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +164,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		JButton btnViewOrder = new JButton("View Order");
-		btnViewOrder.setBounds(361, 350, 208, 25);
+		btnViewOrder.setBounds(188, 416, 208, 25);
 		buttonsPane.add(btnViewOrder);
 		btnViewOrder.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +178,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 
-		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder, btnCancelOrder,seatsh);
+		tableVisualizer = new TableVisualizer(restoApp.getCurrentTables(), btnToggle, btnDeleteTable, btnUpdateTableOr, btnMoveTable, btnViewOrder, btnCancelOrder,seatsh, btnOrderItem);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(tableVisualizer);
 		contentPane.add(buttonsPane);
@@ -190,24 +190,25 @@ public class MainMenu extends JFrame {
 		getContentPane().add(scroll, BorderLayout.CENTER);
 
 		JLabel lblRestoapp = new JLabel("RestoApp");
-		lblRestoapp.setFont(new Font("Serif", Font.BOLD, 36));
+		lblRestoapp.setFont(new Font("Phosphate", Font.BOLD, 45));
 
-		lblRestoapp.setBounds(120, 118, 156, 47);
+		lblRestoapp.setBounds(188, 28, 208, 64);
 		buttonsPane.add(lblRestoapp);
 
-		// JLabel lblGroup = new JLabel("Group 19");
-		// lblGroup.setBounds(120, 171, 70, 16);
+		 JLabel lblGroup = new JLabel("Group 19");
+		 lblGroup.setFont(new Font("Phosphate", Font.PLAIN, 13));
+		 lblGroup.setBounds(258, 91, 70, 16);
 
-		lblRestoapp.setBounds(12, 118, 156, 47);
-		buttonsPane.add(lblRestoapp);
+//		lblRestoapp.setBounds(12, 118, 156, 47);
+//		buttonsPane.add(lblRestoapp);
 
-		JLabel lblGroup = new JLabel("Group 19");
-		lblGroup.setBounds(59, 171, 56, 16);
+//		JLabel lblGroup = new JLabel("Group 19");
+//		lblGroup.setBounds(59, 171, 56, 16);
 
 		buttonsPane.add(lblGroup);
 
 		JButton btnAddTable = new JButton("Add Table");
-		btnAddTable.setBounds(361, 70, 208, 25);
+		btnAddTable.setBounds(188, 136, 208, 25);
 		buttonsPane.add(btnAddTable);
 		btnAddTable.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,7 +219,7 @@ public class MainMenu extends JFrame {
 		});
 
 		JButton btnMenu = new JButton("Menu");
-		btnMenu.setBounds(361, 230, 208, 25);
+		btnMenu.setBounds(188, 296, 208, 25);
 		buttonsPane.add(btnMenu);
 		btnMenu.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,13 +227,8 @@ public class MainMenu extends JFrame {
 			}
 		});
 
-		JLabel lblFeatures = new JLabel("Features");
-		lblFeatures.setBounds(440, 27, 56, 16);
-		lblFeatures.setFont(new Font("Serif", Font.BOLD, 14));
-		buttonsPane.add(lblFeatures);
-
 		JButton btnNewButton = new JButton("Make Reservation");
-		btnNewButton.setBounds(361, 270, 208, 25);
+		btnNewButton.setBounds(188, 336, 208, 25);
 		buttonsPane.add(btnNewButton);
 		btnNewButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,7 +237,7 @@ public class MainMenu extends JFrame {
 		});
 		
 		JButton btnIssueBill = new JButton("Issue Bill");
-		btnIssueBill.setBounds(361, 430, 208, 25);
+		btnIssueBill.setBounds(188, 496, 208, 25);
 		buttonsPane.add(btnIssueBill);
 		btnIssueBill.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

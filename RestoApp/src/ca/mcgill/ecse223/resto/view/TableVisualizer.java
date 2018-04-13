@@ -39,6 +39,7 @@ public class TableVisualizer extends JPanel {
 	private JButton btnMove;
 	private JButton btnViewOrder;
 	private JButton btnCancelOrder;
+	private JButton btnOrderItem;
 	public static HashMap<Seat, Integer> seatsh;
 	private static final int SCALEFACTOR = 8;
 	int lineHeight;
@@ -51,7 +52,7 @@ public class TableVisualizer extends JPanel {
 	private static List<Table> selectedTables = new ArrayList<Table>();
 
 	public TableVisualizer(List<Table> currentTables, JButton btnConfirm, JButton btnDeleteTable,
-			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder, JButton btnCancelOrder,HashMap<Seat, Integer> seatsh) {
+			JButton btnUpdateTableOr, JButton btnMoveTable, JButton btnViewOrder, JButton btnCancelOrder,HashMap<Seat, Integer> seatsh, JButton btnOrderItem) {
 		super();
 		init();
 		this.seatsh=seatsh;
@@ -62,6 +63,7 @@ public class TableVisualizer extends JPanel {
 		this.btnMove = btnMoveTable;
 		this.btnViewOrder = btnViewOrder;
 		this.btnCancelOrder = btnCancelOrder;
+		this.btnOrderItem = btnOrderItem;
 		/**seatsh=new HashMap<Seat, Integer>();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int z=0;
@@ -452,6 +454,7 @@ public class TableVisualizer extends JPanel {
 			btnMove.setVisible(true);
 			btnViewOrder.setVisible(true);
 			btnCancelOrder.setVisible(true);
+			btnOrderItem.setVisible(true);
 		} else {
 			btnConfirm.setVisible(false);
 			btnDelete.setVisible(false);
@@ -459,6 +462,7 @@ public class TableVisualizer extends JPanel {
 			btnMove.setVisible(false);
 			btnViewOrder.setVisible(false);
 			btnCancelOrder.setVisible(false);
+			btnOrderItem.setVisible(false);
 		}
 		confirm = false;
 	}
